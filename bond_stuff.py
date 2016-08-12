@@ -553,6 +553,7 @@ def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_r
     else:
         coupon_payment = ((coupon_rate/100)*face_value)/payments_per_year
     days_to_payments = days_to_payment(maturity_date,payment_step)
+    #print (days_to_payments)
     for day_count in days_to_payments:
         if day_count == max(days_to_payments):
             pv_cf = (coupon_payment + face_value)\
@@ -565,9 +566,9 @@ def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_r
             pass
     #print(pv_fcf)
     #print (len(pv_fcf))
-    print('Bond Value:' + str(sum(pv_fcf)))
     bond_val = sum(pv_fcf)
-    return bond_val
+    #print('Bond Value:' + str(bond_val))
+    return (bond_val, pv_fcf, days_to_payments)
 
 def generate_portfolio(csv_location):
     portfolio = pd.read_csv(csv_location,\
@@ -579,13 +580,68 @@ def generate_portfolio(csv_location):
                                     }
                        )
     return portfolio
+
 def value_portfolio(csv_location):
     #csv_location = str(input('What is the file path?'))
     bond_val_portfolio = []
     portfolio = generate_portfolio(csv_location)
     for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
                    portfolio['payments_per_year'],portfolio['discount_rate']):
-        bond_val = value_bond(*bond)
+        bond_val = value_bond(*bond)[0]
         bond_val_portfolio.append(bond_val)
     portfolio_val = sum(bond_val_portfolio)
     print ('Portfolio Value:',portfolio_val)
+    return (portfolio_val, bond_val_portfolio)
+
+def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate):
+    intval = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate)
+    days_to_payments = intval[2]
+    pv_fcf = intval[1]
+    bond_val = intval [0]
+    intermediate_dur_calcs = []
+    start_int = 0
+    years_to_payments = [days/365 for days in days_to_payments]
+    #print(years_to_payments)
+    del years_to_payments[0]
+    cfs = list(zip(pv_fcf,years_to_payments))
+    #print (years_to_payments)
+    for cf in cfs:
+        inter_dur_calc = cf[0]*cf[1]
+        intermediate_dur_calcs.append(inter_dur_calc)
+        
+    #print(intermediate_dur_calcs)
+    #print(sum(intermediate_dur_calcs))
+    bond_duration = sum(intermediate_dur_calcs)/bond_val
+    print('Bond Duration: ',bond_duration)
+    return bond_duration
+
+def portfolio_duration(csv_location):
+    bond_dur_portfolio=[]
+    weighted_bond_dur_portfolio = []
+    portfolio = generate_portfolio(csv_location)
+    varible_place_holder1 = value_portfolio(csv_location)
+    for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
+                   portfolio['payments_per_year'],portfolio['discount_rate']):
+        bond_dur = duration_bond(*bond)
+        bond_dur_portfolio.append(bond_dur)
+    varible_place_holder2 = list(zip(bond_dur_portfolio,varible_place_holder1[1]))
+    for pair in varible_place_holder2:
+        varible_place_holder3 = pair[0]*pair[1]/varible_place_holder1[0]
+        weighted_bond_dur_portfolio.append(varible_place_holder3)
+    portfolio_dur = sum(weighted_bond_dur_portfolio)
+    print ('Portfolio Duration:',portfolio_dur)
+    return portfolio_dur
+
+
+
+
+
+
+
+
+
+
+
+
+
+
