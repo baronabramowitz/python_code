@@ -5,6 +5,7 @@ import re
 from abc import ABCMeta, abstractmethod
 import pandas as pd
 import numpy as np
+import unittest
 
 class CummutativeAddition:
     
@@ -139,7 +140,6 @@ class TimePeriod(CummutativeAddition, CummutativeMultiplication):
         return self.__add__(- added_value)
 
     def __mul__(self, value):
-       
         if isinstance(value, int):
             result = self.__class__(self)
             result.count *= value
@@ -542,17 +542,18 @@ def days_to_payment(mat_date, pay_step):
 
 def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate):
     pv_fcf = []
-    #face_value = float(input('What is the face value?   '))
-    #maturity_date = BankDate(input('On what date does the bond mature YYYY-MM-DD?   '))
-    #coupon_rate = float(input('What is the Coupon Rate as a percentage?   '))
-    #payments_per_year = int(input('How many payments are made per year?   '))
-    #discount_rate = (float(input('What is the discount rate as a percentage?   '))/100)
+    """face_value = float(input('What is the face value?   '))
+    maturity_date = BankDate(input('On what date does the bond mature YYYY-MM-DD?   '))
+    coupon_rate = float(input('What is the Coupon Rate as a percentage?   '))
+    payments_per_year = int(input('How many payments are made per year?   '))
+    discount_rate = (float(input('What is the discount rate as a percentage?   '))/100)"""
     payment_step = str(payments_per_year/12) + 'm'
     if payments_per_year == 0:
         coupon_payment = 0
     else:
         coupon_payment = ((coupon_rate/100)*face_value)/payments_per_year
     days_to_payments = days_to_payment(maturity_date,payment_step)
+    del days_to_payments[0]
     #print (days_to_payments)
     for day_count in days_to_payments:
         if day_count == max(days_to_payments):
@@ -590,21 +591,18 @@ def value_portfolio(csv_location):
         bond_val = value_bond(*bond)[0]
         bond_val_portfolio.append(bond_val)
     portfolio_val = sum(bond_val_portfolio)
-    print ('Portfolio Value:',portfolio_val)
+    #print ('Portfolio Value:',portfolio_val)
     return (portfolio_val, bond_val_portfolio)
 
 def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate):
-    intval = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate)
-    days_to_payments = intval[2]
-    pv_fcf = intval[1]
-    bond_val = intval [0]
+    value_bond_output_db = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate)
+    days_to_payments = value_bond_output_db[2]
+    pv_fcf = value_bond_output_db[1]
+    bond_val = value_bond_output_db [0]
     intermediate_dur_calcs = []
-    start_int = 0
     years_to_payments = [days/365 for days in days_to_payments]
     #print(years_to_payments)
-    del years_to_payments[0]
     cfs = list(zip(pv_fcf,years_to_payments))
-    #print (years_to_payments)
     for cf in cfs:
         inter_dur_calc = cf[0]*cf[1]
         intermediate_dur_calcs.append(inter_dur_calc)
@@ -612,29 +610,118 @@ def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,discoun
     #print(intermediate_dur_calcs)
     #print(sum(intermediate_dur_calcs))
     bond_duration = sum(intermediate_dur_calcs)/bond_val
-    print('Bond Duration: ',bond_duration)
-    return bond_duration
+    mm_duration = bond_duration/(1+discount_rate/100)
+    #print('Bond Duration: ',bond_duration, 'Modified Duration',mm_duration)
+    return {'Bond Duration' : bond_duration, 'Modified Duration' : mm_duration}
 
 def portfolio_duration(csv_location):
     bond_dur_portfolio=[]
+    mm_bond_dur_portfolio=[]
     weighted_bond_dur_portfolio = []
+    weighted_mm_bond_dur_portfolio = []
     portfolio = generate_portfolio(csv_location)
-    varible_place_holder1 = value_portfolio(csv_location)
+    val_portfolio_output = value_portfolio(csv_location)
     for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
                    portfolio['payments_per_year'],portfolio['discount_rate']):
-        bond_dur = duration_bond(*bond)
+        bond_dur = duration_bond(*bond)['Bond Duration']
         bond_dur_portfolio.append(bond_dur)
-    varible_place_holder2 = list(zip(bond_dur_portfolio,varible_place_holder1[1]))
-    for pair in varible_place_holder2:
-        varible_place_holder3 = pair[0]*pair[1]/varible_place_holder1[0]
-        weighted_bond_dur_portfolio.append(varible_place_holder3)
+        mm_bond_dur = duration_bond(*bond)['Modified Duration']
+        mm_bond_dur_portfolio.append(mm_bond_dur)
+    bond_dur_val_zip = list(zip(bond_dur_portfolio,val_portfolio_output[1],mm_bond_dur_portfolio))
+    for group in bond_dur_val_zip:
+        scale_bond_dur_by_portfolio_value = group[0]*group[1]/val_portfolio_output[0]
+        weighted_bond_dur_portfolio.append(scale_bond_dur_by_portfolio_value)
+        scale_mm_bond_dur_by_portfolio_value = group[2]*group[1]/val_portfolio_output[0]
+        weighted_mm_bond_dur_portfolio.append(scale_mm_bond_dur_by_portfolio_value)
     portfolio_dur = sum(weighted_bond_dur_portfolio)
-    print ('Portfolio Duration:',portfolio_dur)
-    return portfolio_dur
+    mm_portfolio_dur = sum(weighted_mm_bond_dur_portfolio)
+    #print ('Portfolio Duration:',portfolio_dur,'Modified Portfolio Duration:',mm_portfolio_dur)
+    return {'Portfolio Duration' : portfolio_dur, 'Modified Portfolio Duration' : mm_portfolio_dur}
+
+def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate):
+    value_bond_output_cb = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate)
+    days_to_payments = value_bond_output_cb[2]
+    pv_fcf = value_bond_output_cb[1]
+    bond_val = value_bond_output_cb [0]
+    intermediate_conv_calcs = []
+    start_int = 1
+    years_to_payments = [days/365 for days in days_to_payments]
+    cfs = list(zip(pv_fcf,years_to_payments))
+    for pv_cf in cfs:
+        inter_conv_calc =  (pv_cf[0])*(pv_cf[1]**2+pv_cf[1])
+        start_int = start_int +1
+        intermediate_conv_calcs.append(inter_conv_calc)
+        #print(inter_conv_calc)
+        
+    #print(intermediate_conv_calcs)
+    #print(sum(intermediate_conv_calcs))
+    bond_convexity = sum(intermediate_conv_calcs)/(bond_val*(1+discount_rate/100)**2)
+    #print('Bond Convexity: ',bond_convexity)
+    return bond_convexity
+
+def convexity_portfolio(csv_location):
+    bond_conv_portfolio = []
+    weighted_bond_conv_portfolio = []
+    portfolio = generate_portfolio(csv_location)
+    val_portfolio_output = value_portfolio(csv_location)
+    for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
+                   portfolio['payments_per_year'],portfolio['discount_rate']):
+        bond_conv = convexity_bond(*bond)
+        bond_conv_portfolio.append(bond_conv)
+    bond_conv_val_zip = list(zip(bond_conv_portfolio,val_portfolio_output[1]))
+    for entry in bond_conv_val_zip:
+        scale_bond_conv_by_portfolio_value = entry[0]*entry[1]/val_portfolio_output[0]
+        weighted_bond_conv_portfolio.append(scale_bond_conv_by_portfolio_value)
+    portfolio_convexity = sum(weighted_bond_conv_portfolio)
+    return portfolio_convexity
 
 
 
+class test_suite(unittest.TestCase):
+     """Large Selection of Tests for the above code"""
+     def test_bond_convexity(self):
+         self.assertEqual(35.04014273588229,convexity_bond(10000.0, '2022-06-15', 2.5, 2, 2.1))
+     def test_portfoio_convexity(self):
+         self.assertEqual(124.43014327759137,convexity_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+     def test_portfolio_duration(self):
+         self.assertEqual({'Modified Portfolio Duration': 10.147358081636357,
+ 'Portfolio Duration': 10.6644689131435},portfolio_duration('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+     def test_value_portfolio(self):
+         self.assertEqual((4061554.3651849222,
+ [10252.881853848085,
+  29937.006650577412,
+  2333295.2932931245,
+  255625.9775405571,
+  594696.04929247289,
+  217132.29118983843,
+  367919.52913195401,
+  252695.3362325496]),value_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+     def test_bond_dur(self):
+        #Checks if bond duration properly calculates
+        self.assertEqual({'Bond Duration': 5.4524899454500195, 'Modified Duration': 5.340342747747326},duration_bond(10000.0, '2022-06-15', 2.5, 2, 2.1))
+     def test_bond_val(self):
+        #Checks if bond value properly calculates
+        self.assertEqual((10252.881853848085,
+ [124.11855884635442,
+  122.82570241688992,
+  121.53932009760872,
+  120.27332979864424,
+  118.99998553204695,
+  117.76044570954758,
+  116.53381730854706,
+  115.319965839776,
+  114.11219285580486,
+  112.9235657593805,
+  111.74089083414367,
+  8956.73407884934],
+ [123, 305, 488, 670, 855, 1037, 1219, 1401, 1584, 1766, 1949, 2131]),\
+    value_bond(10000.0, '2022-06-15', 2.5, 2, 2.1))
 
+if __name__ == "__main__":
+    unittest.main()
+         
+
+ 
 
 
 
