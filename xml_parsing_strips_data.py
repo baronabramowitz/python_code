@@ -2,6 +2,8 @@ import re
 import xlwings as xw
 import pandas as pd
 import requests
+from datetime import datetime
+
 #import webbrowser
 
 def test_xml():
@@ -12,32 +14,27 @@ def test_xml():
 	The use of xlwings t move the data into excel was just an exercise to create a more human readable format 
 	without going to the horrors of VBA
 	'''
-	#webbrowser.open('https://www.youtube.com/watch?v=UssqJLx0Er8', new = 1)
 	page = requests.get('http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices')
 	if page.status_code==200:
 		raw_xml = open('/Users/baronabramowitz/Desktop/todays_strips_data_raw','w')
+		raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)
 		raw_xml.close()
 	else:
 		print("link invalid")
-	
-	#raw_xml = html.fromstring(page.content)
+
 	pattern = re.compile("INSTRUMENT_NAME=\"Treasury Coupon Strip \d{2}[a-zA-Z]{3}2\d{3}\" REDEMPTION_DATE=\"(2\d{3}[-][0-1][0-9][-][0-3][0-9])T.{157}YIELD=\"(\d{1,2}\.\d{12}\")")
 	pattern_g1_matches = []
 	pattern_g2_matches = []
 	match_list = []
 	for i, line in enumerate(open('/Users/baronabramowitz/Desktop/todays_strips_data_raw')): 
-	#page.text):
-	#open('/Users/baronabramowitz/Desktop/<SILO_DAILY_PRICES ISIN_CODE="GB0000514405" INSTRU.xml')): 
-	#Feed XML output as text here.
+
 	    for match in re.finditer(pattern, line):
 	    	match_list.append(match)
 	    	pattern_g1_matches.append(match.group(1))
 	    	pattern_g2_matches.append(match.group(2)[:-1])
-
 	#print (match_list)
 	#print (pattern_g1_matches)
 	#print (pattern_g2_matches)
-	#close('/Users/baronabramowitz/Desktop/todays_strips_data_raw')
 	pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
 	pattern_g2_matches_df = pd.DataFrame(pattern_g2_matches)
 	strips_output = pd.merge(pattern_g1_matches_df,pattern_g2_matches_df, left_index=True, right_index = True)
