@@ -7,7 +7,11 @@ from abc import ABCMeta, abstractmethod
 import pandas as pd
 import numpy as np
 import unittest
-
+import xlwings as xw
+'''
+Code to line 513 was taken from another depository.
+Most of it is unused, will go back and clean up unused portions eventually.
+'''
 class CummutativeAddition:
     
     __metaclass__ = ABCMeta
@@ -512,11 +516,13 @@ if __name__ == '__main__':
     doctest.testmod()
 
 def payment_dates(dateval, step):
-    #step = (input('How often does this instrument pay a cash flow?  '))
-    #Steps in number of months or years
-    # e.g. '6m', '3m', '2y'
-    #dateval = BankDate(input('What is the maturity date of this instrument?   '))
-    #dateval as maturity date of instrument
+    '''
+    Generates the dates on which payments (namely coupon dates as maturity date is already known)
+    by iterating backwards from the maturity date (dateval) by the interval specified
+    Steps in number of months or years
+    e.g. '6m', '3m', '2y'
+    dateval as maturity date of instrument
+    '''
     new_dates = []
     for date in daterange(dateval, step ='6m'):
         if datetime.weekday(date) == 6:
@@ -530,8 +536,11 @@ def payment_dates(dateval, step):
     return(new_dates)
 
 def days_to_payment(mat_date, pay_step):
-    #
-    #
+    '''
+    takes the payment dates outputted from payment_dates 
+    and converts them into a day count from the current day 
+    to the date of the respective payment
+    '''
     step = pay_step
     dateval = mat_date
     new_dates = payment_dates(dateval, step)
@@ -543,11 +552,7 @@ def days_to_payment(mat_date, pay_step):
 
 def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
     pv_fcf = []
-    """face_value = float(input('What is the face value?   '))
-    maturity_date = BankDate(input('On what date does the bond mature YYYY-MM-DD?   '))
-    coupon_rate = float(input('What is the Coupon Rate as a percentage?   '))
-    payments_per_year = int(input('How many payments are made per year?   '))
-    discount_rate = (float(input('What is the discount rate as a percentage?   '))/100)"""
+    #Values bond given current inputs. Currently bond_type does nothing until I find some data I can work with.
     #if bond_type = 'Corporate':
     #To build out non corporate bond types
     discount_rates = yesterdays_yield_close_values_corp
@@ -626,8 +631,10 @@ def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discou
     else:
         coupon_payment = ((coupon_rate/100)*face_value)/payments_per_year
     days_to_payments = days_to_payment(maturity_date,payment_step)
+
     del days_to_payments[0]
     #print (days_to_payments)
+
     for day_count in days_to_payments:
         if day_count == max(days_to_payments):
             pv_cf = (coupon_payment + face_value)\
@@ -638,6 +645,7 @@ def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discou
             pv_fcf.append(pv_cf)
         else:
             pass
+
     bond_val = sum(pv_fcf)
     return (bond_val, pv_fcf, days_to_payments, bond_maturity_remaining, discount_rate)
 
@@ -656,14 +664,16 @@ def value_portfolio(csv_location):
     bond_val_portfolio = []
     bond_maturity_set = []
     portfolio = generate_portfolio(csv_location)
+
     for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
                    portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type']):
         bond_val = value_bond(*bond)[0]
         bond_maturity_set.append(value_bond(*bond)[3])
         bond_val_portfolio.append(bond_val)
+
     portfolio_val = sum(bond_val_portfolio)
     #print ('Portfolio Value:',portfolio_val)
-    return (portfolio_val, bond_val_portfolio, bond_maturity_set)
+    return {'Portfolio Value':portfolio_val, 'Set of Bond Values' : bond_val_portfolio, 'Set of Bond Maturities' : bond_maturity_set}
 
 def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
     value_bond_output_db = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
@@ -673,6 +683,7 @@ def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_ra
     intermediate_dur_calcs = []
     years_to_payments = [ days / 365 for days in days_to_payments ]
     #print(years_to_payments)
+
     cfs = list(zip(pv_fcf,years_to_payments))
     for cf in cfs:
         inter_dur_calc = cf[0]*cf[1]
@@ -692,18 +703,22 @@ def portfolio_duration(csv_location):
     weighted_mm_bond_dur_portfolio = []
     portfolio = generate_portfolio(csv_location)
     val_portfolio_output = value_portfolio(csv_location)
+
     for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
                    portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type']):
         bond_dur = duration_bond(*bond)['Bond Duration']
         bond_dur_portfolio.append(bond_dur)
         mm_bond_dur = duration_bond(*bond)['Modified Duration']
         mm_bond_dur_portfolio.append(mm_bond_dur)
-    bond_dur_val_zip = list(zip(bond_dur_portfolio,val_portfolio_output[1],mm_bond_dur_portfolio))
+
+    bond_dur_val_zip = list(zip(bond_dur_portfolio,val_portfolio_output['Set of Bond Values'],mm_bond_dur_portfolio))
+
     for group in bond_dur_val_zip:
-        scale_bond_dur_by_portfolio_value = group[0]*group[1]/val_portfolio_output[0]
+        scale_bond_dur_by_portfolio_value = group[0]*group[1]/val_portfolio_output['Portfolio Value']
         weighted_bond_dur_portfolio.append(scale_bond_dur_by_portfolio_value)
-        scale_mm_bond_dur_by_portfolio_value = group[2]*group[1]/val_portfolio_output[0]
+        scale_mm_bond_dur_by_portfolio_value = group[2]*group[1]/val_portfolio_output['Portfolio Value']
         weighted_mm_bond_dur_portfolio.append(scale_mm_bond_dur_by_portfolio_value)
+
     portfolio_dur = sum(weighted_bond_dur_portfolio)
     mm_portfolio_dur = sum(weighted_mm_bond_dur_portfolio)
     #print ('Portfolio Duration:',portfolio_dur,'Modified Portfolio Duration:',mm_portfolio_dur)
@@ -718,6 +733,7 @@ def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_r
     start_int = 1
     years_to_payments = [days/365 for days in days_to_payments]
     cfs = list(zip(pv_fcf,years_to_payments))
+
     for pv_cf in cfs:
         inter_conv_calc =  (pv_cf[0])*(pv_cf[1]**2+pv_cf[1])
         start_int = start_int +1
@@ -729,23 +745,27 @@ def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_r
     bond_convexity = sum(intermediate_conv_calcs) / \
                     ( bond_val * ( 1 + value_bond_output_cb[4] / 100) **2 )
     #print('Bond Convexity: ',bond_convexity)
-    return bond_convexity
+    return {'Bond Convexity':bond_convexity}
 
 def convexity_portfolio(csv_location):
     bond_conv_portfolio = []
     weighted_bond_conv_portfolio = []
     portfolio = generate_portfolio(csv_location)
     val_portfolio_output = value_portfolio(csv_location)
+
     for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
                    portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type']):
-        bond_conv = convexity_bond(*bond)
+        bond_conv = convexity_bond(*bond)['Bond Convexity']
         bond_conv_portfolio.append(bond_conv)
-    bond_conv_val_zip = list(zip(bond_conv_portfolio,val_portfolio_output[1]))
+
+    bond_conv_val_zip = list(zip(bond_conv_portfolio,val_portfolio_output['Set of Bond Values']))
+
     for entry in bond_conv_val_zip:
-        scale_bond_conv_by_portfolio_value = entry[0]*entry[1]/val_portfolio_output[0]
+        scale_bond_conv_by_portfolio_value = entry[0]*entry[1]/val_portfolio_output['Portfolio Value']
         weighted_bond_conv_portfolio.append(scale_bond_conv_by_portfolio_value)
+
     portfolio_convexity = sum(weighted_bond_conv_portfolio)
-    return portfolio_convexity
+    return {'Portfolio Convexity':portfolio_convexity}
 
 def generate_yield_comparison_table_raw(csv_location):
     """Builds a table containing daily 
@@ -763,6 +783,10 @@ def generate_yield_comparison_table_raw(csv_location):
     return daily_yield_change_array
 
 yesterdays_yield_close_values_corp = generate_yield_comparison_table_raw ('/Users/baronabramowitz/Desktop/corporate_bond_yields_daily_values.csv').iloc[[0]] 
+def generate_yield_curve_xlsx():
+    xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx')
+    xw.Range('A1').value = yesterdays_yield_close_values_corp
+    xw.Range('A1').options(pd.DataFrame, expand='table').value
 
 def value_at_risk_yield_change_upper_bound_by_rating(csv_location, loss_percentile):
     """Takes a table of daily bond yield quotes, 
@@ -825,10 +849,33 @@ yield_change_cov_matrix = yield_change_matrix.cov()
 def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
     portfolio = generate_portfolio(portfolio_csv_location)
     val_portfolio_output = value_portfolio(portfolio_csv_location)
+
+    loss_percentiles_pre_zip = []
+    for item in val_portfolio_output['Set of Bond Values']:
+        loss_percentiles_pre_zip.append(loss_percentile)
+
+    yield_change_csv_location_pre_zip = []
+    for item in val_portfolio_output['Set of Bond Values']:
+        yield_change_csv_location_pre_zip.append('/Users/baronabramowitz/Desktop/cleaned_corporate_bond_yield_change_data.csv')
+
+    bond_var_portfolio_squared = []
+    for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
+                   portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type'],\
+                   yield_change_csv_location_pre_zip,loss_percentiles_pre_zip):
+        bond_var = value_at_risk_single_bond(*bond)['VaR']
+        bond_var_squared = bond_var ** 2
+        bond_var_portfolio_squared.append(bond_var_squared)
+
+    inter_sum_bond_var_squared = sum(bond_var_portfolio_squared)
+    portfolio_value_at_risk = sqrt(inter_sum_bond_var_squared)
+    portfolio_value_at_risk_percent = portfolio_value_at_risk * 100 / val_portfolio_output['Portfolio Value']
+    return {'Portfolio VaR' : portfolio_value_at_risk, 'Portfolio VaR Percent' : portfolio_value_at_risk_percent }
+'''    
     portfolio_proportions = []
     for bond_val in val_portfolio_output[1]:
         bond_val = bond_val/val_portfolio_output[0]
         portfolio_proportions.append(bond_val)
+
 
     print(val_portfolio_output[2])
     maturity_list = []
@@ -847,28 +894,10 @@ def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
             print('WTF')
     print(maturity_list)
 
-    loss_percentiles_pre_zip = []
-    for item in val_portfolio_output[1]:
-        loss_percentiles_pre_zip.append(loss_percentile)
-
-    yield_change_csv_location_pre_zip = []
-    for item in val_portfolio_output[1]:
-        yield_change_csv_location_pre_zip.append('/Users/baronabramowitz/Desktop/cleaned_corporate_bond_yield_change_data.csv')
-
-    bond_var_portfolio_squared = []
-    bond_rating_list = []
-    for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],\
-                   portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type'],\
-                   yield_change_csv_location_pre_zip,loss_percentiles_pre_zip):
-        bond_rating_list.append(bond[4])
-        bond_var = value_at_risk_single_bond(*bond)['VaR']
-        bond_var_squared = bond_var ** 2
-        bond_var_portfolio_squared.append(bond_var_squared)
     bond_rating_maturity = list(map(str.__add__,maturity_list,bond_rating_list))
     print(bond_rating_maturity)
     bond_rating_groupings = list(zip(bond_rating_maturity,portfolio_proportions))
     print(bond_rating_groupings)
-    inter_sum_bond_var_squared = sum(bond_var_portfolio_squared)
     portfolio_weights_matrix = pd.DataFrame({'Portfolio_Weights': portfolio_proportions})
     portfolio_cov_matrix_steps = yield_change_cov_matrix
     portfolio_cov_matrix = yield_change_cov_matrix.loc[bond_rating_maturity[0][1][0]]
@@ -876,50 +905,49 @@ def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
     portfolio_variance = np.dot(np.dot(portfolio_weights_matrix.transpose(),portfolio_cov_matrix),portfolio_weights_matrix)
     portfolio_stdev = sqrt(portfolio_variance)
     return portfolio_stdev
+'''
 
 class test_suite(unittest.TestCase):
      """Large Selection of Tests for the above code"""
+     def test_portfolio_VaR(self):
+        self.assertEqual({'Portfolio VaR Percent': 7.4915250079395088, 'Portfolio VaR': 399206.62218620966},\
+            value_at_risk_portfolio_set('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv',95))
      def test_bond_convexity(self):
-         self.assertEqual(35.18162670582754,convexity_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
+         self.assertEqual({'Bond Convexity': 35.057393310602734},convexity_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
      def test_portfoio_convexity(self):
-         self.assertEqual(135.44277212465033,convexity_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+         self.assertEqual({'Portfolio Convexity': 135.19786233167446},convexity_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
      def test_portfolio_duration(self):
-         self.assertEqual({'Modified Portfolio Duration': 10.662022505468682,
- 'Portfolio Duration': 10.936440783039282},portfolio_duration('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+         self.assertEqual({'Modified Portfolio Duration': 10.651045805707131, 'Portfolio Duration': 10.925337124126333}\
+            ,portfolio_duration('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
      def test_value_portfolio(self):
-         self.assertEqual((5328131.2278631562,
- [10827.821620777519,
-  39873.767697445248,
-  3126212.7870177557,
-  270005.913906298,
-  786543.30874098127,
-  353237.85002647078,
-  439159.02809525008,
-  302270.75075817748]),value_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+         self.assertEqual({'Set of Bond Maturities': [5.821917808219178, 8.926027397260274, 12.38082191780822, 1.5780821917808219,\
+          7.972602739726027, 17.235616438356164, 11.490410958904109, 10.202739726027398], 'Portfolio Value': 5328776.4742576573, \
+          'Set of Bond Values': [10829.607436968461, 39883.018711742043, 3126578.8278878094, 270050.4984651687, 786698.720230376, \
+          353233.35592239985, 439200.53881885373, 302301.90678433847]},\
+          value_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
      def test_bond_dur(self):
         #Checks if bond duration properly calculates
-        self.assertEqual({'Bond Duration': 5.4524899454500195, 'Modified Duration': 5.340342747747326},\
+        self.assertEqual({'Bond Duration': 5.4395123299260542, 'Modified Duration': 5.3411546020959495},\
             duration_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
      def test_bond_val(self):
         #Checks if bond value properly calculates
-        self.assertEqual((10398.50651287065,
- [124.23853132907502,
-  123.10190870220836,
-  121.96952521382494,
-  120.853661071975,
-  119.72986555876302,
-  118.63449141959734,
-  117.5491385437076,
-  116.47371524943534,
-  115.40230284511438,
-  114.34652033381887,
-  113.29467546037061,
-  9092.9121771427599],
- [121, 303, 486, 668, 853, 1035, 1217, 1399, 1582, 1764, 1947, 2129],
- 5.832876712328767),\
-    value_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
+        self.assertEqual(((10401.599163636824, [124.26432795213853, 123.12854578599398, 121.99698970389311, \
+            120.88193112262132, 119.75893699719182, 118.6643343294799, 117.57973638484088, 116.505051719606, \
+            115.43436580329602, 114.37928993236635, 113.32813984882442, 9095.6775140565715], [117, 299, 482, \
+            664, 849, 1031, 1213, 1395, 1578, 1760, 1943, 2125], 5.821917808219178, 1.8415068493150684)),\
+            value_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
+
 
 if __name__ == "__main__":
+    #print(value_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
+    #print(generate_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+    #print(value_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+    #print(duration_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
+    #print(portfolio_duration('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+    #print(convexity_bond(10000.0, '2022-06-15', 2.5, 2, 'AAA','Corporate'))
+    #print(convexity_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
+    #print(value_at_risk_portfolio_set('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv',95))
+    #generate_yield_curve_xlsx()
     unittest.main()
          
 
