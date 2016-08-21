@@ -34,9 +34,7 @@ def generate_yield_curve_data():
 				pattern_g2_matches.append(match.group(1))
 		else:
 		    pass
-	print (match_list)
-	print (pattern_g1_matches)
-	print (pattern_g2_matches)
+		    
 	pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
 	pattern_g2_matches_df = pd.DataFrame(pattern_g2_matches)
 	strips_output = pd.merge(pattern_g1_matches_df,pattern_g2_matches_df, left_index=True, right_index = True)

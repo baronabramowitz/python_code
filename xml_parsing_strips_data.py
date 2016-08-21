@@ -38,7 +38,6 @@ def build_strips_curve():
 	strips_output['Date'] = pd.to_datetime(strips_output['Date'])
 	strips_output = strips_output.sort_values('Date')
 	strips_output.index = range(0,len(strips_output))
-	print(strips_output)
 
 			#Input any Excel output file you'd like, but it makes most sense to put it on a new sheet
 	xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx').sheets('Sheet3').range('A1').value = strips_output
