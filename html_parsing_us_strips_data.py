@@ -5,6 +5,14 @@ import requests
 from datetime import datetime
 
 def generate_yield_curve_data():
+	'''
+	This function takes an html format (also works with plain text) from 
+	http://online.barrons.com/mdc/public/page/9_3020-tstrips.html?mod=bol_topnav_9_3000
+	and converts it into an excel spreadsheet of spot rates of strips for each strip maturity date. 
+	These strips can then be used to generate a yield curve with which different securities can be priced.
+	The use of xlwings t move the data into excel was just an exercise to create a more human readable format 
+	without going to the horrors of VBA
+	'''
 	page = requests.get('http://online.barrons.com/mdc/public/page/9_3020-tstrips.html?mod=bol_topnav_9_3000')
 	if page.status_code==200:
 		base_data_location_string = '/Users/baronabramowitz/Desktop/todays_us_strips_data_raw' + str(datetime.now())
@@ -34,7 +42,7 @@ def generate_yield_curve_data():
 				pattern_g2_matches.append(match.group(1))
 		else:
 		    pass
-		    
+
 	pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
 	pattern_g2_matches_df = pd.DataFrame(pattern_g2_matches)
 	strips_output = pd.merge(pattern_g1_matches_df,pattern_g2_matches_df, left_index=True, right_index = True)

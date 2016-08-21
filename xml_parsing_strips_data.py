@@ -6,7 +6,8 @@ from datetime import datetime
 
 def build_strips_curve():
 	'''
-	This function takes an xml format (also works with plain text) from http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices
+	This function takes an xml format (also works with plain text) from 
+	http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices
 	and converts it into an excel spreadsheet of spot rates of strips for each strip maturity date. 
 	These strips can then be used to generate a yield curve with which different securities can be priced.
 	The use of xlwings t move the data into excel was just an exercise to create a more human readable format 
