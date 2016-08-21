@@ -512,21 +512,27 @@ if __name__ == '__main__':
 
 def strips_data_generation():
     """Retrieves STRIPS data from US Treasuries or UK Gilts.
+
     Returns a clean DataFrame of the yields across all available maturity dates.
 
     Given access to more frequent data then prior trading day end,
     will update to use interday updated strips data.
-
     This should be a much quicker process since the get from a dedicated 
     data source will be faster than an pulling down and regex parsing the 
     raw html data.
-
     A proper HF data source will likely return XML or JSON formatted 
     responses which can be unpacked via several different python libraries
     and remove the need for the regex below.
-
     The process would ideally be run outside the critical path and the 
     resulting data referenced from within the function itself.
+
+    Ideally would add some code that would input a bond portfolio containing both
+    GBP and USD bonds and split them into two portfolios of the respective currency
+    and then apply the below yield curves.
+
+    Eventually will add more functionality to accept other currencies 
+    and the ability to differentiate between location of government issue
+    for Eurozone countries.
     """
 
     bond_portfolio_currency = input('What currency is the bond portfolio in? USD or GBP? ').upper()
@@ -948,7 +954,6 @@ def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
 
     the value_at_risk_single_bond needs to be updated before this can function properly
     """
-    
     portfolio = generate_portfolio(portfolio_csv_location)
     val_portfolio_output = value_portfolio(portfolio_csv_location)
 
