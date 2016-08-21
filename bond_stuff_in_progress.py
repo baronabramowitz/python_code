@@ -605,7 +605,7 @@ def strips_data_generation():
 
 def nearest_date(entered_date):
     # This function works but is certainly very hacky and unelegant. 
-    #There must be a better way to perfrom this task than using this dictionary lookup
+    # There must be a better way to perfrom this task than using this dictionary lookup
     
     dates = todays_strips_data['Date'].tolist() #  Input for dates, returned from strips parsing functions
     day_diffs = {}
@@ -667,16 +667,16 @@ def days_to_payment(mat_date, pay_step):
 
 def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
     pv_fcf = []
-    #Values bond given current inputs. Currently bond_type does nothing until I find some data I can work with.
+    # Values bond given current inputs. Currently bond_type does nothing until I find some data I can work with.
     payment_step = str(payments_per_year/12) + 'm'
     discount_rates = yields_for_payment_dates(payment_dates(maturity_date, payment_step))
     days_to_payments = days_to_payment(maturity_date,payment_step)
 
-    #Currently bond premiums are hard coded but a more scalable version
-    #would include these premiums being stored elsewhere and referenced 
-    #within the function; this would allow for distributing the bond valuations
-    #across multiple processors when valuign a portfolio.
-    #These premiums stored elsewhere could be periodically updated whilst remaining out of the critical path
+    # Currently bond premiums are hard coded but a more scalable version
+    # would include these premiums being stored elsewhere and referenced 
+    # within the function; this would allow for distributing the bond valuations
+    # across multiple processors when valuign a portfolio.
+    # These premiums stored elsewhere could be periodically updated whilst remaining out of the critical path
 
     if bond_type == 'Corporate':
         if bond_rating == 'AAA':
@@ -699,7 +699,6 @@ def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_ratin
     else:
         pass
 
-    #discount_rates = map(lambda x: x * (1 + rating_premium), discount_rates)
     discount_rates = [x * (1 + rating_premium) for x in discount_rates]
 
     bond_maturity_remaining = (BankDate().nbr_of_days(maturity_date))/365
@@ -759,7 +758,6 @@ def generate_portfolio(csv_location):
 
 
 def value_portfolio(csv_location):
-    #csv_location = str(input('What is the file path?'))
     bond_val_portfolio = []
     bond_maturity_set = []
     portfolio = generate_portfolio(csv_location)
@@ -771,7 +769,6 @@ def value_portfolio(csv_location):
         bond_val_portfolio.append(value_bond(*bond)[0])
 
     portfolio_val = sum(bond_val_portfolio)
-    #print ('Portfolio Value:',portfolio_val)
     return {'Portfolio Value':portfolio_val, 'Set of Bond Values' : bond_val_portfolio, 'Set of Bond Maturities' : bond_maturity_set}
 
 
