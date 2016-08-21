@@ -619,6 +619,7 @@ def nearest_date(entered_date):
 
 def payment_dates(dateval, step):
     '''Generates the dates on which payments (coupon & principal) occur given maturity date
+
     Steps in number of months e.g. '6m', '3m', '24m'
     Default is semi-annual compounding
     '''
@@ -638,6 +639,7 @@ def payment_dates(dateval, step):
 
 def yields_for_payment_dates(new_dates):
     """Generates list of discount rates for coupon payment dates
+
     **Requires the output of strips_data_generation assigned to todays_strips_data 
     to be in memory before this process will function properly**
     """
@@ -649,7 +651,9 @@ def yields_for_payment_dates(new_dates):
 
 
 def days_to_payment(mat_date, pay_step):
-    '''Takes the payment dates outputted from payment_dates 
+    '''Returns a list of days until coupon dates
+
+    Takes the payment dates outputted from payment_dates 
     and converts them into a day count from the current day (or next business day when appropriate)
     to the date of the respective payment
     '''
@@ -855,6 +859,7 @@ def convexity_portfolio(csv_location):
 
 def generate_yield_comparison_table_raw(csv_location):
     """Builds a table containing daily yield quotes of corporate bonds
+
     Function works as intended but the CSV could be updted outside of 
     the critical path each day to refelct the added observation to the 
     historic yield changes, need to figure out how to tie the historic
@@ -878,9 +883,7 @@ yesterdays_yield_close_values_corp = generate_yield_comparison_table_raw (
 
 
 def value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentile):
-    """Takes a table of daily bond yield quotes, 
-    extracts the quotes for the ratings, 
-    determines the lower bound for the inputted percentile.
+    """Takes a table of daily bond yield quotes, extracts the quotes for the ratings, determines the lower bound for the inputted percentile.
 
     Currently supported bond ratings limited to:                    
                         'Corporate 2yr AA','Corporate 2yr A',
@@ -906,6 +909,7 @@ def value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentil
 
 def value_at_risk_single_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type,csv_location,loss_percentile):
     """ Calculates the Value at Risk for a single bond.
+
     Needs to be updated to reflect the new method of calculating discount rates 
     which is not based on bond maturity/rating but rather a rating premium on 
     top of the risk free strips yield curve"""
@@ -926,6 +930,7 @@ yield_change_cov_matrix = yield_change_matrix.cov()
 
 def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
     """Calculates the Value at Risk for an entire portfolio
+    
     the value_at_risk_single_bond needs to be updated before this can function properly
     """
     portfolio = generate_portfolio(portfolio_csv_location)
