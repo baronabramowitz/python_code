@@ -511,7 +511,9 @@ if __name__ == '__main__':
 
 
 def strips_data_generation():
-    """
+    """Retrieves STRIPS data from US Treasuries or UK Gilts.
+    Returns a clean DataFrame of the yields across all available maturity dates.
+
     Given access to more frequent data then prior trading day end,
     will update to use interday updated strips data.
 
@@ -604,6 +606,7 @@ def strips_data_generation():
 
 
 def nearest_date(entered_date):
+    """Return nearest date from list of STRIPS maturity dates."""
     # This function works but is certainly very hacky and unelegant. 
     # There must be a better way to perfrom this task than using this dictionary lookup
     
@@ -615,13 +618,9 @@ def nearest_date(entered_date):
 
 
 def payment_dates(dateval, step):
-    '''
-    Generates the dates on which payments (namely coupon dates as maturity date is already known)
-    by iterating backwards from the maturity date (dateval) by the interval specified
-    Steps in number of months or years
-    e.g. '6m', '3m', '2y'
+    '''Generates the dates on which payments (coupon & principal) occur given maturity date
+    Steps in number of months e.g. '6m', '3m', '24m'
     Default is semi-annual compounding
-    dateval as maturity date of instrument
     '''
     new_dates = []
     for date in daterange(dateval, step ='6m'):
@@ -638,9 +637,9 @@ def payment_dates(dateval, step):
 
 
 def yields_for_payment_dates(new_dates):
-    """
-    Requires the output of strips_data_generation assigned to todays_strips_data 
-    to be in memory before this process will function properly
+    """Generates list of discount rates for coupon payment dates
+    **Requires the output of strips_data_generation assigned to todays_strips_data 
+    to be in memory before this process will function properly**
     """
     payment_date_approximate_yields = []
     for date in new_dates:
@@ -650,9 +649,8 @@ def yields_for_payment_dates(new_dates):
 
 
 def days_to_payment(mat_date, pay_step):
-    '''
-    takes the payment dates outputted from payment_dates 
-    and converts them into a day count from the current day 
+    '''Takes the payment dates outputted from payment_dates 
+    and converts them into a day count from the current day (or next business day when appropriate)
     to the date of the respective payment
     '''
     step = pay_step
@@ -666,8 +664,8 @@ def days_to_payment(mat_date, pay_step):
 
 
 def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
+    """Values bond given current inputs."""
     pv_fcf = []
-    # Values bond given current inputs. Currently bond_type does nothing until I find some data I can work with.
     payment_step = str(payments_per_year/12) + 'm'
     discount_rates = yields_for_payment_dates(payment_dates(maturity_date, payment_step))
     days_to_payments = days_to_payment(maturity_date,payment_step)
@@ -723,6 +721,7 @@ def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_ratin
 
 
 def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate):
+    """Values bond for value at risk function"""
     pv_fcf = []
     bond_maturity_remaining = (BankDate().nbr_of_days(maturity_date))/365
     payment_step = str(payments_per_year/12) + 'm'
@@ -747,6 +746,7 @@ def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discou
 
 
 def generate_portfolio(csv_location):
+    """Generates portfolio DataFrame from the CSV at the inputted location"""
     portfolio = pd.read_csv(csv_location,
                            header = 0,
                            delimiter = ',',
@@ -758,6 +758,7 @@ def generate_portfolio(csv_location):
 
 
 def value_portfolio(csv_location):
+    """Calculates the value of a portfolio of bonds (as a CSV)"""
     bond_val_portfolio = []
     bond_maturity_set = []
     portfolio = generate_portfolio(csv_location)
@@ -773,6 +774,7 @@ def value_portfolio(csv_location):
 
 
 def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
+    """Calculates the duration and Macaulay/Modified duration"""
     value_bond_output_db = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
     intermediate_dur_calcs = []
     years_to_payments = [days / 365 for days in value_bond_output_db[2]]
@@ -786,6 +788,7 @@ def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_ra
 
 
 def duration_portfolio(csv_location):
+    """Calculates the duration and Macaulay/Modified duration of a portfolio of bonds"""
     bond_dur_portfolio=[]
     mm_bond_dur_portfolio=[]
     weighted_bond_dur_portfolio = []
@@ -813,6 +816,7 @@ def duration_portfolio(csv_location):
 
 
 def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
+    """Calculates the convexity of an indivudal bond"""
     value_bond_output_cb = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
     intermediate_conv_calcs = []
     years_to_payments = [(days / 365) for days in value_bond_output_cb[2]]
@@ -829,6 +833,7 @@ def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_r
 
 
 def convexity_portfolio(csv_location):
+    """Calcualtes the convexity of a portfolio of bonds"""
     bond_conv_portfolio = []
     weighted_bond_conv_portfolio = []
     portfolio = generate_portfolio(csv_location)
@@ -872,24 +877,18 @@ yesterdays_yield_close_values_corp = generate_yield_comparison_table_raw (
     '/Users/baronabramowitz/Desktop/corporate_bond_yields_daily_values.csv').iloc[[0]] 
 
 
-def generate_yield_curve_xlsx():
-    xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx')
-    xw.Range('A1').value = yesterdays_yield_close_values_corp
-    xw.Range('A1').options(pd.DataFrame, expand='table').value
-
-
 def value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentile):
     """Takes a table of daily bond yield quotes, 
-    extracts the quotes for the ratings,
-    (currently supported bond ratings limited to                    
+    extracts the quotes for the ratings, 
+    determines the lower bound for the inputted percentile.
+
+    Currently supported bond ratings limited to:                    
                         'Corporate 2yr AA','Corporate 2yr A',
     'Corporate 5yr AAA','Corporate 5yr AA', 'Corporate 5yr A',
     'Corporate 10yr AAA','Corporate 10yr AA','Corporate 10yr A', 
     'Corporate 20yr AAA','Corporate 20yr AA', 'Corporate 20yr A'
-    )
-    determines the lower bound for the inputted percentile 
-    (percentile as a whole number, eg 95th percentile as 95 not .95)
-    Intended to be run before trading, once a trading day and the VaR bounds should be stored
+    Percentile as a whole number, eg 95th percentile as 95 not .95.
+    Intended to be run before trading, once a trading day and the VaR bounds should be stored.
     """
     daily_yield_change_array = generate_yield_comparison_table_raw(csv_location)
     upper_bounds = []
@@ -906,7 +905,8 @@ def value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentil
 
 
 def value_at_risk_single_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type,csv_location,loss_percentile):
-    """Needs to be updated to reflect the new method of calculating discount rates 
+    """ Calculates the Value at Risk for a single bond.
+    Needs to be updated to reflect the new method of calculating discount rates 
     which is not based on bond maturity/rating but rather a rating premium on 
     top of the risk free strips yield curve"""
     val_bond_output = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
@@ -925,6 +925,9 @@ yield_change_cov_matrix = yield_change_matrix.cov()
 
 
 def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
+    """Calculates the Value at Risk for an entire portfolio
+    the value_at_risk_single_bond needs to be updated before this can function properly
+    """
     portfolio = generate_portfolio(portfolio_csv_location)
     val_portfolio_output = value_portfolio(portfolio_csv_location)
 
@@ -954,43 +957,6 @@ def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
             'Portfolio VaR Percent' : portfolio_value_at_risk_percent 
             }
 
-
-"""    
-    portfolio_proportions = []
-    for bond_val in val_portfolio_output[1]:
-        bond_val = bond_val/val_portfolio_output[0]
-        portfolio_proportions.append(bond_val)
-
-
-    print(val_portfolio_output[2])
-    maturity_list = []
-    for maturity in val_portfolio_output[2]:
-        if maturity < 2:
-            maturity_list.append(str('2yr_'))
-        elif 2 <= maturity <= 3.5:
-            maturity_list.append(str('2yr_'))
-        elif 3.5 < maturity <= 7.5:
-            maturity_list.append(str('5yr_'))
-        elif 7.5 < maturity <= 15:
-            maturity_list.append(str('10yr_'))
-        elif 15 < maturity:
-            maturity_list.append(str('20yr_'))
-        else:
-            print('WTF')
-    print(maturity_list)
-
-    bond_rating_maturity = list(map(str.__add__,maturity_list,bond_rating_list))
-    print(bond_rating_maturity)
-    bond_rating_groupings = list(zip(bond_rating_maturity,portfolio_proportions))
-    print(bond_rating_groupings)
-    portfolio_weights_matrix = pd.DataFrame({'Portfolio_Weights': portfolio_proportions})
-    portfolio_cov_matrix_steps = yield_change_cov_matrix
-    portfolio_cov_matrix = yield_change_cov_matrix.loc[bond_rating_maturity[0][1][0]]
-    print(portfolio_cov_matrix)
-    portfolio_variance = np.dot(np.dot(portfolio_weights_matrix.transpose(),portfolio_cov_matrix),portfolio_weights_matrix)
-    portfolio_stdev = sqrt(portfolio_variance)
-    return portfolio_stdev
-"""
 
 class TestSuite(unittest.TestCase):
      """Large Selection of Tests for the above code"""
@@ -1044,62 +1010,9 @@ if __name__ == "__main__":
     print(convexity_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv'))
     print(value_at_risk_portfolio_set('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv',95))
     """
-    #generate_yield_curve_xlsx()
     unittest.main()
-   
-#Rubbish cut from old bond val below      
-"""
-    if bond_maturity_remaining < 2:
-        two_string = str('2yr_' + str(bond_rating))
-        disc_rate_two = discount_rates.at[0,two_string]
-        disc_rate_under_two = disc_rate_two * (2 / 3)
-        discount_rate = disc_rate_under_two
+        
 
-    elif 2 < bond_maturity_remaining < 5:
-        proportion_two_year_rate = (bond_maturity_remaining - 2)/3
-        proportion_five_year_rate = (5 - bond_maturity_remaining)/3
-        two_string = str('2yr_' + str(bond_rating))
-        five_string = str('5yr_' + str(bond_rating))
-        disc_rate_two = discount_rates.at[0,two_string]
-        disc_rate_five = discount_rates.at[0,five_string]
-        discount_rate = (disc_rate_two 
-                        * proportion_two_year_rate 
-                        + disc_rate_five 
-                        * proportion_five_year_rate
-        )
-
-
-    elif 5 < bond_maturity_remaining < 10:
-        proportion_five_year_rate = (bond_maturity_remaining - 5)/5
-        proportion_ten_year_rate = (10 - bond_maturity_remaining)/5
-        five_string = str('5yr_' + str(bond_rating))
-        ten_string = str('10yr_' + str(bond_rating))
-        disc_rate_five = discount_rates.at[0,five_string]
-        disc_rate_ten = discount_rates.at[0,ten_string]
-        discount_rate = (disc_rate_five 
-                        * proportion_five_year_rate 
-                        + disc_rate_ten 
-                        * proportion_ten_year_rate
-        )
-
-    elif 10 < bond_maturity_remaining < 20:
-        proportion_ten_year_rate = (bond_maturity_remaining - 10)/10
-        proportion_twenty_year_rate = (20 - bond_maturity_remaining)/10
-        ten_string = str('10yr_' + str(bond_rating))
-        twenty_string = str('20yr_' + str(bond_rating))
-        disc_rate_ten = discount_rates.at[0,ten_string]
-        disc_rate_twenty = discount_rates.at[0,twenty_string]
-        discount_rate = (disc_rate_ten 
-                        * proportion_ten_year_rate 
-                        + disc_rate_twenty 
-                        * proportion_twenty_year_rate
-        )
-
-    elif 20 < bond_maturity_remaining:
-        twenty_string = str('20yr_' + str(bond_rating))
-        disc_rate_twenty = discount_rates.at[0,twenty_string]
-        disc_rate_over_twenty = disc_rate_twenty * (6 / 5)
-"""
 
  
 
