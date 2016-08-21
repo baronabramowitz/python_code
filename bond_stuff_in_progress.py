@@ -604,14 +604,13 @@ def strips_data_generation():
 
 
 def nearest_date(entered_date):
-    # This function works but is certainly a very hacky and unelegant way to perfrom this task
+    # This function works but is certainly very hacky and unelegant. 
+    #There must be a better way to perfrom this task than using this dictionary lookup
+    
     dates = todays_strips_data['Date'].tolist() #  Input for dates, returned from strips parsing functions
     day_diffs = {}
     for i, date in enumerate(dates):
-        #print(BankDate(date).nbr_of_days(entered_date))
         day_diffs.update({i:abs(BankDate(date).nbr_of_days(entered_date))})
-    #print(day_diffs)
-    #print(min(day_diffs, key=day_diffs.get))
     return dates[int(min(day_diffs, key=day_diffs.get)) - 1]
 
 
@@ -739,7 +738,7 @@ def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discou
             pv_cf = (coupon_payment + face_value)/((1+(discount_rate/100/365))**day_count)
             pv_fcf.append(pv_cf)
         elif day_count != 0 and day_count != max(days_to_payments):
-            pv_cf = coupon_payment/((1+(discount_rate/100/365))**day_count)
+            pv_cf = coupon_payment/((1 + (discount_rate/100/365))**day_count)
             pv_fcf.append(pv_cf)
         else:
             pass
@@ -782,7 +781,7 @@ def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_ra
     years_to_payments = [days / 365 for days in value_bond_output_db[2]]
 
     for cf in zip(value_bond_output_db[1],years_to_payments):
-        intermediate_dur_calcs.append(cf[0]*cf[1])
+        intermediate_dur_calcs.append(cf[0] * cf[1])
         
     bond_duration = sum(intermediate_dur_calcs)/value_bond_output_db[0]
     mm_duration = bond_duration/(1 + sum(value_bond_output_db[4])/len(value_bond_output_db[4]) / 100)
@@ -819,7 +818,7 @@ def duration_portfolio(csv_location):
 def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
     value_bond_output_cb = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
     intermediate_conv_calcs = []
-    years_to_payments = [days/365 for days in value_bond_output_cb[2]]
+    years_to_payments = [(days / 365) for days in value_bond_output_cb[2]]
     cfs = list(zip(value_bond_output_cb[1],years_to_payments))
 
     for pv_cf in cfs:
@@ -828,7 +827,7 @@ def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_r
         
     bond_convexity = (sum(intermediate_conv_calcs) 
                     / (value_bond_output_cb [0] 
-                    * (1 + sum(value_bond_output_cb[4])/len(value_bond_output_cb[4]) / 100) **2))
+                    * (1 + sum(value_bond_output_cb[4])/len(value_bond_output_cb[4]) / 100)**2))
     return {'Bond Convexity':bond_convexity}
 
 
