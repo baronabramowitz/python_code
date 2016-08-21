@@ -5,7 +5,6 @@ import requests
 from datetime import datetime
 
 def generate_yield_curve_data():
-	#page = requests.get('http://www.barrons.com/public/page/9_0210-govtstrips.html')
 	page = requests.get('http://online.barrons.com/mdc/public/page/9_3020-tstrips.html?mod=bol_topnav_9_3000')
 	if page.status_code==200:
 		base_data_location_string = '/Users/baronabramowitz/Desktop/todays_us_strips_data_raw' + str(datetime.now())
@@ -15,9 +14,6 @@ def generate_yield_curve_data():
 	else:
 		print("link invalid")
 
-#"<td align=\"center\"><font id=\"standard\">([a-zA-z]{3} [0-6][0-9]).{50}ci.{194}<font id=\"standard\">([0-9]{1,2}\.[0-9]{2})</font></td>"
-	#pattern = re.compile("<td align=\"center\"><font id=\"standard\">([a-zA-z]{3} [0-6][0-9]).{50}ci.{194}<font id=\"standard\">([0-9]{1,2}\.[0-9]{2})</font></td>")
-#"<td class=\"text\">(2\d{3} [a-zA-z]{3} [0-3][0-9]).{121}\"num\">([0-9]{1,2}\.[0-9]{2})</td>"
 	pattern_date = re.compile(r"<td class=\"text\">(2[0-9]{3} [a-zA-z]{3} [0-3][0-9])</td>")
 	pattern_yield = re.compile(r"<td style=\"border-right:0px\" class=\"num\">([0-9]{1,2}\.[0-9]{2})</td>")
 	pattern_g1_matches = []
@@ -48,14 +44,8 @@ def generate_yield_curve_data():
 	strips_output['Date'] = pd.to_datetime(strips_output['Date'])
 	strips_output = strips_output.sort_values('Date')
 	strips_output.index = range(0,len(strips_output))
-	#print(strips_output)
 
 			#Input any Excel output file you'd like, but it makes most sense to put it on a new sheet
-			#r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx'
-	#excel_output_location = r'/Users/baronabramowitz/Desktop/xlwings_testing_doc'+str(datetime.now())+'.xlsx'
-	#xw.Book().save(excel_output_location)
-	#xw.Book(excel_output_location).sheets('Sheet1').range('A1').value = strips_output
-	#xw.Book(excel_output_location).sheets('Sheet1').range('A1').options(pd.DataFrame, expand='table').value
 	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1').range('A1').value = strips_output
 	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1').range('A1').options(pd.DataFrame, expand='table').value
 	#Chart built from next four lines

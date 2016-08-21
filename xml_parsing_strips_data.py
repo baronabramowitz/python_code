@@ -4,9 +4,7 @@ import pandas as pd
 import requests
 from datetime import datetime
 
-#import webbrowser
-
-def test_xml():
+def build_strips_curve():
 	'''
 	This function takes an xml format (also works with plain text) from http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices
 	and converts it into an excel spreadsheet of spot rates of strips for each strip maturity date. 
@@ -32,9 +30,7 @@ def test_xml():
 	    	match_list.append(match)
 	    	pattern_g1_matches.append(match.group(1))
 	    	pattern_g2_matches.append(match.group(2)[:-1])
-	#print (match_list)
-	#print (pattern_g1_matches)
-	#print (pattern_g2_matches)
+
 	pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
 	pattern_g2_matches_df = pd.DataFrame(pattern_g2_matches)
 	strips_output = pd.merge(pattern_g1_matches_df,pattern_g2_matches_df, left_index=True, right_index = True)
@@ -55,4 +51,4 @@ def test_xml():
 
 
 if __name__ == "__main__":
-	test_xml()
+	build_strips_curve()
