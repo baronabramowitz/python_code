@@ -14,6 +14,7 @@ bond information from the previous day's close.
 * Calculates the Value at Risk for a single bond (Work in progress)
 * Calculates the Value at Risk for a portfolio of bonds (Work in progress)
 * And several other functions that help to perform the above calculations
+* **Further development necessary to handle translations to and from foreign currencies**
 
 ##html_parsing_us_strips_data.py is a single function that:
 * Downloads the prior trading day's yields for US Treasury STRIPS of all trading maturities, inserts those STRIPS yields into an .xlsx and generates a yield curve from the STRIPS maturity dates and yields.
