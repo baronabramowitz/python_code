@@ -45,7 +45,7 @@ def build_strips_curve():
 	xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx').sheets('Sheet1').range('A1').options(pd.DataFrame, expand='table').value
 	#Chart built from next four lines
 	chart = xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx').sheets('Sheet2').charts.add()
-	chart.set_source_data(xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx').sheets('Sheet3').range('B1').expand())
+	chart.set_source_data(xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx').sheets('Sheet1').range('B1').expand())
 	chart.chart_type = 'line'
 	chart.name = 'Yield Curve'
 
