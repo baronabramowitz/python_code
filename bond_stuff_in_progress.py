@@ -528,6 +528,7 @@ def strips_data_generation():
     The process would ideally be run outside the critical path and the 
     resulting data referenced from within the function itself.
     """
+
     bond_portfolio_currency = input('What currency is the bond portfolio in? USD or GBP? ').upper()
     if bond_portfolio_currency == 'GBP':
         page = requests.get('http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices')
@@ -623,6 +624,7 @@ def payment_dates(dateval, step):
     Steps in number of months e.g. '6m', '3m', '24m'
     Default is semi-annual compounding
     '''
+
     new_dates = []
     for date in daterange(dateval, step ='6m'):
         if datetime.weekday(date) == 6:
@@ -643,6 +645,7 @@ def yields_for_payment_dates(new_dates):
     **Requires the output of strips_data_generation assigned to todays_strips_data 
     to be in memory before this process will function properly**
     """
+
     payment_date_approximate_yields = []
     for date in new_dates:
         payment_date_approximate_yields.append(float((todays_strips_data.loc[
@@ -657,6 +660,7 @@ def days_to_payment(mat_date, pay_step):
     and converts them into a day count from the current day (or next business day when appropriate)
     to the date of the respective payment
     '''
+
     step = pay_step
     dateval = mat_date
     new_dates = payment_dates(dateval, step)
@@ -669,6 +673,7 @@ def days_to_payment(mat_date, pay_step):
 
 def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
     """Values bond given current inputs."""
+
     pv_fcf = []
     payment_step = str(payments_per_year/12) + 'm'
     discount_rates = yields_for_payment_dates(payment_dates(maturity_date, payment_step))
@@ -726,6 +731,7 @@ def value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_ratin
 
 def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discount_rate):
     """Values bond for value at risk function"""
+
     pv_fcf = []
     bond_maturity_remaining = (BankDate().nbr_of_days(maturity_date))/365
     payment_step = str(payments_per_year/12) + 'm'
@@ -751,6 +757,7 @@ def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discou
 
 def generate_portfolio(csv_location):
     """Generates portfolio DataFrame from the CSV at the inputted location"""
+
     portfolio = pd.read_csv(csv_location,
                            header = 0,
                            delimiter = ',',
@@ -763,6 +770,7 @@ def generate_portfolio(csv_location):
 
 def value_portfolio(csv_location):
     """Calculates the value of a portfolio of bonds (as a CSV)"""
+
     bond_val_portfolio = []
     bond_maturity_set = []
     portfolio = generate_portfolio(csv_location)
@@ -779,6 +787,7 @@ def value_portfolio(csv_location):
 
 def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
     """Calculates the duration and Macaulay/Modified duration"""
+
     value_bond_output_db = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
     intermediate_dur_calcs = []
     years_to_payments = [days / 365 for days in value_bond_output_db[2]]
@@ -793,6 +802,7 @@ def duration_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_ra
 
 def duration_portfolio(csv_location):
     """Calculates the duration and Macaulay/Modified duration of a portfolio of bonds"""
+
     bond_dur_portfolio=[]
     mm_bond_dur_portfolio=[]
     weighted_bond_dur_portfolio = []
@@ -821,6 +831,7 @@ def duration_portfolio(csv_location):
 
 def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type):
     """Calculates the convexity of an indivudal bond"""
+
     value_bond_output_cb = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
     intermediate_conv_calcs = []
     years_to_payments = [(days / 365) for days in value_bond_output_cb[2]]
@@ -838,6 +849,7 @@ def convexity_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_r
 
 def convexity_portfolio(csv_location):
     """Calcualtes the convexity of a portfolio of bonds"""
+
     bond_conv_portfolio = []
     weighted_bond_conv_portfolio = []
     portfolio = generate_portfolio(csv_location)
@@ -866,6 +878,7 @@ def generate_yield_comparison_table_raw(csv_location):
     spot rate changes over comparable horizons to each rate in the strips data
     And then revaluing the bond under these new yields
     """
+
     daily_yield_change_array = pd.read_csv(csv_location,
                                            header = 0,
                                            delimiter = ',',
@@ -893,6 +906,7 @@ def value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentil
     Percentile as a whole number, eg 95th percentile as 95 not .95.
     Intended to be run before trading, once a trading day and the VaR bounds should be stored.
     """
+
     daily_yield_change_array = generate_yield_comparison_table_raw(csv_location)
     upper_bounds = []
     bond_ratings_set = ['2yr_AA','2yr_A',
@@ -913,6 +927,7 @@ def value_at_risk_single_bond(face_value,maturity_date,coupon_rate,payments_per_
     Needs to be updated to reflect the new method of calculating discount rates 
     which is not based on bond maturity/rating but rather a rating premium on 
     top of the risk free strips yield curve"""
+
     val_bond_output = value_bond(face_value,maturity_date,coupon_rate,payments_per_year,bond_rating,bond_type)
     discount_rate = sum(val_bond_output[4])/len(val_bond_output[4])
     upper_bound = value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentile)[bond_rating]
@@ -930,9 +945,10 @@ yield_change_cov_matrix = yield_change_matrix.cov()
 
 def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
     """Calculates the Value at Risk for an entire portfolio
-    
+
     the value_at_risk_single_bond needs to be updated before this can function properly
     """
+    
     portfolio = generate_portfolio(portfolio_csv_location)
     val_portfolio_output = value_portfolio(portfolio_csv_location)
 
