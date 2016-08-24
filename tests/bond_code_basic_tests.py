@@ -5,12 +5,18 @@ __email__ = 'baron.abramowitz@yahoo.com'
 __date__ = '22/08/2016'
 
 import unittest
+import sys
+sys.path.append('/Users/baronabramowitz/Desktop/python_code/bond_functions')
+
 import value_bond as vb
 import duration_bond as db
 import convexity_bond as cb
 
 class TestSuiteBondCode(unittest.TestCase):
-     """Large Selection of Tests for the bond_stuff_in_progress.py"""
+    """Large Selection of Tests for the bond_stuff_in_progress.py
+    I have recently realized that these tests will need to point to fixed data sets for yields 
+    as the bond values will change day to day as the yield curves on which they are based move as well
+    """
      def test_portfolio_VaR(self):
         self.assertEqual({'Portfolio VaR Percent': 6.5004978313881256, 'Portfolio VaR': 417084.6525381055},
             value_at_risk_portfolio_set('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv', 95))
