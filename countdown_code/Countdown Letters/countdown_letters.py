@@ -10,7 +10,7 @@ wcl = []
 for letter in [chr(i) for i in range(ord('a'),ord('z')+1)]:
 	wcl.append(letters.count(letter))
 
-regex_input = r'\s([' + re.escape(letters) + r']{5,9})\s'
+regex_input = r'\W([' + re.escape(letters) + r']{5,9})\W'
 pattern = re.compile(regex_input)
 match_list = []
 delete_list = []
