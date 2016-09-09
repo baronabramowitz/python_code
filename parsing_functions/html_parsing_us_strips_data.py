@@ -1,8 +1,12 @@
 import re
 import xlwings as xw
 import pandas as pd
+import numpy as np
 import requests
-from datetime import datetime
+import scipy as sp
+import matplotlib.pyplot as plt
+from scipy.interpolate import InterpolatedUnivariateSpline
+from datetime import datetime, date
 
 def generate_yield_curve_data():
 	'''
@@ -49,7 +53,21 @@ def generate_yield_curve_data():
 	strips_output.columns = ['Date','Yield']
 	strips_output['Date'] = pd.to_datetime(strips_output['Date'])
 	strips_output = strips_output.sort_values('Date')
+	days_to_maturity = []
+	for mat_date in strips_output['Date']:
+		dtm = (mat_date - datetime.today()).days
+		days_to_maturity.append(dtm)
+	days_to_mat_series = pd.Series(days_to_maturity)
+	strips_output['Days to Maturity'] = days_to_mat_series.values
 	strips_output.index = range(0,len(strips_output))
+	x1 = strips_output['Days to Maturity']
+	y1 = strips_output['Yield']
+	spl = InterpolatedUnivariateSpline(x1, y1)
+	plt.plot(x1, y1, 'ro', ms=5)
+	xs = np.linspace(min(x1), max(x1), len(strips_output))
+	plt.plot(xs, spl(xs), 'g', lw=3, alpha=0.7)
+	plt.show()
+
 
 			#Input any Excel output file you'd like, but it makes most sense to put it on a new sheet
 	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1').range('A1').value = strips_output
