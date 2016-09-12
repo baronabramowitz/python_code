@@ -60,24 +60,32 @@ def generate_yield_curve_data():
 	days_to_mat_series = pd.Series(days_to_maturity)
 	strips_output['Days to Maturity'] = days_to_mat_series.values
 	strips_output.index = range(0,len(strips_output))
+	strips_output = strips_output.drop_duplicates('Date', keep = 'last')
+	print(strips_output)
 	x1 = strips_output['Days to Maturity']
 	y1 = strips_output['Yield']
 	spl = InterpolatedUnivariateSpline(x1, y1)
 	plt.plot(x1, y1, 'ro', ms=5)
-	xs = np.linspace(min(x1), max(x1), len(strips_output))
+	xs = np.linspace(min(x1), max(x1), 1000)
+	#spl_output = spl(xs)
+	#print(spl_output)
 	plt.plot(xs, spl(xs), 'g', lw=3, alpha=0.7)
 	plt.show()
 
-
 			#Input any Excel output file you'd like, but it makes most sense to put it on a new sheet
-	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1').range('A1').value = strips_output
-	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1').range('A1').options(pd.DataFrame, expand='table').value
+	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1'
+			).range('A1').value = strips_output
+	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1'
+			).range('A1').options(pd.DataFrame, expand='table').value
+	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1'
+			).range('D:D').value = None
 	#Chart built from next four lines
 	chart = xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet2').charts.add()
-	chart.set_source_data(xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1').range('B1').expand())
+	chart.set_source_data(xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx')
+		.sheets('Sheet1').range('B1').expand())
 	chart.chart_type = 'line'
 	chart.name = 'Yield Curve'
-	return strips_output
+	return spl
 
 if __name__ == "__main__":
 	generate_yield_curve_data()
