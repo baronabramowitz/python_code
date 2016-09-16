@@ -4,12 +4,10 @@ import webhose
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-#webhose_api_key = '911521cc-3d9f-4d25-a8c1-c687158a2b32'
-#textrazor_api_kei = '0cccf5d913c80e557758ac26850f76992a71924ad031a217b0e5883e'
 
 def query_analytics():
 	search_input = str(input('What are the company query parameters?   '))
-	webhose.config('911521cc-3d9f-4d25-a8c1-c687158a2b32')
+	webhose.config('YOUR-API-KEY')
 	webhose_response = webhose.search(search_input).posts
 	url_list_omgili = []
 	url_list = []
@@ -45,7 +43,7 @@ def page_analytics(url):
 			content.append(p.get_text())
 		page_text = " ".join(content)
 
-		textrazor.api_key = "0cccf5d913c80e557758ac26850f76992a71924ad031a217b0e5883e"
+		textrazor.api_key = "YOUR-API-KEY"
 
 		client = textrazor.TextRazor(extractors=["entities", "topics"])
 		try:
