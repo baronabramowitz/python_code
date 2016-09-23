@@ -2,7 +2,7 @@ __author__ = 'Baron Abramowitz'
 __version__ = '0.1.0'
 __maintainer__ = 'Baron Abramowitz'
 __email__ = 'baron.abramowitz@yahoo.com'
-__date__ = '22/08/2016'
+__date__ = '23/09/2016'
 
 """Bond Valuation Code & Bond Portfolio Valuation Code"""
 import date_functions as df
@@ -97,17 +97,11 @@ def value_bond_var(face_value,maturity_date,coupon_rate,payments_per_year,discou
 
 def value_portfolio(csv_location):
     """Calculates the value of a portfolio of bonds (as a CSV)"""
-
-    bond_val_portfolio = []
-    bond_maturity_set = []
     portfolio = gp.generate_portfolio(csv_location)
-
-    for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],
-                   portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type']
-                ):
-        bond_maturity_set.append(value_bond(*bond)[3])
-        bond_val_portfolio.append(value_bond(*bond)[0])
-
+    bond_val_portfolio = [(value_bond(*bond)[3]) for bond in zip(portfolio['face_value'],portfolio['maturity_date'],
+        portfolio['coupon_rate'],portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type'])]
+    bond_maturity_set = [(value_bond(*bond)[0]) for bond in zip(portfolio['face_value'],portfolio['maturity_date'],
+        portfolio['coupon_rate'],portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type'])]
     portfolio_val = sum(bond_val_portfolio)
     return {'Portfolio Value':portfolio_val, 'Set of Bond Values' : bond_val_portfolio, 'Set of Bond Maturities' : bond_maturity_set}
 
