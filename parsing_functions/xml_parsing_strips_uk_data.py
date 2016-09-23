@@ -31,8 +31,8 @@ def build_strips_curve():
 		'2&page=Gilts/Daily_Prices')
 	page = requests.get(data_location)
 	if page.status_code==200:
-		raw_xml = open(('/Users/baronabramowitz/Desktop/todays_'
-			'strips_data_raw'),'w')
+		base_data_location_string = '/Users/baronabramowitz/Desktop/todays_strips_data_raw' + str(datetime.now())
+		raw_xml = open(base_data_location_string,'w')
 		raw_xml.write('Download Timestamp: ' 
 					+ str(datetime.now()) 
 					+ page.text)
@@ -59,10 +59,7 @@ def build_strips_curve():
 	strips_output.columns = ['Date','Yield']
 	strips_output['Date'] = pd.to_datetime(strips_output['Date'])
 	strips_output = strips_output.sort_values('Date')
-	days_to_maturity = []
-	for mat_date in strips_output['Date']:
-		dtm = (mat_date - datetime.today()).days
-		days_to_maturity.append(dtm)
+	days_to_maturity = [(mat_date - datetime.today()).days for mat_date in strips_output['Date']]
 	days_to_mat_series = pd.Series(days_to_maturity)
 	strips_output['Days to Maturity'] = days_to_mat_series.values
 	strips_output.index = range(0,len(strips_output))

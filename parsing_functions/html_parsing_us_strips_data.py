@@ -53,10 +53,7 @@ def generate_yield_curve_data():
 	strips_output.columns = ['Date','Yield']
 	strips_output['Date'] = pd.to_datetime(strips_output['Date'])
 	strips_output = strips_output.sort_values('Date')
-	days_to_maturity = []
-	for mat_date in strips_output['Date']:
-		dtm = (mat_date - datetime.today()).days
-		days_to_maturity.append(dtm)
+	days_to_maturity = [(mat_date - datetime.today()).days for mat_date in strips_output['Date']]
 	days_to_mat_series = pd.Series(days_to_maturity)
 	strips_output['Days to Maturity'] = days_to_mat_series.values
 	strips_output.index = range(0,len(strips_output))
