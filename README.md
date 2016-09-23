@@ -18,9 +18,9 @@ bond information from the previous day's close.
 
 ##parsing_functions includes:
 html_parsing_us_strips_data.py is a single function that:
-* Downloads the prior trading day's yields for US Treasury STRIPS of all trading maturities, inserts those STRIPS yields into an .xlsx and generates a yield curve from the STRIPS maturity dates and yields.
+* Downloads the prior trading day's yields for US Treasury STRIPS of all trading maturities, inserts those STRIPS yields into an .xlsx and generates a yield curve from the STRIPS maturity dates and yields. Also generates and plots a continuous yield curve by interpolating between maturity dates by using a cubic spline.
 
 xml_parsing_strips_data.py is a single function that:
-* Downloads the prior trading day's yields for UK Gilt STRIPS of all trading maturities, inserts those STRIPS yields into an .xlsx and generates a yield curve from the STRIPS maturity dates and yields.
+* Downloads the prior trading day's yields for UK Gilt STRIPS of all trading maturities, inserts those STRIPS yields into an .xlsx and generates a yield curve from the STRIPS maturity dates and yields. Also generates and plots a continuous yield curve by interpolating between maturity dates by using a cubic spline.
 
 **The remaining files are simply precursors to bond_stuff_in_progress.py**
