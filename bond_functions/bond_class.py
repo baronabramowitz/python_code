@@ -8,6 +8,7 @@ import BankDate_ as BD
 from math import exp
 
 class Bond(object):
+	"""Trailing _c is for continuous compounding"""
 	def __init__(self, face_value,maturity_date,coupon_rate,payments_per_year,rating,btype):
 		self.face_value = face_value
 		self.maturity_date = maturity_date
@@ -79,7 +80,7 @@ class Bond(object):
 				pass
 		return pv_fcf
 
-	def present_value_fcf_continuous(self):
+	def present_value_fcf_c(self):
 		"""Currently hard coded for Actual/365 day count but can be updated to reflect othe conventions"""
 		pv_fcf = []
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
@@ -98,8 +99,8 @@ class Bond(object):
 	def value(self):
 		return sum(self.present_value_fcf())
 
-	def value_continuous(self):
-		return(sum(self.present_value_fcf_continuous()))
+	def value_c(self):
+		return(sum(self.present_value_fcf_c()))
 
 	def duration(self):
 		"""Calculates the duration of a Bond object"""
@@ -109,8 +110,17 @@ class Bond(object):
 		#mm_duration = bond_duration/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
 		return sum(intermediate_dur_calcs)/self.value()
 
+	def duration_c(self):
+		"""Calculates the duration of a Bond object using continuous compounding"""
+		years_to_payments = [days / 365 for days in self.days_to_payments()]
+		intermediate_dur_calcs = [(cf[0] * cf[1]) for cf in zip(self.present_value_fcf_c(), years_to_payments)]
+		return sum(intermediate_dur_calcs)/self.value_c()
+
 	def modified_duration(self):
 		return self.duration()/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
+
+	def modified_duration_c(self):
+		return self.duration_c()/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
 
 	def convexity(self):
 		"""Calculates the convexity of an indivudal bond"""
@@ -119,6 +129,14 @@ class Bond(object):
 			for pv_cf in zip(self.present_value_fcf(),years_to_payments)]
 		return (sum(intermediate_conv_calcs) / 
 			(self.value() * (1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)**2))
+
+	def convexity_c(self):
+		"""Calculates the convexity of an indivudal bond using continuous compounding"""
+		years_to_payments = [days / 365 for days in self.days_to_payments()]
+		intermediate_conv_calcs = [((pv_cf[0])*(pv_cf[1]**2+pv_cf[1])) 
+			for pv_cf in zip(self.present_value_fcf_c(),years_to_payments)]
+		return (sum(intermediate_conv_calcs) / 
+			(self.value_c() * (1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)**2))
 		
 
 
@@ -131,8 +149,16 @@ if __name__ == "__main__":
 				rating = 'AAA',
 				btype = 'Corporate')
 	print(bond1.value())
-	print(bond1.value_continuous())
-	print((bond1.value_continuous()/bond1.value())*100)
+	print(bond1.value_c())
+	print((bond1.value_c()/bond1.value())*100)
+
+	print(bond1.duration())
+	print(bond1.duration_c())
+	print((bond1.duration_c()/bond1.duration())*100)
+
+	print(bond1.convexity())
+	print(bond1.convexity_c())
+	print((bond1.convexity_c()/bond1.convexity())*100)
 
 	"""
 	print(bond1.face_value)
