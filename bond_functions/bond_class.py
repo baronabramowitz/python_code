@@ -1,3 +1,8 @@
+__author__ = 'Baron Abramowitz'
+__maintainer__ = 'Baron Abramowitz'
+__email__ = 'baron.abramowitz@yahoo.com'
+__date__ = '03/10/2016'
+
 import date_functions as df
 import BankDate_ as BD
 
@@ -80,19 +85,20 @@ class Bond(object):
 		"""Calculates the duration of a Bond object"""
 		years_to_payments = [days / 365 for days in self.days_to_payments()]
 		intermediate_dur_calcs = [(cf[0] * cf[1]) for cf in zip(self.present_value_fcf(), years_to_payments)]
-		bond_duration = sum(intermediate_dur_calcs)/self.value()
-		mm_duration = bond_duration/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
-		return {'Bond Duration' : bond_duration, 'Modified Duration' : mm_duration}
+		#bond_duration = sum(intermediate_dur_calcs)/self.value()
+		#mm_duration = bond_duration/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
+		return sum(intermediate_dur_calcs)/self.value()
+
+	def modified_duration(self):
+		return self.duration()/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
 
 	def convexity(self):
 		"""Calculates the convexity of an indivudal bond"""
 		years_to_payments = [days / 365 for days in self.days_to_payments()]
-		#cfs = list(zip(self.present_value_fcf(),years_to_payments))
 		intermediate_conv_calcs = [((pv_cf[0])*(pv_cf[1]**2+pv_cf[1])) 
 			for pv_cf in zip(self.present_value_fcf(),years_to_payments)]
-		bond_convexity = (sum(intermediate_conv_calcs) / 
+		return (sum(intermediate_conv_calcs) / 
 			(self.value() * (1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)**2))
-		return {'Bond Convexity':bond_convexity}
 		
 
 
