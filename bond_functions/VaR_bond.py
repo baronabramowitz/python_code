@@ -22,14 +22,15 @@ def generate_yield_comparison_table_raw(csv_location):
     And then revaluing the bond under these new yields
     """
 
-    daily_yield_change_array = pd.read_csv(csv_location,
-                                           header = 0,
-                                           delimiter = ',',
-                                           converters = {'Date':str,'2yr AA':np.float64,'2yr A':np.float64,
-                                                        '5yr AAA':np.float64,'5yr AA':np.float64, '5yr A':np.float64,
-                                                        '10yr AAA':np.float64, '10yr AA':np.float64,'10yr A':np.float64,
-                                                         '20yr AAA':np.float64,'20yr AA':np.float64, '20yr A':np.float64,
-                                            }
+    daily_yield_change_array = pd.read_csv(
+            csv_location,
+            header = 0,
+            delimiter = ',',
+            converters = {'Date':str,'2yr AA':np.float64,'2yr A':np.float64,
+                        '5yr AAA':np.float64,'5yr AA':np.float64, '5yr A':np.float64,
+                        '10yr AAA':np.float64, '10yr AA':np.float64,'10yr A':np.float64,
+                         '20yr AAA':np.float64,'20yr AA':np.float64, '20yr A':np.float64,
+            }
     )
     return daily_yield_change_array
 
@@ -39,7 +40,8 @@ yesterdays_yield_close_values_corp = generate_yield_comparison_table_raw (
 
 
 def value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentile):
-    """Takes a table of daily bond yield quotes, extracts the quotes for the ratings, determines the lower bound for the inputted percentile.
+    """Takes a table of daily bond yield quotes, extracts the quotes for the ratings, 
+    determines the lower bound for the inputted percentile.
 
     Currently supported bond ratings limited to:                    
                         'Corporate 2yr AA','Corporate 2yr A',
@@ -49,17 +51,14 @@ def value_at_risk_yield_change_upper_bound_by_rating(csv_location,loss_percentil
     Percentile as a whole number, eg 95th percentile as 95 not .95.
     Intended to be run before trading, once a trading day and the VaR bounds should be stored.
     """
-
     daily_yield_change_array = generate_yield_comparison_table_raw(csv_location)
-    upper_bounds = []
     bond_ratings_set = ['2yr_AA','2yr_A',
                         '5yr_AAA','5yr_AA', '5yr_A',
                         '10yr_AAA','10yr_AA','10yr_A',
                         '20yr_AAA','20yr_AA', '20yr_A'
     ]
-    for bond_rating_val in bond_ratings_set:
-        upper_bounds.append(np.percentile(daily_yield_change_array[bond_rating_val],loss_percentile))
-
+    upper_bounds = [(np.percentile(daily_yield_change_array[bond_rating_val],loss_percentile))
+                    for bond_rating_val in bond_ratings_set]
     upper_bound_set = dict(zip(bond_ratings_set,upper_bounds))
     return upper_bound_set
 
@@ -93,24 +92,17 @@ def value_at_risk_portfolio_set(portfolio_csv_location,loss_percentile):
     """
     portfolio = generate_portfolio(portfolio_csv_location)
     val_portfolio_output = value_portfolio(portfolio_csv_location)
-
-    loss_percentiles_pre_zip = []
-    for item in val_portfolio_output['Set of Bond Values']:
-        loss_percentiles_pre_zip.append(loss_percentile)
+    bond_values = val_portfolio_output['Set of Bond Values']
+    loss_percentiles_pre_zip = [loss_percentile for item in val_portfolio_output['Set of Bond Values']]
 
     yield_change_csv_location_pre_zip = []
     for item in val_portfolio_output['Set of Bond Values']:
         yield_change_csv_location_pre_zip.append(
             '/Users/baronabramowitz/Desktop/cleaned_corporate_bond_yield_change_data.csv')
 
-    bond_var_portfolio_squared = []
-    for bond in zip(portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],
-                   portfolio['payments_per_year'],portfolio['bond_rating'],portfolio['bond_type'],
-                   yield_change_csv_location_pre_zip,loss_percentiles_pre_zip
-                   ):
-        bond_var = value_at_risk_single_bond(*bond)['VaR']
-        bond_var_squared = bond_var ** 2
-        bond_var_portfolio_squared.append(bond_var_squared)
+    bond_var_portfolio_squared = [((value_at_risk_single_bond(*bond)['VaR'])**2) for bond in zip(
+        portfolio['face_value'],portfolio['maturity_date'],portfolio['coupon_rate'],portfolio['payments_per_year'],
+        portfolio['bond_rating'],portfolio['bond_type'],yield_change_csv_location_pre_zip,loss_percentiles_pre_zip)]
 
     inter_sum_bond_var_squared = sum(bond_var_portfolio_squared)
     portfolio_value_at_risk = sqrt(inter_sum_bond_var_squared)
