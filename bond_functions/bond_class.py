@@ -5,6 +5,7 @@ __date__ = '03/10/2016'
 
 import date_functions as df
 import BankDate_ as BD
+from math import exp
 
 class Bond(object):
 	def __init__(self, face_value,maturity_date,coupon_rate,payments_per_year,rating,btype):
@@ -64,6 +65,7 @@ class Bond(object):
 		return coupon_payment
 
 	def present_value_fcf(self):
+		"""Currently hard coded for Actual/365 day count but can be updated to reflect othe conventions"""
 		pv_fcf = []
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
 		for i, day_count in enumerate(self.days_to_payments()):
@@ -76,10 +78,28 @@ class Bond(object):
 			else:
 				pass
 		return pv_fcf
+
+	def present_value_fcf_continuous(self):
+		"""Currently hard coded for Actual/365 day count but can be updated to reflect othe conventions"""
+		pv_fcf = []
+		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
+		for i, day_count in enumerate(self.days_to_payments()):
+			if day_count == max(self.days_to_payments()):
+				pv_cf = (self.coupon_payment() + self.face_value) * exp(-(discount_rates[i]/100) * (day_count/365))
+				pv_fcf.append(pv_cf)
+			elif day_count != 0 and day_count != max(self.days_to_payments()):
+				pv_cf = self.coupon_payment() * exp(-(discount_rates[i]/100) * (day_count/365))
+				pv_fcf.append(pv_cf)
+			else:
+				pass
+		return pv_fcf
 	        
 	   
 	def value(self):
 		return sum(self.present_value_fcf())
+
+	def value_continuous(self):
+		return(sum(self.present_value_fcf_continuous()))
 
 	def duration(self):
 		"""Calculates the duration of a Bond object"""
@@ -110,8 +130,9 @@ if __name__ == "__main__":
 				payments_per_year = 2,
 				rating = 'AAA',
 				btype = 'Corporate')
-
-	print(bond1.convexity())
+	print(bond1.value())
+	print(bond1.value_continuous())
+	print((bond1.value_continuous()/bond1.value())*100)
 
 	"""
 	print(bond1.face_value)
