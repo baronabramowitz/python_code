@@ -1,0 +1,1211 @@
+http://www.techmarketview.com/ukhotviews/archive/2016/09/14/lombard-risk-revamp-accelerates-with-cloud-offering
+Cloud computing 0.5578 0.9346
+Cloud computing 0.5578 0.9346
+Margin (finance) 0.5865 1.482
+Cloud computing 0.5578 0.9346
+Cloud computing 0.5578 2.053
+Cloud computing 0.5578 0.9346
+http://www.watchlistnews.com/lombard-risk-management-plc-lrm-given-corporate-rating-at-finncap/1008483.html
+Stock 0.5806 1.782
+Stock 0.5806 1.782
+Stock 0.5806 1.782
+Financial analyst 0.6145 0.9078
+http://www.nbcphiladelphia.com/news/national-international/Samsungs-Quick-Fix-for-Galaxy-Note-7-is-No-Full-Recharge--393368181.html
+Samsung Galaxy Note (original) 0.5701 2.171
+Samsung 0.6783 12.7
+Samsung Galaxy Note (original) 0.5701 2.171
+Smartphone 0.6281 11.59
+Samsung 0.6783 12.7
+Samsung 0.6783 12.7
+Samsung Electronics 0.7655 25.89
+Smartphone 0.6281 15.41
+Media of South Korea 0.5159 3.222
+Samsung 0.6783 12.7
+Samsung 0.6783 12.7
+Yonhap 0.6025 6.263
+Samsung 0.6783 12.7
+Samsung 0.6783 12.7
+Samsung 0.5718 11.22
+Samsung 0.5718 11.22
+Samsung 0.5718 11.22
+Samsung 0.5718 11.22
+SK Telecom 0.6431 8.448
+Samsung 0.5718 11.22
+Samsung 0.5718 11.22
+http://onlinelibrary.wiley.com/doi/10.1111/jcc4.12173/abstract;jsessionid=9C2871469FA76AE1247C60F5B77716EC.f04t01
+http://www.okay.world/2016/09/alemannenstrasse-50679-cologne-germany.html
+link invalid
+http://www.indypl.org/readersconnection/?p=53060
+http://www.iisd.ca/oceans/paris-agreement/html/enbplus186num5e.html
+Kyoto Protocol 0.6999 1.155
+2015 United Nations Climate Change Conference 0.8614 1.092
+United Nations Framework Convention on Climate Change 0.7591 14.62
+United Nations Framework Convention on Climate Change 0.7616 12.19
+United Nations Framework Convention on Climate Change 0.7591 14.62
+United Nations Framework Convention on Climate Change 0.6924 13.86
+Climate 0.5348 8.749
+Climate change 0.6106 16.77
+Politics of global warming 0.7813 5.886
+Climate 0.5348 8.749
+Climate change 0.6106 16.77
+Seawater 0.5157 9.704
+Climate 0.5348 8.749
+Climate change 0.6106 16.77
+Sea 0.6274 1.654
+Ocean acidification 0.782 22.59
+Climate 0.5348 8.749
+Climate change 0.6106 16.77
+Climate 0.5348 8.749
+Climate change 0.6106 16.77
+Sustainability 0.7049 2.572
+Sustainable fishery 0.6733 6.338
+Ocean acidification 0.5216 14.96
+Sustainability 0.7049 3.722
+Sustainable development 0.6043 7.263
+Sustainability 0.7049 3.172
+Sustainable development 0.6043 7.263
+Sustainable Development Goals 0.6911 5.835
+Sustainability 0.7049 2.915
+Ocean acidification 0.5216 14.96
+United Nations Framework Convention on Climate Change 0.5646 14.8
+Intergovernmental Panel on Climate Change 0.5817 11.25
+Intergovernmental Panel on Climate Change 0.7066 25.27
+United Nations General Assembly 0.7315 15.17
+United Nations General Assembly 0.5543 5.225
+United Nations General Assembly 0.7315 15.17
+Sustainable Development Goals 0.9119 2.661
+Intergovernmental Panel on Climate Change 0.5817 11.25
+United Nations Framework Convention on Climate Change 0.5398 15.52
+Politics of global warming 0.5944 2.423
+Effects of global warming 0.5109 6.425
+Food and Agriculture Organization of the United Nations 0.6542 11
+Food and Agriculture Organization of the United Nations 0.7801 27.44
+Sustainability 0.6192 3.478
+Sustainable development 0.5081 6.162
+Global warming 0.9572 4.99
+Ocean acidification 0.7689 6.125
+Intergovernmental Panel on Climate Change 0.6645 10.25
+United Nations Framework Convention on Climate Change 0.6627 11.65
+Coral 0.5047 6.272
+Coral reef 0.5934 16.66
+Coral 0.5047 2.904
+Coral reef 0.7612 0.9332
+Coral 0.5047 7.717
+Sustainable fishery 0.6946 0.9089
+Psychological resilience 0.574 1.842
+Psychological resilience 0.574 1.842
+Ocean governance 0.5451 1.117
+Biodiversity 0.5142 9.546
+Climate change mitigation 0.6418 5.885
+Aquaculture 0.5294 9.972
+Adaptation to global warming 0.8407 3.226
+Ecological resilience 0.7005 3.037
+Climate change mitigation 0.6659 9.432
+Carbon sequestration 0.5989 4.636
+Seagrass 0.5443 9.05
+Carbon sequestration 0.5989 4.636
+Carbon sink 0.5055 1.109
+Climate engineering 0.6783 9.251
+Iron fertilization 0.642 7.858
+Ecology 0.5149 14.88
+Politics of global warming 0.5813 5.459
+Sustainability 0.6758 4.66
+United Nations Framework Convention on Climate Change 0.5852 19.87
+Desertification 0.5145 8.695
+United Nations Convention to Combat Desertification 0.889 2.728
+United Nations Convention to Combat Desertification 0.6962 4.571
+Convention on Biological Diversity 0.5182 16
+Carbon sequestration 0.5943 3.353
+Green Climate Fund 0.6067 4.004
+Non-governmental organization 0.5409 4.389
+Conservation biology 0.7577 2.069
+Biodiversity 0.5872 13.75
+Sustainability 0.6452 3.428
+Ecological resilience 0.664 2.475
+Globalization 0.5334 0.9744
+United Nations Framework Convention on Climate Change 0.7127 16.08
+United Nations Framework Convention on Climate Change 0.8835 7.941
+Marine protected area 0.6164 5.465
+Protected area 0.5343 0.978
+Sustainability 0.7187 3.58
+Sustainable fishery 0.6036 5.396
+Sustainability 0.7187 4.73
+Capacity development 0.6105 1.104
+Sustainability 0.7187 3.58
+International Coral Reef Initiative 0.509 2.144
+United Nations Framework Convention on Climate Change 0.5997 15.48
+Kyoto Protocol 0.5255 1.068
+United Nations Framework Convention on Climate Change 0.5997 15.48
+United Nations Framework Convention on Climate Change 0.5997 15.48
+IPCC Fourth Assessment Report 0.5462 0.9853
+Intergovernmental Panel on Climate Change 0.5102 9.909
+Intergovernmental Panel on Climate Change 0.5102 9.909
+Intergovernmental Panel on Climate Change 0.5102 9.909
+Sustainable Development Goals 0.5341 2.217
+Intergovernmental Panel on Climate Change 0.5102 9.909
+International Institute for Sustainable Development 0.9554 4.848
+http://www.marketresearch.com/Timetric-v3917/Personal-Accident-Health-Insurance-India-10299450/
+Health insurance 0.5346 5.348
+Insurance 0.75 11.2
+Insurance 0.75 11.76
+Health insurance 0.5346 5.348
+Insurance 0.75 11.76
+Health insurance 0.5346 5.348
+Insurance 0.75 11.76
+Life insurance 0.568 5.885
+Insurance 0.75 11.76
+Insurance 0.75 11.76
+Insurance 0.8891 4.521
+Insurance 0.9537 1.201
+Investment 0.6861 7.056
+Economy of India 0.6157 3.785
+Insurance 0.75 4.574
+Insurance 0.75 4.574
+Insurance 0.75 11.11
+Health insurance 0.5346 5.348
+Insurance 0.75 11.45
+Market analysis 0.793 1.869
+Health insurance 0.5346 5.348
+Insurance 0.75 11.45
+Market research 0.7551 2.786
+http://zolmax.com/investing/finncap-reiterates-corporate-rating-for-lombard-risk-management-plc-lrm/940811.html
+Stock 0.5252 1.739
+Stock 0.5252 1.739
+Stock 0.5252 1.739
+http://www.ovimagazine.com/art/13766
+Benedetto Croce 0.6306 1.657
+Benedetto Croce 0.5791 10.13
+Philosophy 0.6051 29.47
+Philosophy 0.5936 30.9
+Philosophy 0.6051 2.125
+Reason 0.5136 1.062
+Averroes 0.5185 24.62
+Plato 0.5375 32.96
+Averroes 0.5185 24.62
+Philosophy 0.5936 30.9
+Reason 0.5136 1.137
+Averroes 0.5698 23.51
+Philosophy 0.5336 20.56
+Philosophy 0.5336 20.56
+Averroes 0.5698 23.51
+Averroes 0.5698 23.51
+Plato 0.5187 32.28
+Modern philosophy 0.5419 2.797
+Philosophy 0.7426 31.94
+Martin Heidegger 0.6084 13.45
+Alfred North Whitehead 0.5184 6.179
+Averroes 0.5892 16.96
+Aristotle 0.5274 33.49
+Thomas Aquinas 0.5243 12.92
+Averroes 0.5892 16.96
+Thomas Aquinas 0.5243 12.92
+Aristotle 0.5274 33.49
+Philosophy 0.7575 31.68
+Philosophy 0.7575 31.68
+Reason 0.7035 1.323
+Philosophy 0.7426 31.94
+Truth 0.576 3.486
+Philosophy 0.7575 31.68
+Plato 0.7197 35.87
+Aristotle 0.6281 41.19
+Averroes 0.786 25.47
+Thomas Aquinas 0.8105 16.93
+Philosophy 0.7322 25.4
+Philosophy 0.7322 25.4
+Faith 0.5457 5.768
+Philosophy 0.7493 24.89
+Faith 0.5457 1.101
+Faith 0.5457 1.101
+Religion 0.5729 8.338
+Philosophy 0.7493 9.026
+Thomas Aquinas 0.8105 16.93
+Philosophy 0.7322 25.4
+Unmoved mover 0.5883 2.529
+Thomas Aquinas 0.8105 16.93
+Philosophy 0.7322 25.4
+Reason 0.842 1.496
+Faith 0.5457 5.768
+Aristotle 0.6281 41.19
+Thomas Aquinas 0.5334 13.45
+Thomas Aquinas 0.5334 13.45
+Philosophy 0.532 2.95
+Thomas Aquinas 0.5334 13.45
+Philosophy 0.5162 19.2
+Philosophy 0.5162 18.9
+Thomas Aquinas 0.5334 13.45
+Aristotle 0.5958 39.64
+Thomas Aquinas 0.5444 39.72
+Thomas Aquinas 0.6108 15.28
+Aristotle 0.5958 39.64
+Socrates 0.6733 19.13
+Plato 0.6502 36.34
+Wisdom 0.5088 2.491
+Philosophy 0.6702 23.93
+Humanities 0.5007 2.065
+Philosophy 0.6702 23.93
+Plato 0.6502 36.34
+Philosophy 0.6702 23.93
+The Clouds 0.5062 1.844
+Philosophy 0.5553 23.23
+Philosophy 0.5553 23.23
+Ancient history 0.5624 3.322
+Dark Ages (historiography) 0.526 5.189
+Christianity in the 4th century 0.5328 1.532
+High Middle Ages 0.5012 4.878
+Western culture 0.5422 4.096
+Philosophy 0.6429 3.229
+Religion 0.5795 17.65
+Islam 0.6317 38.82
+Islam 0.6317 34.06
+Ancient Greek philosophy 0.6828 8.109
+Philosophy 0.6255 19.62
+Aristotle 0.6159 31.54
+Quran 0.5587 37.16
+Philosophy 0.6429 3.229
+Early Middle Ages 0.6253 2.851
+Averroes 0.8468 28.7
+Aristotle 0.6159 31.54
+Averroes 0.8468 28.7
+Philosophy 0.6429 19.71
+Western philosophy 0.5041 7.751
+Islam 0.6365 34.54
+Muslim world 0.8023 7.575
+Philosophy 0.6429 19.71
+Middle Ages 0.7406 7.393
+Classical antiquity 0.8855 8.862
+Philosophy 0.5954 23.27
+Science 0.557 2.846
+Philosophy 0.6142 3.579
+Western world 0.8173 1.251
+University 0.6661 1.729
+Europe 0.5945 5.347
+The Renaissance 0.7164 24.02
+Dark Ages (historiography) 0.8172 6.88
+Modernity 0.5028 2.475
+History of philosophy 0.7212 5.206
+Philosophy 0.5954 23.27
+Western world 0.8173 1.224
+Philosophy 0.6142 3.579
+Byzantine Empire 0.7097 39.45
+Western world 0.8173 1.247
+Madrasa 0.6388 2.325
+University 0.6661 1.729
+Science 0.557 2.846
+Age of Enlightenment 0.561 16.64
+University 0.6661 2.039
+The Renaissance 0.7164 24.02
+Constantinople 0.5583 29.06
+Byzantine Empire 0.6458 132.3
+Christianity 0.6424 4.998
+Roman Empire 0.5119 6.464
+Christianity 0.6424 4.998
+Christianity in the 4th century 0.6783 2.181
+Paganism 0.636 16.61
+Christianization 0.7533 6.324
+Catholic Church 0.5375 2.303
+Christianity 0.6424 4.998
+Christianity 0.6424 4.998
+Ancient Greek philosophy 0.5656 7.271
+Philosophy 0.5439 16.94
+Christianity 0.6424 9.153
+Thomas Aquinas 0.5815 15.15
+Averroes 0.5977 24.46
+Philosophy 0.5618 1.507
+Western world 0.7544 1.29
+Philosophy 0.5618 2.716
+Averroes 1 26.72
+Averroes 1 30.94
+Islamic philosophy 0.8027 6.714
+Philosophy 0.5036 16.62
+Averroes 1 26.72
+Muslim world 0.557 4.539
+Averroes 1 28.53
+Averroes 1 26.72
+Muslim world 0.557 4.539
+Averroes 1 26.72
+Ancient Greek philosophy 0.534 6.359
+Philosophy 0.5036 16.62
+Averroes 1 26.72
+Averroes 0.9224 19.74
+Philosophy 0.6751 20.57
+Philosophy 0.6751 20.57
+Reason 0.6984 1.337
+Faith 0.5176 6.58
+Faith and rationality 0.5902 1.599
+Reason 0.6984 1.337
+Thomas Aquinas 0.773 19.03
+Heresy 0.6188 12.99
+Religion 0.5759 1.41
+Philosophy 0.691 7.363
+Averroes 0.9224 19.74
+Thomas Aquinas 0.773 19.03
+Thomas Aquinas 0.773 19.03
+Heresy 0.5978 14.62
+Aristotle 0.5298 29.37
+Philosophy 0.6751 20.57
+Heresy 0.5978 14.41
+Thomas Aquinas 0.773 19.03
+Christian Church 0.5651 1.062
+Averroes 0.6951 21.56
+Aristotle 0.5298 29.37
+Islam 0.5375 23.06
+Muslim world 0.5732 5.286
+University of al-Qarawiyyin 0.6629 1.272
+University 0.6064 1.59
+University 0.6064 1.515
+Philosophy 0.5135 20.33
+Science 0.5895 2.672
+Philosophy 0.5135 20.33
+Science 0.5895 2.672
+Muslim world 0.5758 4.241
+Age of Enlightenment 0.5184 15.12
+The Renaissance 0.5298 20.8
+Western world 0.688 1.955
+Byzantine Empire 0.5163 35.87
+Western world 0.688 1.955
+Late Middle Ages 0.5342 3.487
+Middle Ages 0.5862 6.303
+Philosophy 0.53 20.34
+Averroes 1 24.34
+Philosophy 0.8819 27.05
+Thomas Aquinas 0.8345 14.81
+Averroes 1 28.84
+University 0.8861 2.671
+Medieval university 1 1.146
+University 0.8861 2.671
+Curriculum 0.6384 4.468
+Logic 0.5719 12.86
+Metaphysics 0.5988 17.81
+Natural science 0.6662 4.71
+Science 0.617 3.128
+Philosophy 0.8819 27.05
+Theology 0.6818 20.84
+Philosophy 0.8819 27.05
+Philosophy 0.8986 25.5
+Curriculum 0.5551 4.065
+Aristotle 0.8771 29.84
+Aristotle 0.7422 35.27
+Averroes 1 24.34
+Aristotle 0.7422 35.27
+Aristotle 0.8771 29.84
+Averroes 1 24.34
+Aristotle 0.7422 35.27
+Aristotle 0.8771 29.84
+Thomas Aquinas 0.565 12.33
+Al-Ghazali 0.9307 2.606
+Early Islamic philosophy 0.9581 0.939
+Al-Ghazali 0.9286 1.623
+Philosophy 0.6417 23.69
+Theology 0.5746 6.796
+Islam 0.56 32.6
+Islamic studies 0.5886 1.347
+Al-Farabi 0.9537 1.262
+Avicenna 0.6098 19.18
+Averroes 0.8674 28.42
+Philosophy 0.6417 23.69
+Islam 0.56 32.6
+Philosophy 0.6556 22.8
+Sufism 0.5474 27.02
+Avicenna 0.6098 19.18
+Al-Farabi 0.7266 21.82
+Al-Ghazali 0.9307 2.606
+Al-Farabi 0.7266 21.87
+Philosophy 0.6417 23.69
+Averroes 1 23.77
+Philosophy 0.6417 23.69
+Averroes 0.64 14.87
+Philosophy 0.5361 18.34
+Rhetoric 0.5168 7.872
+Philosophy 0.5537 2.954
+Reason 0.55 1.312
+Rhetoric 0.5168 7.872
+Philosophy 0.5361 18.34
+Philosophy 0.5361 18.34
+Averroes 0.64 14.87
+Thomas Aquinas 0.7494 17.46
+Averroism 0.8864 8.145
+Philosophy 0.6449 21.5
+Averroes 0.8603 24.5
+Thomas Aquinas 0.7494 17.46
+Existence 0.5095 1.02
+God 0.5362 18.5
+Nous 0.8258 1.54
+Thomas Aquinas 0.7494 17.46
+Christian theology 0.5159 14.12
+Theology 0.607 8.106
+Averroes 0.8603 24.5
+Averroes 0.8603 24.5
+Duns Scotus 0.7278 17.67
+Albertus Magnus 0.6619 5.935
+Averroes 0.8603 24.5
+Islam 0.5125 24.03
+Philosophy 0.6449 21.5
+Philosophy 0.6449 21.5
+Islam 0.5125 24.03
+Islamic philosophy 0.8066 6.312
+Islam 0.5125 24.03
+Nothing 0.5116 1.389
+Philosophy 0.6449 21.5
+Philosophy 0.5269 3.873
+Aristotle 0.5022 28.77
+Thomas Aquinas 0.5493 14.24
+Thomas Aquinas 0.5493 14.24
+Philosophy 0.51 24.86
+Aristotle 0.5022 28.77
+Aristotle 0.5022 28.77
+Averroes 0.5946 17.25
+Thomas Aquinas 0.5493 14.24
+Philosophy 0.51 24.86
+Reason 0.5931 1.199
+Philosophy 0.51 24.86
+Western esotericism 0.5464 6.514
+Philosophy 0.5657 25.19
+Philosophy 0.5657 25.19
+Thomas Aquinas 0.6779 15.97
+Thomas Aquinas 0.6189 44.28
+Thomas Aquinas 0.7042 14.34
+Heresy 0.5023 13.41
+Heresy 0.524 12.2
+Reason 0.6555 1.326
+Philosophy 0.7045 25.26
+Averroes 0.7074 21.6
+Averroes 0.7074 21.6
+Philosophy 0.6882 25.65
+Seven virtues 0.6778 3.589
+Virtue 0.5536 2.91
+Prudence 0.5471 5.494
+Courage 0.7653 4.549
+Wisdom 0.5443 3.317
+The School of Athens 0.7117 13.9
+Reason 0.5512 1.187
+The School of Athens 0.807 13.56
+Thomas Aquinas 0.5431 15.38
+Dialectic 0.5347 4.268
+Soul 0.639 4.843
+Resurrection 0.5403 3.406
+Resurrection of the dead 0.5471 10.62
+Christian theology 0.5477 4.474
+Soul 0.639 4.843
+Christian theology 0.5477 4.474
+Nous 0.5935 1.288
+Nous 1 2.178
+Nous 1 8.317
+Intelligence 0.5692 5.302
+Soul 0.8059 4.374
+Islam 0.6394 28.52
+Christianity and Islam 0.5595 1.365
+Philosophy 0.7729 19.61
+Aristotle 0.6862 26.83
+Philosophy 0.7535 19.9
+Philosophy 0.7535 19.9
+Philosophy 0.7535 19.9
+Religion 0.6687 18.12
+Philosophy 0.7535 19.9
+Philosophy 0.7535 19.9
+Quran 0.5195 34.46
+Philosophy 0.652 24.29
+Philosophy 0.652 24.29
+Philosophy 0.652 24.29
+Humanism 0.51 3.434
+Thomas Aquinas 0.663 17.27
+Thomas Aquinas 0.663 17.27
+Averroes 0.6592 20.14
+Rationalism 0.6044 7.204
+Aristotle 0.5247 35.14
+Philosophy 0.6693 23.55
+Philosophy 0.652 24.29
+Plato 0.5411 29.12
+Philosophy 0.5685 25.24
+Mysticism 0.5081 3.696
+Dominican Order 0.536 9.117
+Reason 0.534 1.255
+Reason 0.534 1.255
+Philosophy 0.5685 25.24
+Reason 0.534 1.255
+Truth 0.5829 4.277
+Reason 0.534 1.255
+Truth 0.6015 3.745
+Averroes 0.7455 21.2
+Aristotle 0.574 31.27
+Averroes 0.7455 21.2
+Philosophy 0.7978 25.59
+Positivism 0.7049 11.76
+Age of Enlightenment 0.5064 15.27
+Positivism 0.7049 11.8
+Philosophy 0.7978 25.59
+Positivism 0.7049 11.8
+Philosophy 0.7978 25.59
+Philosophy 0.7978 25.59
+Reason 0.5245 1.265
+God 0.5252 17.41
+Reason 0.5245 1.265
+Philosophy 0.6183 25.61
+Philosophy 0.6183 25.61
+Humanism 0.5031 3.444
+Common sense 0.5287 2.728
+Aristotle 0.5786 29.02
+Averroes 0.6336 17.22
+Common sense 0.5287 2.728
+Perennial philosophy 0.6188 6.877
+Philosophy 0.6183 25.61
+Scholasticism 0.6259 10.19
+Philosophy 0.6354 25.03
+Philosophy 0.8516 25.72
+Islamic philosophy 1 1.643
+Philosophy 0.8516 9.346
+Al-Farabi 1 1.32
+Avicenna 0.8541 19.91
+Averroes 0.824 31.14
+Western philosophy 0.6604 6.324
+Philosophy 0.8351 26.65
+Natural philosophy 0.501 5.668
+Philosophy 0.8351 26.65
+Metaphysics 0.6572 21.77
+Logic 0.5224 15.63
+Ethics 0.502 12.46
+Theory 0.5402 2.522
+Soul 0.659 10.52
+Nous 1 1.989
+Active intellect 1 7.16
+Nous 1 1.989
+Nous 1 1.989
+Theory 0.5402 2.522
+Eternity of the world 0.5751 3.614
+Concept 0.5214 4.311
+Active intellect 1 7.16
+Nous 1 1.989
+Unmoved mover 0.6679 2.328
+Intelligence 0.5854 1.237
+Unmoved mover 0.6679 2.328
+Essence 0.6309 2.9
+Existence 0.5204 1.134
+Theory 0.5402 1.185
+Concept 0.5214 3.912
+Concept 0.5214 4.26
+Nous 1 1.989
+Active intellect 1 7.16
+Nous 1 1.989
+Universe 0.5746 2.892
+Genesis creation narrative 0.8463 2.523
+Western philosophy 0.5444 6.625
+Philosophy 0.6901 21.58
+History 0.5042 1.548
+Church Fathers 0.563 6.876
+Philo 0.5164 20.34
+Eternity of the world 0.7805 4.056
+Genesis creation narrative 0.8463 2.523
+God 0.7086 23.3
+Genesis creation narrative 0.8463 2.523
+Existence 0.6547 0.956
+God 0.7086 23.3
+Universe 0.5746 2.958
+Existence of God 0.6758 7.189
+Christianity 0.6899 9.207
+Paganism 0.508 11.96
+Unmoved mover 0.8112 3.32
+Quinque viae 0.5852 0.9465
+Existence 0.6547 1.022
+God 0.7086 23.3
+Existence of God 0.6758 7.189
+Aristotle 0.648 36.21
+Jewish philosophy 0.7045 4.88
+Philosophy 0.709 7.879
+God 0.7086 23.3
+Heaven 0.5514 9.496
+Universe 0.5746 2.915
+Judeo-Christian 0.5892 8.646
+Christianity in the 1st century 0.6598 2.539
+Philo 0.5164 20.34
+Boethius 0.5314 13.31
+Boethius 0.5314 13.31
+The Consolation of Philosophy 0.6604 5.069
+Philosophy 0.5341 1.902
+The Consolation of Philosophy 0.5722 5.052
+God 0.5593 19.01
+God 0.5593 19.01
+Eternity 0.5608 4.906
+God 0.5593 19.01
+God 0.6184 15.42
+Confessions (Augustine) 0.8378 1.13
+Confessions (Augustine) 0.7706 2.334
+The City of God (book) 0.6938 4.28
+The City of God (book) 0.5984 4.337
+Augustine of Hippo 0.5842 7.264
+Eternity of the world 0.9713 4
+Faith 0.5037 4.96
+Sentences 0.7779 1.719
+Theology 0.5251 18.95
+Peter Lombard 0.5733 11.05
+Natural philosophy 0.5683 5.4
+Philosophy 0.6768 21.7
+Aristotle 0.6127 32.22
+Aristotle 0.6127 32.22
+Averroes 0.7947 24.81
+Maimonides 0.7167 16.83
+The Guide for the Perplexed 0.8586 7.214
+Aristotle 0.6127 32.22
+Aristotle 0.6127 32.22
+Averroes 0.8404 28.33
+Thomas Aquinas 0.8255 15.67
+Philosophy 0.7069 1.748
+God 0.6507 14.27
+Faith 0.589 5.293
+Faith 0.589 5.293
+Faith and rationality 0.5104 1.429
+Reason 0.7452 1.297
+Eternity of the world 1 5.662
+Maimonides 0.8481 22.47
+The Guide for the Perplexed 0.9633 9.125
+Aristotle 0.5828 32.07
+Aristotle 0.7419 27.2
+Metaphysics (Aristotle) 0.5849 1.174
+Eternity of the world 1 6.085
+John Philoponus 0.7707 9.211
+John Philoponus 0.7707 5.011
+Thomas Aquinas 0.5908 15.87
+Averroes 0.525 19.38
+Eternity of the world 1 6.085
+Ex nihilo 0.8866 1.149
+Ex nihilo 0.6885 12.6
+Thomas Aquinas 0.8732 16.43
+Ex nihilo 0.7064 6.023
+Siger of Brabant 0.6935 3.368
+Existence 0.5621 1.193
+Metaphysics (Aristotle) 0.8929 1.321
+Bonaventure 0.6572 7.177
+Ex nihilo 0.7064 1.057
+Averroes 0.7186 24.19
+Unmoved mover 0.6625 2.605
+Aristotle 0.5069 32.14
+William of Ockham 0.5194 2.116
+Thomas Aquinas 0.8732 16.43
+Truth 0.5338 3.64
+Philosophy 0.635 21.61
+Argument 0.537 1.849
+Argument 0.537 1.849
+Argument 0.537 1.849
+http://www.mideasttime.com/finncap-reiterates-corporate-rating-for-lombard-risk-management-plc-lrm/1267325.html
+Stock 0.5782 1.835
+Stock 0.5782 1.835
+Stock 0.5782 1.835
+http://indiacorplaw.blogspot.com/2016/09/the-need-for-cyber-security-due.html
+http://www.artlink.co.za/news_article.htm?contentID=40855
+http://www.tickerreport.com/banking-finance/2138620/credit-suisse-group-ag-analysts-give-aon-plc-aon-a-90-00-price-target.html
+Stock 0.5953 1.934
+Stock 0.6486 4.838
+Oppenheimer Holdings 0.566 3.225
+Stock 0.5953 1.934
+Jefferies Group 0.5413 4.191
+Stock 0.5953 1.934
+Stock 0.5225 1.625
+Beta (finance) 0.5608 0.9186
+Price–earnings ratio 0.8478 8.406
+Margin (finance) 0.6324 1.568
+Return on equity 0.5552 5.131
+Revenue 0.5318 3.345
+Stock 0.5225 1.625
+Security (finance) 0.536 2.898
+U.S. Securities and Exchange Commission 0.6572 16.12
+U.S. Securities and Exchange Commission 0.569 3.582
+Stock 0.7397 8.333
+Stock 0.7397 8.333
+Stock 0.7397 8.333
+Aon (company) 0.8624 4.625
+Human resource management 0.6877 2.075
+Aon (company) 0.8238 6.456
+Aon (company) 0.8238 6.456
+Human resource management 0.6877 2.075
+Aon (company) 0.8238 6.456
+Aon (company) 0.8238 6.456
+http://www.pocketpressrelease.com/2016/09/Wellness-as-a-concept-gaining-ground-as-40-percent-Indians-take-to-staying-fit-healthy-ICICI-Lombard-Research.html
+Health 0.5624 1.386
+ICICI Lombard 0.5434 3.595
+ICICI Lombard 0.5434 3.595
+ICICI Lombard 0.5434 3.595
+http://davidstockmanscontracorner.com/chinas-new-reform-plan-throw-money-at-the-problem-until-the-music-finally-stops/
+Economics 0.5637 1.532
+China 0.5704 7.523
+Investment 0.6338 7.506
+Economic growth 0.5728 1.095
+Debt 0.5517 7.488
+Finance 0.7513 3.502
+Renminbi 0.5255 2.541
+Mortgage loan 0.6265 4.464
+Renminbi 0.5255 2.541
+Investment 0.6338 7.506
+China 0.5704 7.523
+Debt 0.5517 7.488
+Economic growth 0.5728 1.095
+Economy 0.5199 6.544
+Xi Jinping 0.5762 9.83
+American Recovery and Reinvestment Act of 2009 0.5107 2.77
+Economy 0.5199 6.544
+Bank 0.6324 2.265
+China 0.5704 7.523
+United States 0.5141 70.98
+Central bank 0.6724 4.144
+Bank 0.5572 2.097
+Debt 0.5191 7.161
+Debt 0.5191 7.461
+Debt 0.5191 7.161
+Inflation 0.6536 11.85
+Bank 0.6183 4.108
+Debt 0.5191 7.161
+Bank 0.5572 2.247
+http://www.waterstechnology.com/buy-side-technology/analysis/2470815/lombard-risk-rolls-out-agilecollateral-to-tackle-buy-side-collateral-management
+High-frequency trading 0.5838 4.204
+Market data 0.6221 2.336
+Market data 0.6221 2.336
+Market data 0.6221 2.336
+Data governance 0.6053 1.195
+Risk 0.5549 2.548
+Risk 0.5549 2.49
+Globalization 0.5302 0.9026
+Risk 0.5549 2.581
+Mass media 0.5177 1.284
+Mobile app 0.5905 0.9769
+Subscription business model 0.6069 2.214
+News 0.5011 1.096
+Email 0.5846 6.493
+Mobile app 0.5905 0.9769
+Subscription business model 0.6069 2.214
+News 0.5011 1.096
+Email 0.5846 6.493
+Collateral management 0.5393 2.262
+Collateral management 0.5393 2.262
+Collateral management 0.5393 2.262
+Risk 0.5549 2.79
+Margin (finance) 0.5399 1.465
+Collateral management 0.5393 2.262
+Companies House 0.559 1.038
+http://in-cyprus.com/russian-central-bank-closes-legacy-laikis-rosprombank/
+Central bank 0.6313 3.434
+Bank 0.6423 2.158
+Hedge fund 0.5841 17.35
+Bank 0.6423 2.233
+Central bank 0.6313 3.434
+Bank 0.6423 2.158
+Bank 0.6423 2.469
+Bank 0.6423 2.158
+Central bank 0.6313 3.434
+Bank 0.6423 2.158
+Bank 0.6423 2.158
+Bank 0.6423 2.233
+Central bank 0.6313 3.434
+Bank 0.6423 2.158
+Bank 0.6423 2.158
+Bank 0.6423 2.233
+Money laundering 0.7707 4.9
+Finance 0.6067 3.369
+Terrorism financing 0.5727 2.593
+Deposit account 0.5123 0.9291
+Bank 0.6423 2.158
+Bailout 0.5969 4.985
+Bank 0.6423 2.233
+Deposit account 0.5123 0.9291
+http://www.indiablooms.com/ibns_new/health-details/H/2140/wellness-as-a-concept-gaining-ground-as-40-indians-take-to-staying-fit-healthy-research.html
+Health 0.6218 1.426
+Health 0.6218 1.535
+Health 0.6218 1.44
+Health 0.6218 1.682
+Health 0.6218 1.293
+Physical fitness 0.737 2.246
+Physical exercise 0.5186 2.999
+Health 0.7223 1.752
+Health 0.7223 1.752
+Health 0.7223 1.833
+Health 0.7223 1.833
+Health 0.7223 1.687
+Physical exercise 0.5186 3.29
+Health 0.7223 1.628
+Health 0.7223 1.628
+Health 0.7223 1.626
+Health 0.7223 1.626
+Health 0.7223 1.696
+Health 0.5768 2.047
+Health 0.5768 2.023
+Health 0.7223 1.685
+http://www.newkerala.com/news/2016/fullnews-119352.html
+http://forums.roadbikereview.com/cyclocross/29er-wheels-my-cx-356867.html#postcount5073279
+http://www.lombardodier.com/home/news/corporate/content/list-of-news/hydros--innovation-technology-and-performance.html
+Innovation 0.5757 3.148
+Program optimization 0.524 1.646
+Innovation 0.5757 3.448
+Innovation 0.5757 3.448
+Catamaran 0.6117 10.92
+Sailing 0.767 4.85
+Gliding 0.5209 1.074
+Windsurfing 0.7101 7.307
+Sailing 0.767 4.85
+Program optimization 0.524 1.646
+Sail 0.5929 1.074
+Innovation 0.5757 3.448
+Ship 0.641 1.458
+Sailing 0.767 4.85
+Petroleum 0.5043 11.25
+Container ship 0.5313 0.9913
+Fuel efficiency 0.5146 4.813
+Oil tanker 0.526 8.795
+Fuel efficiency 0.565 5.773
+Ship transport 0.504 1.814
+Transport 0.5281 1.691
+Simulation 0.6976 2.402
+Watercraft 0.5214 1.727
+Ship transport 0.5238 1.955
+Water 0.5401 2.357
+Friction 0.5744 7.599
+Water 0.5401 2.357
+Prototype 0.6052 3.753
+Water 0.5401 2.357
+Sailing 0.5798 3.982
+Surveillance 0.5128 3.256
+Investment 0.7305 6.309
+Investment 0.7305 6.309
+Investor 0.8617 4.162
+Tax 0.5408 8.255
+Tax 0.5408 8.255
+Tax 0.5408 8.255
+Investment 0.7305 2.893
+Risk 0.6407 2.37
+Investor 0.8617 4.171
+Investment 0.7305 6.309
+Financial adviser 0.7804 3.446
+Advice (opinion) 0.6752 1.849
+Risk 0.6407 2.319
+Tax 0.5408 8.255
+Accounting 0.771 2.697
+Valuation (finance) 0.9321 2.297
+Investor 0.9138 4.804
+Investment 0.8644 3.18
+Risk 0.7226 2.354
+Investment 0.8644 7.023
+Stock 0.9123 6.702
+Bond (finance) 1 6.561
+Security (finance) 0.9182 4.136
+Securities lending 0.548 3.248
+Foreign exchange market 1 11.7
+Money 0.6759 1.995
+Money market 0.9751 6.952
+Risk 0.7226 2.112
+Private equity 0.8223 8.035
+Stock 0.9123 4
+Investor 0.9138 4.074
+Risk 0.7226 2.112
+Investor 0.9138 3.249
+Risk 0.7226 2.112
+Investment 0.8644 7.023
+Currency pair 0.5225 1.321
+Portfolio (finance) 0.509 2.762
+Foreign exchange market 1 5.793
+Exchange rate 0.8975 3.665
+Investment 0.8644 7.023
+Investor 0.9138 4.265
+Currency pair 0.5225 1.321
+Market liquidity 1 7.279
+Investment 0.8644 7.023
+Secondary market 0.9588 5.093
+Price 0.637 2.309
+Price 0.637 2.309
+Asset 0.5568 4.323
+Volatility (finance) 0.6906 6.585
+Financial analyst 0.746 1.333
+BNP Paribas 0.602 1.214
+Comisión Nacional del Mercado de Valores 0.59 5.086
+Comisión Nacional del Mercado de Valores 0.9304 2.088
+Prudential Regulation Authority (United Kingdom) 0.5244 8.103
+Financial Conduct Authority 0.5597 18.77
+Prudential Regulation Authority (United Kingdom) 0.5244 8.103
+Financial Conduct Authority 0.5104 1.901
+Financial Services Compensation Scheme 0.5651 6.784
+Business 0.791 3.22
+Bank 0.5232 2.096
+Business 0.7264 1.732
+Company 0.5049 1.626
+Comisión Nacional del Mercado de Valores 0.7394 1.832
+Switzerland 0.5647 18
+Switzerland 0.5647 18
+Bank 0.5232 1.88
+Bank 0.5232 1.805
+Security (finance) 0.6111 2.747
+Franchising 0.5413 1.255
+Switzerland 0.5542 15.61
+Swiss Financial Market Supervisory Authority 0.6046 4.404
+Swiss Financial Market Supervisory Authority 0.6046 2.014
+United States 0.5043 9.689
+United States 0.5043 9.689
+United States 0.5043 9.689
+Insular area 0.5553 1.231
+Corporation 0.5148 3.201
+United States 0.5043 9.689
+Trust law 0.5751 2.281
+Federal government of the United States 0.5453 1.123
+Income tax 0.5043 9.682
+Income tax in the United States 0.5394 9.386
+United States 0.5043 9.689
+United States 0.5043 9.689
+United States 0.5043 9.689
+United States 0.5043 9.689
+United States 0.5043 9.689
+United States 0.5043 9.689
+United States 0.5043 8.649
+United States 0.5043 8.649
+Fixed income 0.5124 6.828
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Asset allocation 0.5402 6.98
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Investment 0.5679 6.254
+European Central Bank 0.5618 3.958
+Investment 0.5679 6.254
+Investment 0.5679 6.254
+Private banking 0.6242 0.9131
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Asset allocation 0.5402 6.98
+Investment 0.5679 6.254
+Investment 0.5679 6.554
+Investment 0.5679 6.254
+Investment 0.5679 6.254
+Private banking 0.6242 0.9131
+Investment 0.5238 6.305
+Investment 0.5238 6.605
+Investment 0.5238 6.305
+Investor 0.5557 3.164
+Investment 0.5238 6.305
+Investment 0.5238 6.305
+Quantitative easing 0.5201 3.995
+Investment 0.5238 6.605
+Investment 0.5238 6.305
+Investment 0.5238 6.605
+Investment management 0.6114 2.955
+Investment 0.5238 6.605
+Investment 0.5238 6.305
+Investment 0.5238 6.605
+Investment 0.5238 6.305
+Investor 0.5557 3.097
+Investment 0.5238 6.605
+http://cs.trains.com/trn/f/111/p/258555/2900347.aspx
+Rail transport 0.5361 10.87
+Rail transport 0.5361 10.87
+Norfolk Southern Railway 0.6098 12
+Rail transport 0.5361 4.618
+BNSF Railway 0.5303 6.546
+Boston Marathon 0.5138 4.674
+Boston Marathon 0.5235 4.904
+ChampionChip 0.6758 3.762
+Keychain 0.5307 1.77
+Security token 0.7666 0.9206
+Credit card 0.5033 8.976
+Security alarm 0.5179 1.656
+http://cs.trains.com/trn/f/111/p/258555/2900365.aspx
+Rail transport 0.5361 10.87
+Rail transport 0.5361 10.87
+Norfolk Southern Railway 0.6098 12
+Rail transport 0.5361 4.618
+BNSF Railway 0.5303 6.546
+Boston Marathon 0.5138 4.674
+Boston Marathon 0.5235 4.904
+ChampionChip 0.6758 3.762
+Keychain 0.5307 1.77
+Security token 0.7666 0.9206
+Credit card 0.5033 8.976
+Security alarm 0.5179 1.656
+http://kermits-korner.blogspot.com/2016/09/open-flouting-of-law-is-dangerous.html
+http://www.dailyherald.com/article/20160915/business/160919140/
+Entrepreneurship 0.629 2.591
+Entrepreneurship 0.629 2.591
+Entrepreneurship 0.6467 3.296
+Entrepreneurship 0.6467 3.296
+Entrepreneurship 0.5952 4.611
+Entrepreneurship 0.629 2.591
+Entrepreneurship 0.629 3.764
+http://www.artemis.bm/blog/2016/09/16/ils-funds-to-be-increasingly-influential-in-reinsurance-a-m-best/
+Catastrophe bond 0.7146 6.686
+Bond (finance) 0.5008 4.267
+Securitization 0.6617 1.249
+Reinsurance 0.7572 0.9986
+Insurance-Linked Securities (ILS) 0.835 3.805
+Catastrophe bond 0.7146 0.9403
+Bond (finance) 0.5008 4.009
+Reinsurance 0.8506 4.019
+Reinsurance 0.7572 0.9986
+Catastrophe bond 0.7146 6.686
+Bond (finance) 0.5008 4.343
+Reinsurance 0.7572 0.9986
+Insurance 0.5411 8.467
+Investment 0.7097 6.798
+Investment management 0.7762 3.599
+Assets under management 0.5482 9.722
+Investment management 0.8023 2.158
+Catastrophe bond 0.7933 6.854
+Bond (finance) 0.5272 3.64
+Asset management 0.6084 1.4
+Catastrophe bond 0.7933 6.854
+Bond (finance) 0.5272 3.987
+Investment 0.7097 6.798
+Investment management 0.7762 3.599
+Investment 0.7097 7.098
+Capital market 0.5711 2.742
+Investor 0.6657 3.599
+Insurance 0.5411 8.834
+Investor 0.6657 3.599
+Investor 0.6657 3.671
+Investment management 0.8023 2.158
+Insurance 0.5411 8.763
+Asset allocation 0.5463 3.969
+Reinsurance 0.678 7.028
+Reinsurance 0.678 7.087
+Reinsurance 1 1.092
+Reinsurance 0.678 2.177
+Reinsurance 0.678 2.177
+Investment management 0.5665 1.392
+Reinsurance 0.678 7.391
+Reinsurance 0.678 7.391
+Interest rate 0.5256 2.953
+Reinsurance 0.678 6.686
+Reinsurance 0.5175 7.803
+Reinsurance 0.5175 7.639
+Reinsurance 0.5175 7.748
+Catastrophe bond 0.646 0.9259
+Catastrophe bond 0.646 0.9259
+Insurance-Linked Securities (ILS) 0.9459 4.669
+Reinsurance 0.5175 8.576
+Catastrophe bond 0.646 0.9259
+Insurance-Linked Securities (ILS) 0.9459 4.669
+Reinsurance 0.5175 9.477
+Reinsurance 0.5175 9.477
+Reinsurance 0.8608 1.069
+HTTP cookie 0.5503 3.759
+http://www.wkrb13.com/markets/1711500/lombard-risk-management-plc-lrm-earns-corporate-rating-from-finncap-4.html
+Stock 0.5111 1.643
+http://www.wkrb13.com/markets/1711498/lombard-risk-management-plc-lrm-earns-corporate-rating-from-finncap-3.html
+Stock 0.5231 1.662
+Stock 0.5231 1.662
+https://www.ipe.com/news/people/friday-people-roundup/10015158.fullarticle
+Stichting Pensioenfonds Zorg en Welzijn 0.6037 2.856
+Stichting Pensioenfonds Zorg en Welzijn 0.6037 2.856
+Investment banking 0.6813 0.9272
+UBS 0.6158 8.297
+UBS 0.6158 8.297
+Institutional investor 0.5091 3.512
+http://www.bilan.ch/argent-finances-plus-de-redaction/cotisants-mode-de-gestion-privilegier
+Finance 0.5389 1.051
+Retraite (économie) 0.7327 1.67
+Patrimoine (finance) 0.5196 0.9856
+Patrimoine (finance) 0.5196 0.9856
+Retraite (économie) 0.585 1.37
+Crédit suisse 0.578 7.149
+UBS 0.8527 13.31
+Deutsche Bank 0.7418 15.09
+Crise des subprimes 0.724 17.64
+Subprime 0.6687 5.702
+Deutsche Bank 0.7418 15.09
+Crise financière mondiale débutant en 2007 0.6755 6.524
+Banque 0.5625 14.72
+http://www.infosysblogs.com/oracle/2016/09/financial_institutions_regulat.html
+Regulatory compliance 0.5726 1.828
+Cloud computing 0.7633 1.322
+Regulatory compliance 0.5726 1.828
+Finance 0.5435 5.096
+Regulatory compliance 0.5236 4.289
+Data quality 0.6662 2.186
+Regulatory compliance 0.5726 1.828
+Strategic management 0.596 0.9608
+Data quality 0.6662 2.186
+Regulatory compliance 0.5236 4.289
+http://cs.trains.com/trn/f/111/p/258555/2900414.aspx
+Rail transport 0.5361 10.87
+Rail transport 0.5361 10.87
+Norfolk Southern Railway 0.6098 12
+Rail transport 0.5361 4.618
+BNSF Railway 0.5303 6.546
+Boston Marathon 0.5138 4.674
+Boston Marathon 0.5235 4.904
+ChampionChip 0.6758 3.762
+Keychain 0.5307 1.77
+Security token 0.7666 0.9206
+Credit card 0.5033 8.976
+Security alarm 0.5179 1.656
+http://cs.trains.com/trn/f/111/p/258555/2900439.aspx
+Rail transport 0.5361 10.87
+Rail transport 0.5361 10.87
+Norfolk Southern Railway 0.6098 12
+Rail transport 0.5361 4.618
+BNSF Railway 0.5303 6.546
+Boston Marathon 0.5138 4.674
+Boston Marathon 0.5235 4.904
+ChampionChip 0.6758 3.762
+Keychain 0.5307 1.77
+Security token 0.7666 0.9206
+Credit card 0.5033 8.976
+Security alarm 0.5179 1.656
+http://cs.trains.com/trn/f/111/p/258555/2900480.aspx
+Rail transport 0.5361 10.87
+Rail transport 0.5361 10.87
+Norfolk Southern Railway 0.6098 12
+Rail transport 0.5361 4.618
+BNSF Railway 0.5303 6.546
+Boston Marathon 0.5138 4.674
+Boston Marathon 0.5235 4.904
+ChampionChip 0.6758 3.762
+Keychain 0.5307 1.77
+Security token 0.7666 0.9206
+Credit card 0.5033 8.976
+Security alarm 0.5179 1.656
+http://cs.trains.com/trn/f/111/p/258555/2900492.aspx
+Rail transport 0.5361 10.87
+Rail transport 0.5361 10.87
+Norfolk Southern Railway 0.6098 12
+Rail transport 0.5361 4.618
+BNSF Railway 0.5303 6.546
+Boston Marathon 0.5138 4.674
+Boston Marathon 0.5235 4.904
+ChampionChip 0.6758 3.762
+Keychain 0.5307 1.77
+Security token 0.7666 0.9206
+Credit card 0.5033 8.976
+Security alarm 0.5179 1.656
+http://cs.trains.com/trn/f/111/p/258555/2900518.aspx
+Rail transport 0.5361 10.87
+Rail transport 0.5361 10.87
+Norfolk Southern Railway 0.6098 12
+Rail transport 0.5361 4.618
+BNSF Railway 0.5303 6.546
+Boston Marathon 0.5138 4.674
+Boston Marathon 0.5235 4.904
+ChampionChip 0.6758 3.762
+Keychain 0.5307 1.77
+Security token 0.7666 0.9206
+Credit card 0.5033 8.976
+Security alarm 0.5179 1.656
+http://usun.state.gov/remarks/7434
+Evil May Day 0.5344 2.947
+William Shakespeare 0.558 15.49
+Refugee 0.5461 4.885
+Refugee 0.5763 11.52
+Refugee 0.5461 5.837
+Refugee 0.5763 11.52
+Refugee 0.5461 5.007
+Refugees of the Syrian Civil War 0.5319 1.375
+United Nations 0.5964 6.258
+Peacekeeping 0.5483 4.313
+Sir Thomas More (play) 0.6772 3.347
+Edmund Tylney 0.585 5.215
+Portable Document Format 0.8033 16.55
+Portable Document Format 0.8062 1.356
+Portable Document Format 0.8062 1.356
+Adobe Acrobat 0.5196 9.627
+Adobe Acrobat 0.5196 9.627
+Portable Document Format 0.6341 7.327
