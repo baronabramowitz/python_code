@@ -41,7 +41,7 @@ def strips_data_generation(bond_portfolio_currency):
     if bond_portfolio_currency == 'GBP':
         page = requests.get('http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices')
         if page.status_code==200:
-            base_data_location_string = ('/Users/baronabramowitz/Desktop/todays_strips_data_raw' 
+            base_data_location_string = ('/Users/baronabramowitz/Desktop/strips_data/todays_uk_strips_data_raw' 
                                         + str(datetime.now()))
             raw_xml = open(base_data_location_string,'w')
             raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)
@@ -78,7 +78,7 @@ def strips_data_generation(bond_portfolio_currency):
     elif bond_portfolio_currency == 'USD':
         page = requests.get('http://online.barrons.com/mdc/public/page/9_3020-tstrips.html?mod=bol_topnav_9_3000')
         if page.status_code==200:
-            base_data_location_string = '/Users/baronabramowitz/Desktop/todays_us_strips_data_raw' + str(datetime.now())
+            base_data_location_string = '/Users/baronabramowitz/Desktop/strips_data/todays_us_strips_data_raw' + str(datetime.now())
             raw_xml = open(base_data_location_string,'w')
             raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)         
             raw_xml.close()
