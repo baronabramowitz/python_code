@@ -66,9 +66,6 @@ def days_to_payment(mat_date, pay_step):
     '''
     new_dates = payment_dates(mat_date, pay_step)
     days_to_payment = [BD.BankDate().nbr_of_days(date) for date in new_dates]
-    """for date in new_dates:
-        days = BD.BankDate().nbr_of_days(date)
-        days_to_payment.append(days)"""
     return days_to_payment  
 
 

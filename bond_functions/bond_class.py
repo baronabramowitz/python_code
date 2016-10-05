@@ -57,7 +57,7 @@ class Bond(object):
 		"""Generates a set of discount rates for each of the payment dates"""
 		payment_step = str(self.payments_per_year/12) + 'm'
 		#discount_rates = df.yields_for_payment_dates(df.payment_dates(self.maturity_date, payment_step))
-		discount_rates = df.yields_for_payment_dates_(self.maturity_date, payment_step)
+		discount_rates = df.yields_for_payment_dates(self.maturity_date, payment_step)
 		return discount_rates
 
 	def maturity_remaining(self):
