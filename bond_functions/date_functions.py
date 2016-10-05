@@ -2,7 +2,7 @@ __author__ = 'Baron Abramowitz'
 __version__ = '0.1.0'
 __maintainer__ = 'Baron Abramowitz'
 __email__ = 'baron.abramowitz@yahoo.com'
-__date__ = '21/08/2016'
+__date__ = '05/10/2016'
 
 import BankDate_ as BD
 import strips_data_config as sdc
@@ -11,18 +11,6 @@ from datetime import timedelta, datetime
 
 """Contains the functions related to dates"""
 
-def nearest_date(entered_date,todays_strips_data):
-    """Return nearest date from list of STRIPS maturity dates."""
-    # Currently hard coded to GBP as currency
-    # This function works but is certainly very hacky and unelegant. 
-    # There must be a better way to perfrom this task than using this dictionary lookup
-    dates = sdc.todays_strips_data_gbp['Date'].tolist() #  Input for dates, returned from strips parsing functions
-    day_diffs = {}
-    for i, date in enumerate(dates):
-        day_diffs.update({i:abs(BD.BankDate(date).nbr_of_days(entered_date))})
-    return dates[int(min(day_diffs, key=day_diffs.get)) - 1]
-
-
 def payment_dates(dateval, step):
     '''Generates the dates on which payments (coupon & principal) occur given maturity date
 
@@ -30,16 +18,9 @@ def payment_dates(dateval, step):
     Default is semi-annual compounding
     '''
 
-    new_dates = []
-    for date in BD.daterange(dateval, step ='6m'):
-        if datetime.weekday(date) == 6:
-            date = date + '1d'
-            new_dates.append(date)
-        elif datetime.weekday(date) == 5:
-            date = date + '2d'
-            new_dates.append(date)
-        else:
-            new_dates.append(date)
+    new_dates = [ date + '1d' if datetime.weekday(date) == 6 
+                else date + '2d' if datetime.weekday(date) == 5 
+                else date for date in BD.daterange(dateval, step ='6m')]
     del new_dates[0]
     return(new_dates)
 
@@ -70,4 +51,4 @@ def days_to_payment(mat_date, pay_step):
 
 
 if __name__ == "__main__":
-    print(yields_for_payment_dates_('2022-06-15', '6m'))  
+    print(yields_for_payment_dates('2022-06-15', '6m'))  
