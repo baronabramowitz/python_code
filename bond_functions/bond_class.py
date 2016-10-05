@@ -1,7 +1,7 @@
 __author__ = 'Baron Abramowitz'
 __maintainer__ = 'Baron Abramowitz'
 __email__ = 'baron.abramowitz@yahoo.com'
-__date__ = '03/10/2016'
+__date__ = '05/10/2016'
 
 import date_functions as df
 import BankDate_ as BD
@@ -77,6 +77,7 @@ class Bond(object):
 		Using daily compounding.
 		"""
 		pv_fcf = []
+		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
 		for i, day_count in enumerate(self.days_to_payments()):
 			if day_count == max(self.days_to_payments()):
@@ -94,6 +95,7 @@ class Bond(object):
 		Using continuous compounding.
 		"""
 		pv_fcf = []
+		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
 		for i, day_count in enumerate(self.days_to_payments()):
 			if day_count == max(self.days_to_payments()):

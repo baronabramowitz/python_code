@@ -1,7 +1,7 @@
 __author__ = 'Baron Abramowitz'
 __maintainer__ = 'Baron Abramowitz'
 __email__ = 'baron.abramowitz@yahoo.com'
-__date__ = '04/10/2016'
+__date__ = '05/10/2016'
 
 """Portfolio Generation Code"""
 
@@ -67,6 +67,7 @@ class Portfolio(object):
 
 if __name__ == "__main__":
 	portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
+	print(portfolio.contents_value())
+	print(portfolio.duration())
 	print(portfolio.convexity())
-	print(portfolio.contents_convexity())
 		

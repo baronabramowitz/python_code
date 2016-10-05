@@ -44,7 +44,6 @@ def strips_data_generation(bond_portfolio_currency):
             base_data_location_string = ('/Users/baronabramowitz/Desktop/todays_strips_data_raw' 
                                         + str(datetime.now()))
             raw_xml = open(base_data_location_string,'w')
-            #raw_xml = open('/Users/baronabramowitz/Desktop/todays_strips_data_raw','w')
             raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)
             raw_xml.close()
         else:
@@ -122,6 +121,8 @@ def strips_data_generation(bond_portfolio_currency):
         y1 = strips_output['Yield']
         spl = InterpolatedUnivariateSpline(x1, y1)
         return spl
+    else:
+        print("Currency not supported")
 
 if __name__ == "__main__":
     strips_data_generation()
