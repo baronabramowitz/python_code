@@ -18,14 +18,17 @@ class Bond(object):
 		self.btype = btype
 
 	def days_to_payments(self):
+		"""Generates the set of days to each payment"""
 		payment_step = str(self.payments_per_year/12) + 'm'
 		days_to_payments = df.days_to_payment(self.maturity_date,payment_step)
 		return	days_to_payments
 
 	def update_rating(self, new_rating):
+		"""Update the rating for a specific bond"""
 		self.rating = new_rating
 
 	def rating_premium(self):
+		"""Sets the rating premium above the discount rates for different bond ratings/types"""
 		if self.btype == 'Corporate':
 		    if self.rating == 'AAA':
 		        rating_premium = .015
@@ -51,14 +54,18 @@ class Bond(object):
 
 
 	def discount_rates(self):
+		"""Generates a set of discount rates for each of the payment dates"""
 		payment_step = str(self.payments_per_year/12) + 'm'
-		discount_rates = df.yields_for_payment_dates(df.payment_dates(self.maturity_date, payment_step))
+		#discount_rates = df.yields_for_payment_dates(df.payment_dates(self.maturity_date, payment_step))
+		discount_rates = df.yields_for_payment_dates_(self.maturity_date, payment_step)
 		return discount_rates
 
 	def maturity_remaining(self):
+		"""Generates the maturity remaining in years for a single bond"""
 		return (BD.BankDate().nbr_of_days(self.maturity_date))/365
 
 	def coupon_payment(self):
+		"""Claculates the coupon payment for each payment date for the bond"""
 		if self.payments_per_year == 0:
 			coupon_payment = 0
 		else:
@@ -66,7 +73,9 @@ class Bond(object):
 		return coupon_payment
 
 	def present_value_fcf(self):
-		"""Currently hard coded for Actual/365 day count but can be updated to reflect othe conventions"""
+		"""Currently hard coded for Actual/365 day count but can be updated to reflect other conventions.
+		Using daily compounding.
+		"""
 		pv_fcf = []
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
 		for i, day_count in enumerate(self.days_to_payments()):
@@ -81,7 +90,9 @@ class Bond(object):
 		return pv_fcf
 
 	def present_value_fcf_c(self):
-		"""Currently hard coded for Actual/365 day count but can be updated to reflect othe conventions"""
+		"""Currently hard coded for Actual/365 day count but can be updated to reflect other conventions.
+		Using continuous compounding.
+		"""
 		pv_fcf = []
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
 		for i, day_count in enumerate(self.days_to_payments()):
@@ -97,13 +108,15 @@ class Bond(object):
 	        
 	   
 	def value(self):
+		"""Calculates the value of a Bond object using daily compounding"""
 		return sum(self.present_value_fcf())
 
 	def value_c(self):
+		"""Calculates the value of a Bond object using continuous compounding"""
 		return(sum(self.present_value_fcf_c()))
 
 	def duration(self):
-		"""Calculates the duration of a Bond object"""
+		"""Calculates the duration of a Bond object using daily compounding"""
 		years_to_payments = [days / 365 for days in self.days_to_payments()]
 		intermediate_dur_calcs = [(cf[0] * cf[1]) for cf in zip(self.present_value_fcf(), years_to_payments)]
 		#bond_duration = sum(intermediate_dur_calcs)/self.value()
@@ -117,13 +130,15 @@ class Bond(object):
 		return sum(intermediate_dur_calcs)/self.value_c()
 
 	def modified_duration(self):
+		"""Calculates the modified duration of a Bond object using daily compounding"""
 		return self.duration()/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
 
 	def modified_duration_c(self):
+		"""Calculates the modified duration of a Bond object using continuous compounding"""
 		return self.duration_c()/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
 
 	def convexity(self):
-		"""Calculates the convexity of an indivudal bond"""
+		"""Calculates the convexity of an indivudal bond using daily compounding"""
 		years_to_payments = [days / 365 for days in self.days_to_payments()]
 		intermediate_conv_calcs = [((pv_cf[0])*(pv_cf[1]**2+pv_cf[1])) 
 			for pv_cf in zip(self.present_value_fcf(),years_to_payments)]

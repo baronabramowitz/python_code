@@ -57,6 +57,18 @@ def yields_for_payment_dates(new_dates):
             sdc.todays_strips_data_gbp['Date'] == nearest_date(date,sdc.todays_strips_data_gbp)]).iloc[0]['Yield']))
     return payment_date_approximate_yields
 
+def yields_for_payment_dates_(mat_date, pay_step):
+    """Generates list of discount rates for coupon payment dates
+
+    **Requires the output of strips_data_generation assigned to todays_strips_data 
+    to be in memory before this process will function properly**
+    """
+    # Currently hard coded to GBP as currency
+    days_to_mat_new_dates = days_to_payment(mat_date, pay_step)
+    spl = sdc.todays_strips_data_gbp
+    payment_date_approximate_yields = [float(spl(days_to_mat)) for days_to_mat in days_to_mat_new_dates]
+    return payment_date_approximate_yields    
+
 
 def days_to_payment(mat_date, pay_step):
     '''Returns a list of days until coupon dates
@@ -65,12 +77,13 @@ def days_to_payment(mat_date, pay_step):
     and converts them into a day count from the current day (or next business day when appropriate)
     to the date of the respective payment
     '''
-
-    step = pay_step
-    dateval = mat_date
-    new_dates = payment_dates(dateval, step)
-    days_to_payment = []
-    for date in new_dates:
+    new_dates = payment_dates(mat_date, pay_step)
+    days_to_payment = [BD.BankDate().nbr_of_days(date) for date in new_dates]
+    """for date in new_dates:
         days = BD.BankDate().nbr_of_days(date)
-        days_to_payment.append(days)
-    return days_to_payment    
+        days_to_payment.append(days)"""
+    return days_to_payment  
+
+
+if __name__ == "__main__":
+    print(yields_for_payment_dates_('2022-06-15', '6m'))  

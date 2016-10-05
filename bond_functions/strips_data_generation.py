@@ -10,6 +10,7 @@ import re
 import requests
 from datetime import date as _pythondate
 from datetime import timedelta, datetime
+from scipy.interpolate import InterpolatedUnivariateSpline
 
 def strips_data_generation(bond_portfolio_currency):
     """Retrieves STRIPS data from US Treasuries or UK Gilts.
@@ -60,12 +61,20 @@ def strips_data_generation(bond_portfolio_currency):
                 pattern_g2_matches.append(match.group(2))
         pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
         pattern_g2_matches_df = pd.DataFrame(pattern_g2_matches)
-        strips_output = pd.merge(pattern_g1_matches_df,pattern_g2_matches_df,left_index=True,right_index = True)
+        strips_output = pd.merge(pattern_g1_matches_df,pattern_g2_matches_df,
+                                 left_index=True, right_index = True)
         strips_output.columns = ['Date','Yield']
         strips_output['Date'] = pd.to_datetime(strips_output['Date'])
         strips_output = strips_output.sort_values('Date')
+        days_to_maturity = [(mat_date - datetime.today()).days for mat_date in strips_output['Date']]
+        days_to_mat_series = pd.Series(days_to_maturity)
+        strips_output['Days to Maturity'] = days_to_mat_series.values
         strips_output.index = range(0,len(strips_output))
-        return strips_output
+        strips_output = strips_output.drop_duplicates('Date', keep = 'last')
+        x1 = strips_output['Days to Maturity']
+        y1 = strips_output['Yield']
+        spl = InterpolatedUnivariateSpline(x1, y1)
+        return spl
 
     elif bond_portfolio_currency == 'USD':
         page = requests.get('http://online.barrons.com/mdc/public/page/9_3020-tstrips.html?mod=bol_topnav_9_3000')
@@ -104,8 +113,15 @@ def strips_data_generation(bond_portfolio_currency):
         strips_output.columns = ['Date','Yield']
         strips_output['Date'] = pd.to_datetime(strips_output['Date'])
         strips_output = strips_output.sort_values('Date')
+        days_to_maturity = [(mat_date - datetime.today()).days for mat_date in strips_output['Date']]
+        days_to_mat_series = pd.Series(days_to_maturity)
+        strips_output['Days to Maturity'] = days_to_mat_series.values
         strips_output.index = range(0,len(strips_output))
-        return strips_output
+        strips_output = strips_output.drop_duplicates('Date', keep = 'last')
+        x1 = strips_output['Days to Maturity']
+        y1 = strips_output['Yield']
+        spl = InterpolatedUnivariateSpline(x1, y1)
+        return spl
 
 if __name__ == "__main__":
     strips_data_generation()
