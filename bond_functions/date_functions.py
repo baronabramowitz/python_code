@@ -44,20 +44,7 @@ def payment_dates(dateval, step):
     return(new_dates)
 
 
-def yields_for_payment_dates(new_dates):
-    """Generates list of discount rates for coupon payment dates
-
-    **Requires the output of strips_data_generation assigned to todays_strips_data 
-    to be in memory before this process will function properly**
-    """
-    # Currently hard coded to GBP as currency
-    payment_date_approximate_yields = []
-    for date in new_dates:
-        payment_date_approximate_yields.append(float((sdc.todays_strips_data_gbp.loc[
-            sdc.todays_strips_data_gbp['Date'] == nearest_date(date,sdc.todays_strips_data_gbp)]).iloc[0]['Yield']))
-    return payment_date_approximate_yields
-
-def yields_for_payment_dates_(mat_date, pay_step):
+def yields_for_payment_dates(mat_date, pay_step):
     """Generates list of discount rates for coupon payment dates
 
     **Requires the output of strips_data_generation assigned to todays_strips_data 
