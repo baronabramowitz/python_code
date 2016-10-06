@@ -7,6 +7,7 @@ __date__ = '21/08/2016'
 import pandas as pd
 import xlwings as xw
 import re
+import os
 import requests
 from datetime import date as _pythondate
 from datetime import timedelta, datetime
@@ -15,12 +16,12 @@ from scipy.interpolate import InterpolatedUnivariateSpline
 def strips_data_generation(bond_portfolio_currency):
     """Retrieves STRIPS data from US Treasuries or UK Gilts.
 
-    Returns a clean DataFrame of the yields across all available maturity dates.
+    Returns a interpolated univarite spline of the yields across all available maturity dates.
 
     Given access to more frequent data then prior trading day end,
     will update to use interday updated strips data.
     This should be a much quicker process since the get from a dedicated 
-    data source will be faster than an pulling down and regex parsing the 
+    data source will be faster than regex parsing the 
     raw html data.
     A proper HF data source will likely return XML or JSON formatted 
     responses which can be unpacked via several different python libraries
@@ -36,18 +37,21 @@ def strips_data_generation(bond_portfolio_currency):
     and the ability to differentiate between location of government issue
     for Eurozone countries.
     """
-
-    #bond_portfolio_currency = input('What currency is the bond portfolio in? USD or GBP? ').upper()
     if bond_portfolio_currency == 'GBP':
-        page = requests.get('http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices')
-        if page.status_code==200:
+        if os.path.isfile('/Users/baronabramowitz/Desktop/strips_data/todays_uk_strips_data_raw' 
+                            + str(datetime.now().date())):
             base_data_location_string = ('/Users/baronabramowitz/Desktop/strips_data/todays_uk_strips_data_raw' 
-                                        + str(datetime.now()))
-            raw_xml = open(base_data_location_string,'w')
-            raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)
-            raw_xml.close()
+                                        + str(datetime.now().date()))
         else:
-            print("link invalid")
+            page = requests.get('http://www.dmo.gov.uk/xmlData.aspx?rptCode=D3B.2&page=Gilts/Daily_Prices')
+            if page.status_code==200:
+                base_data_location_string = ('/Users/baronabramowitz/Desktop/strips_data/todays_uk_strips_data_raw' 
+                                            + str(datetime.now().date()))
+                raw_xml = open(base_data_location_string,'w')
+                raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)
+                raw_xml.close()
+            else:
+                print("link invalid")
 
         pattern = re.compile("INSTRUMENT_NAME=\"Treasury Coupon Strip \d{2}[a-zA-Z]{3}2\d{3}\" REDEMPTION_DATE=\"(2\d{3}[-][0-1][0-9][-][0-3][0-9])T.{157}YIELD=\"(\d{1,2}\.\d{12})\"")
         pattern_g1_matches = []
@@ -74,14 +78,18 @@ def strips_data_generation(bond_portfolio_currency):
         return spl
 
     elif bond_portfolio_currency == 'USD':
-        page = requests.get('http://online.barrons.com/mdc/public/page/9_3020-tstrips.html?mod=bol_topnav_9_3000')
-        if page.status_code==200:
-            base_data_location_string = '/Users/baronabramowitz/Desktop/strips_data/todays_us_strips_data_raw' + str(datetime.now())
-            raw_xml = open(base_data_location_string,'w')
-            raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)         
-            raw_xml.close()
+        if os.path.isfile('/Users/baronabramowitz/Desktop/strips_data/todays_us_strips_data_raw' 
+                            + str(datetime.now().date())):
+            base_data_location_string = '/Users/baronabramowitz/Desktop/strips_data/todays_us_strips_data_raw' + str(datetime.now().date())
         else:
-            print("link invalid")
+            page = requests.get('http://online.barrons.com/mdc/public/page/9_3020-tstrips.html?mod=bol_topnav_9_3000')
+            if page.status_code==200:
+                base_data_location_string = '/Users/baronabramowitz/Desktop/strips_data/todays_us_strips_data_raw' + str(datetime.now().date())
+                raw_xml = open(base_data_location_string,'w')
+                raw_xml.write('Download Timestamp: ' + str(datetime.now()) + page.text)         
+                raw_xml.close()
+            else:
+                print("link invalid")
 
         pattern_date = re.compile(r"<td class=\"text\">(2[0-9]{3} [a-zA-z]{3} [0-3][0-9])</td>")
         pattern_yield = re.compile(r"<td style=\"border-right:0px\" class=\"num\">([0-9]{1,2}\.[0-9]{2})</td>")
@@ -120,4 +128,4 @@ def strips_data_generation(bond_portfolio_currency):
         print("Currency not supported")
 
 if __name__ == "__main__":
-    strips_data_generation()
+    strips_data_generation('USD')
