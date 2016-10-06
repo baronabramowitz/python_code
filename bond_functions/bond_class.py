@@ -73,9 +73,9 @@ class Bond(object):
 		return coupon_payment
 
 	def present_value_fcf(self):
-		"""Currently hard coded for Actual/365 day count but can be updated to reflect other conventions.
-		Using daily compounding.
-		"""
+		"""Currently hard coded for Actual/365 day count but can be updated to reflect other conventions."""
+		#Using daily compounding.
+		
 		pv_fcf = []
 		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
@@ -91,9 +91,9 @@ class Bond(object):
 		return pv_fcf
 
 	def present_value_fcf_c(self):
-		"""Currently hard coded for Actual/365 day count but can be updated to reflect other conventions.
-		Using continuous compounding.
-		"""
+		"""Currently hard coded for Actual/365 day count but can be updated to reflect other conventions."""
+		#Using continuous compounding.
+		
 		pv_fcf = []
 		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
@@ -121,8 +121,6 @@ class Bond(object):
 		"""Calculates the duration of a Bond object using daily compounding"""
 		years_to_payments = [days / 365 for days in self.days_to_payments()]
 		intermediate_dur_calcs = [(cf[0] * cf[1]) for cf in zip(self.present_value_fcf(), years_to_payments)]
-		#bond_duration = sum(intermediate_dur_calcs)/self.value()
-		#mm_duration = bond_duration/(1 + sum(self.discount_rates())/len(self.discount_rates()) / 100)
 		return sum(intermediate_dur_calcs)/self.value()
 
 	def duration_c(self):
