@@ -29,46 +29,46 @@ class Portfolio(object):
 	
 	def value(self):
 		"""Generate the value the portfolio"""
-		return sum([bond.value() for bond in portfolio.contents])
+		return sum([bond.value() for bond in self.contents])
 
 	def contents_value(self):
 		"""Generate the value of each bond in the portfolio"""
-		return [bond.value() for bond in portfolio.contents]
+		return [bond.value() for bond in self.contents]
 
 	def contents_maturity(self):
 		"""Generate the maturity in years of each bond in the portfolio"""
-		return [bond.maturity_remaining() for bond in portfolio.contents]
+		return [bond.maturity_remaining() for bond in self.contents]
 
 	def duration(self):
 		"""Generate the duration the portfolio"""
-		return sum([(bond.duration()*bond.value())/self.value() for bond in portfolio.contents])
+		return sum([(bond.duration()*bond.value())/self.value() for bond in self.contents])
 
 	def contents_duration(self):
 		"""Generate the duration contribution of each bond in the portfolio"""
-		return [(bond.duration()*bond.value())/self.value() for bond in portfolio.contents]
+		return [(bond.duration()*bond.value())/self.value() for bond in self.contents]
 
 	def modified_duration(self):
 		"""Generate the modified duration the portfolio"""
-		return sum([(bond.modified_duration()*bond.value())/self.value() for bond in portfolio.contents])
+		return sum([(bond.modified_duration()*bond.value())/self.value() for bond in self.contents])
 
 	def contents_modified_duration(self):
 		"""Generate the modified duration contribution of each bond in the portfolio"""
-		return [(bond.modified_duration()*bond.value())/self.value() for bond in portfolio.contents]
+		return [(bond.modified_duration()*bond.value())/self.value() for bond in self.contents]
 
 	def convexity(self):
 		"""Generate the convexity the portfolio"""
-		return sum([(bond.convexity()*bond.value())/self.value() for bond in portfolio.contents])
+		return sum([(bond.convexity()*bond.value())/self.value() for bond in self.contents])
 
 	def contents_convexity(self):
 		"""Generate the convexity contribution of each bond in the portfolio"""
-		return [(bond.convexity()*bond.value())/self.value() for bond in portfolio.contents]
+		return [(bond.convexity()*bond.value())/self.value() for bond in self.contents]
 
 
 	
 
 if __name__ == "__main__":
 	portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
-	print(portfolio.contents_value())
+	print(portfolio.value())
 	print(portfolio.duration())
 	print(portfolio.convexity())
 		
