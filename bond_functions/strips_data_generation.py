@@ -52,10 +52,8 @@ def strips_data_generation(bond_portfolio_currency):
         pattern = re.compile("INSTRUMENT_NAME=\"Treasury Coupon Strip \d{2}[a-zA-Z]{3}2\d{3}\" REDEMPTION_DATE=\"(2\d{3}[-][0-1][0-9][-][0-3][0-9])T.{157}YIELD=\"(\d{1,2}\.\d{12})\"")
         pattern_g1_matches = []
         pattern_g2_matches = []
-        match_list = []
         for i, line in enumerate(open(base_data_location_string, 'r')): 
             for match in re.finditer(pattern, line):
-                match_list.append(match)
                 pattern_g1_matches.append(match.group(1))
                 pattern_g2_matches.append(match.group(2))
         pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
@@ -89,11 +87,9 @@ def strips_data_generation(bond_portfolio_currency):
         pattern_yield = re.compile(r"<td style=\"border-right:0px\" class=\"num\">([0-9]{1,2}\.[0-9]{2})</td>")
         pattern_g1_matches = []
         pattern_g2_matches = []
-        match_list = []
         for i, line in enumerate(open(base_data_location_string, 'r')): 
             if i > 2480:
                 for match in re.finditer(pattern_date, line):
-                    match_list.append(match)
                     pattern_g1_matches.append(match.group(1))
             else:
                 pass
@@ -101,7 +97,6 @@ def strips_data_generation(bond_portfolio_currency):
         for i, line in enumerate(open(base_data_location_string, 'r')):
             if i > 2480:
                 for match in re.finditer(pattern_yield, line):
-                    match_list.append(match)
                     pattern_g2_matches.append(match.group(1))
             else:
                 pass
