@@ -1,2 +1,7 @@
+#Set of paths to ignore for git
+
 #Ignore files in the python cache (__pycache__)
 *.pyc
+
+#Ignores .DS_store files that OSX automatically generates
+*.DS_store
