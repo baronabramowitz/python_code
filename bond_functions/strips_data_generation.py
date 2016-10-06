@@ -128,4 +128,4 @@ def strips_data_generation(bond_portfolio_currency):
         print("Currency not supported")
 
 if __name__ == "__main__":
-    strips_data_generation('USD')
+    strips_data_generation('GBP')
