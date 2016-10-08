@@ -18,6 +18,10 @@ older files have been moved to the old_code directory.
 * And several other functions that help to perform the above calculations
 * **Further development necessary to handle translations to and from foreign currencies**
 
+##tests includes:
+* Tests for bond_class.py with bounded validity to allow for daily changes in yields
+* Tests for portfolio_class.py with bounded validity to allow for daily changes in yields
+
 ##parsing_functions includes:
 html_parsing_us_strips_data.py is a single function that:
 * Downloads the prior trading day's yields for US Treasury STRIPS of all trading maturities,inserts those STRIPS yields into an .xlsx and generates a yield curve from the STRIPS maturity dates and yields. Also generates and plots a continuous yield curve by interpolating between maturity dates by using a cubic spline.
@@ -25,4 +29,7 @@ html_parsing_us_strips_data.py is a single function that:
 xml_parsing_strips_data.py is a single function that:
 * Downloads the prior trading day's yields for UK Gilt STRIPS of all trading maturities, inserts those STRIPS yields into an .xlsx and generates a yield curve from the STRIPS maturity dates and yields. Also generates and plots a continuous yield curve by interpolating between maturity dates by using a cubic spline.
 
+##countdown_code includes:
+* a script that inputs letters and returns the longest (min 5 letters) words that can be created with those letters by scanning a dictionary.
+* Different dictionary files return different results; I have yet to find an all encompassing, freely-available English dictionary.
 **The remaining files are simply precursors to bond_stuff_in_progress.py**
