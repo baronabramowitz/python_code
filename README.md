@@ -33,3 +33,11 @@ xml_parsing_strips_data.py is a single function that:
 * a script that inputs letters and returns the longest (min 5 letters) words that can be created with those letters by scanning a dictionary.
 * Different dictionary files return different results; I have yet to find an all encompassing, freely-available English dictionary.
 **The remaining files are simply precursors to bond_stuff_in_progress.py**
+
+## webscraping includes:
+* A function that inputs query parameters and performs a query through the webhose.io API
+* A function that iterates through the results of the webhose.io API, extracts pertinent page content, and passes the distilled page content to the TextRazor API for analysis, finally returning metadata of the analysis
+* Sample Outputs of the processes outlined above
+
+## yahoo_finance_code includes:
+* A script for misc testing of the yahoo finance API
