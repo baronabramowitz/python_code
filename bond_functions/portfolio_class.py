@@ -7,6 +7,7 @@ __date__ = '05/10/2016'
 
 import pandas as pd
 import numpy as np
+import psycopg2
 import bond_class as bc
 
 def generate_portfolio(csv_location):
@@ -19,8 +20,24 @@ def generate_portfolio(csv_location):
 	                                         'payments_per_year':np.float64,'rating':str,'btype':str
 	                            }
 	    )
+	    for row in portfolio.itertuples():
+	    	print (row[1:])
 	    portfolio = [bc.Bond(*row[1:]) for row in portfolio.itertuples()]
 	    return portfolio
+
+def generate_portfolio_psql():
+	try:
+	    conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
+	except:
+	    print ("I am unable to connect to the database")
+	conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
+	cur = conn.cursor()
+	cur.execute("SELECT * FROM bond_data")
+	portfolio = [bc.Bond(*tuple((d[1]['face_value'],d[1]['maturity_date'],d[1]['coupon_rate'],
+								d[1]['payments_per_year'],d[1]['rating'],d[1]['type']))) for d in cur.fetchall()]
+	print (portfolio)
+	cur.close()
+	conn.close()
 
 class Portfolio(object):
 	"""A portfolio class that contains a set of Bond objects"""
@@ -67,8 +84,10 @@ class Portfolio(object):
 	
 
 if __name__ == "__main__":
-	portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
+	generate_portfolio_psql()
+	#generate_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
+	"""portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
 	print(portfolio.value())
 	print(portfolio.duration())
-	print(portfolio.convexity())
+	print(portfolio.convexity())"""
 		
