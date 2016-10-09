@@ -22,10 +22,10 @@ class Bond(object):
 	Trailing _c is for continuous compounding
 	"""
 	def __init__(self, face_value,maturity_date,coupon_rate,payments_per_year,rating,btype):
-		self.face_value = face_value
+		self.face_value = float(face_value)
 		self.maturity_date = maturity_date
-		self.coupon_rate = coupon_rate
-		self.payments_per_year = payments_per_year
+		self.coupon_rate = float(coupon_rate)
+		self.payments_per_year = int(payments_per_year)
 		self.rating = rating
 		self.btype = btype
 
