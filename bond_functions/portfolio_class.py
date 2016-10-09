@@ -25,24 +25,32 @@ def generate_portfolio(csv_location):
 	    portfolio = [bc.Bond(*row[1:]) for row in portfolio.itertuples()]
 	    return portfolio
 
-def generate_portfolio_psql():
+def generate_portfolio_psql(bond_set):
 	try:
-	    conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
+	    conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_password'")
 	except:
 	    print ("I am unable to connect to the database")
-	conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
+	conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_password'")
 	cur = conn.cursor()
-	cur.execute("SELECT * FROM bond_data")
+	if bond_set == 'All':
+		cur.execute("SELECT * FROM bond_data")
+	elif bond_set == 'Corporate':
+		cur.execute("SELECT * FROM bond_data WHERE bond_json ->> 'type' = 'Corporate'")
+	elif bond_set == 'Government':
+		cur.execute("SELECT * FROM bond_data WHERE bond_json ->> 'type' = 'Government'")
+	else:
+		print('What you doing mate?')
 	portfolio = [bc.Bond(*tuple((d[1]['face_value'],d[1]['maturity_date'],d[1]['coupon_rate'],
 								d[1]['payments_per_year'],d[1]['rating'],d[1]['type']))) for d in cur.fetchall()]
-	print (portfolio)
 	cur.close()
 	conn.close()
+	return portfolio
 
 class Portfolio(object):
 	"""A portfolio class that contains a set of Bond objects"""
-	def __init__(self, csv_location):
-		self.contents = generate_portfolio(csv_location)
+	def __init__(self, bond_set):
+		#self.contents = generate_portfolio(csv_location)
+		self.contents = generate_portfolio_psql(bond_set)
 	
 	def value(self):
 		"""Generate the value the portfolio"""
@@ -84,10 +92,19 @@ class Portfolio(object):
 	
 
 if __name__ == "__main__":
-	generate_portfolio_psql()
+	portfolio_a = Portfolio('All')
+	portfolio_c = Portfolio('Corporate')
+	portfolio_g = Portfolio('Government')
 	#generate_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
 	"""portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
-	print(portfolio.value())
-	print(portfolio.duration())
-	print(portfolio.convexity())"""
+	"""
+	print(portfolio_a.value())
+	print(portfolio_a.duration())
+	print(portfolio_a.convexity())
+	print(portfolio_c.value())
+	print(portfolio_c.duration())
+	print(portfolio_c.convexity())
+	print(portfolio_g.value())
+	print(portfolio_g.duration())
+	print(portfolio_g.convexity())
 		
