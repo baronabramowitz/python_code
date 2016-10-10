@@ -72,6 +72,13 @@ class Bond(object):
 		discount_rates = df.yields_for_payment_dates(self.maturity_date, payment_step)
 		return discount_rates
 
+	def discount_rates_VaR(self, scenario_spl):
+		"""Generate a set of discount rates for each of the payment dates"""
+		payment_step = str(self.payments_per_year/12) + 'm'
+		#discount_rates = df.yields_for_payment_dates(df.payment_dates(self.maturity_date, payment_step))
+		discount_rates = df.yields_for_payment_dates_VaR(self.maturity_date, payment_step, scenario_spl)
+		return discount_rates
+
 	def maturity_remaining(self):
 		"""Generate the maturity remaining in years for a single bond"""
 		return (BD.BankDate().nbr_of_days(self.maturity_date))/365
@@ -119,6 +126,42 @@ class Bond(object):
 			else:
 				pass
 		return pv_fcf
+
+	def present_value_fcf_VaR(self,scenario_spl):
+		"""Calculate the present value of each cash flow for a bond using daily compounding"""
+		
+		#Currently hard coded for Actual/365 day count but can be updated to reflect other conventions.
+		pv_fcf = []
+		# Could have made this a list comprehansion but it would be much less clear
+		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates_VaR(scenario_spl)]
+		for i, day_count in enumerate(self.days_to_payments()):
+			if day_count == max(self.days_to_payments()):
+				pv_cf = (self.coupon_payment() + self.face_value)/((1+(discount_rates[i]/100/365))**day_count)
+				pv_fcf.append(pv_cf)
+			elif day_count != 0 and day_count != max(self.days_to_payments()):
+				pv_cf = self.coupon_payment()/((1+(discount_rates[i]/100/365))**day_count)
+				pv_fcf.append(pv_cf)
+			else:
+				pass
+		return pv_fcf
+
+	def present_value_fcf_c_VaR(self,scenario_spl):
+		"""Calculate the present value of each cash flow for a bond using continuous compounding"""
+
+		#Currently hard coded for Actual/365 day count but can be updated to reflect other conventions.
+		pv_fcf = []
+		# Could have made this a list comprehansion but it would be much less clear
+		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates_VaR(scenario_spl)]
+		for i, day_count in enumerate(self.days_to_payments()):
+			if day_count == max(self.days_to_payments()):
+				pv_cf = (self.coupon_payment() + self.face_value) * exp(-(discount_rates[i]/100) * (day_count/365))
+				pv_fcf.append(pv_cf)
+			elif day_count != 0 and day_count != max(self.days_to_payments()):
+				pv_cf = self.coupon_payment() * exp(-(discount_rates[i]/100) * (day_count/365))
+				pv_fcf.append(pv_cf)
+			else:
+				pass
+		return pv_fcf
 	        
 	   
 	def value(self):
@@ -128,6 +171,14 @@ class Bond(object):
 	def value_c(self):
 		"""Calculate the value of a Bond object using continuous compounding"""
 		return(sum(self.present_value_fcf_c()))
+
+	def value_VaR(self,scenario_spl):
+		"""Calculate the value of a Bond object using daily compounding"""
+		return sum(self.present_value_fcf_VaR(scenario_spl))
+
+	def value_c_VaR(self,scenario_spl):
+		"""Calculate the value of a Bond ob_ject using continuous compounding"""
+		return(sum(self.present_value_fcf_c_VaR(scenario_spl)))
 
 	def duration(self):
 		"""Calculate the duration of a Bond object using daily compounding"""

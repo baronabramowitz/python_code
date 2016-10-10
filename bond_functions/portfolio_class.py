@@ -9,6 +9,10 @@ import pandas as pd
 import numpy as np
 import psycopg2
 import bond_class as bc
+import var_scenario_gen as vsg
+import babel.numbers
+import decimal
+babel.numbers.format_currency( decimal.Decimal( "188518982.18" ), "GBP" )
 
 def generate_portfolio(csv_location):
 	    """Generate portfolio list of Bond objects from the CSV at the inputted location"""
@@ -27,10 +31,10 @@ def generate_portfolio(csv_location):
 
 def generate_portfolio_psql(bond_set):
 	try:
-	    conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_password'")
+	    conn = psycopg2.connect("dbname='fi_data' user='pyconnect' host='localhost' password='pypwcon'")
 	except:
 	    print ("I am unable to connect to the database")
-	conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_password'")
+	conn = psycopg2.connect("dbname='fi_data' user='pyconnect' host='localhost' password='pypwcon'")
 	cur = conn.cursor()
 	if bond_set == 'All':
 		cur.execute("SELECT * FROM bond_data")
@@ -48,13 +52,21 @@ def generate_portfolio_psql(bond_set):
 
 class Portfolio(object):
 	"""A portfolio class that contains a set of Bond objects"""
-	def __init__(self, bond_set):
+	def __init__(self, bond_set, currency, var_day_count, var_subsample_fraction, var_percentile):
 		#self.contents = generate_portfolio(csv_location)
 		self.contents = generate_portfolio_psql(bond_set)
+		self.currency = currency
+		self.var_horizon = var_day_count
+		self.var_subsample_fraction = var_subsample_fraction
+		self.var_percentile = var_percentile
 	
 	def value(self):
 		"""Generate the value the portfolio"""
 		return sum([bond.value() for bond in self.contents])
+
+	def value_VaR(self,scenario_spl):
+		"""Generate the value the portfolio"""
+		return sum([bond.value_VaR(scenario_spl) for bond in self.contents])
 
 	def contents_value(self):
 		"""Generate the value of each bond in the portfolio"""
@@ -88,16 +100,37 @@ class Portfolio(object):
 		"""Generate the convexity contribution of each bond in the portfolio"""
 		return [(bond.convexity()*bond.value())/self.value() for bond in self.contents]
 
+	def VaR(self):
+		"""Generate the Value at Risk for the portfolio
+
+		Uses a subset historical yield curve shifts to model possible yield curve movements
+		"""
+		var_scenarios = vsg.var_strips_data_generation(self.var_horizon, self.var_subsample_fraction, self.currency)
+		VaR_value_set = np.array([self.value_VaR(scenario_spl) for scenario_spl in var_scenarios])
+		portfolio_value_bottom = np.percentile(VaR_value_set, (1 - (self.var_percentile/100)))
+		VaR = self.value() - portfolio_value_bottom
+		VaR_formatted = babel.numbers.format_currency(decimal.Decimal(str(VaR)), self.currency)
+		VaR_percentile = str((VaR/self.value()) * 100) + '%'
+		return {'VaR' : VaR_formatted, 'VaR Percentage' : VaR_percentile }
+
+
+
+
+
 
 	
 
 if __name__ == "__main__":
-	portfolio_a = Portfolio('All')
-	portfolio_c = Portfolio('Corporate')
-	portfolio_g = Portfolio('Government')
+	portfolio_a = Portfolio('All', 'USD', 10, .1, 95)
+	portfolio_c = Portfolio('Corporate', 'USD', 10, .1, 95)
+	portfolio_g = Portfolio('Government', 'USD', 10, .1, 95)
+
+	print(portfolio_a.VaR())
+	print(portfolio_c.VaR())
+	print(portfolio_g.VaR())
 	#generate_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
 	"""portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
-	"""
+	
 	print(portfolio_a.value())
 	print(portfolio_a.duration())
 	print(portfolio_a.convexity())
@@ -107,4 +140,7 @@ if __name__ == "__main__":
 	print(portfolio_g.value())
 	print(portfolio_g.duration())
 	print(portfolio_g.convexity())
+	"""
+
+
 		
