@@ -12,7 +12,7 @@ import bond_class as bc
 import var_scenario_gen as vsg
 import babel.numbers
 import decimal
-babel.numbers.format_currency( decimal.Decimal( "188518982.18" ), "GBP" )
+from datetime import datetime
 
 def generate_portfolio(csv_location):
 	    """Generate portfolio list of Bond objects from the CSV at the inputted location"""
@@ -31,10 +31,10 @@ def generate_portfolio(csv_location):
 
 def generate_portfolio_psql(bond_set):
 	try:
-	    conn = psycopg2.connect("dbname='fi_data' user='pyconnect' host='localhost' password='pypwcon'")
+	    conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
 	except:
 	    print ("I am unable to connect to the database")
-	conn = psycopg2.connect("dbname='fi_data' user='pyconnect' host='localhost' password='pypwcon'")
+	conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
 	cur = conn.cursor()
 	if bond_set == 'All':
 		cur.execute("SELECT * FROM bond_data")
@@ -63,6 +63,7 @@ class Portfolio(object):
 	def value(self):
 		"""Generate the value the portfolio"""
 		return sum([bond.value() for bond in self.contents])
+		#return babel.numbers.format_currency(decimal.Decimal(str(sum([bond.value() for bond in self.contents]))), self.currency)
 
 	def value_VaR(self,scenario_spl):
 		"""Generate the value the portfolio"""
@@ -103,9 +104,18 @@ class Portfolio(object):
 	def VaR(self):
 		"""Generate the Value at Risk for the portfolio
 
-		Uses a subset historical yield curve shifts to model possible yield curve movements
+		Uses a subset of historical yield curve shifts to model possible yield curve movements.
+		Return the percentile specified of the set of loss scenarios as both a formatted value and 
+		a percentage of portfolio value.
+		Takes an age to compute.
+		Increasing the subsample fraction will make the results more consistent and accurate 
+		but will also tremendously increase the time it takes to calculate.
+		Will likely improve with parallel computing of each VaR calculation within the set
+		of scenarios; this should cut down the time but by how much I don't know.
 		"""
 		var_scenarios = vsg.var_strips_data_generation(self.var_horizon, self.var_subsample_fraction, self.currency)
+		# Above takes roughly 2 minutes
+		print(datetime.now(), 'Estimated time remaining: ', divmod(((len(var_scenarios)) * 5), 60) )
 		VaR_value_set = np.array([self.value_VaR(scenario_spl) for scenario_spl in var_scenarios])
 		portfolio_value_bottom = np.percentile(VaR_value_set, (1 - (self.var_percentile/100)))
 		VaR = self.value() - portfolio_value_bottom
@@ -121,17 +131,20 @@ class Portfolio(object):
 	
 
 if __name__ == "__main__":
-	portfolio_a = Portfolio('All', 'USD', 10, .1, 95)
+	"""portfolio_a = Portfolio('All', 'USD', 10, .1, 95)
 	portfolio_c = Portfolio('Corporate', 'USD', 10, .1, 95)
 	portfolio_g = Portfolio('Government', 'USD', 10, .1, 95)
-
+	print('Initiate VaR', datetime.now())
 	print(portfolio_a.VaR())
+	print('Process Completed', datetime.now())
+	"""
+	"""
 	print(portfolio_c.VaR())
 	print(portfolio_g.VaR())
-	#generate_portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
-	"""portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
+	"""
 	
-	print(portfolio_a.value())
+	#print(portfolio_a.value())
+	"""
 	print(portfolio_a.duration())
 	print(portfolio_a.convexity())
 	print(portfolio_c.value())
