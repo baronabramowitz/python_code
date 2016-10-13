@@ -7,6 +7,7 @@ older files have been moved to the old_code directory.
 
 ##bond_functions includes classes with methods that:
 * Create a portfolio from a CSV of bonds
+* Create a portfolio by querying a PostgreSql database
 * Value single bonds given bond charachteristics
 * Value a portfolio of bonds
 * Calculate the duration and Modified duration for a single bond given bond charachteristics
@@ -14,6 +15,7 @@ older files have been moved to the old_code directory.
 * Calculate the convexity for a single bond given bond charachteristics
 * Calculate the convexity for a portfolio of bonds
 * Calculates the Value at Risk for a portfolio of bonds using historical yield curve shifts
+	* Allows selection of VaR percentile of loss, size of historical returns subsample, and the time horizon in days for the VaR
 * And several other functions that help to perform the above calculations
 * **Further development necessary to handle translations to and from foreign currencies**
 
