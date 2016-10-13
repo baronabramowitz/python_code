@@ -12,7 +12,7 @@ import bond_class as bc
 import var_scenario_gen as vsg
 import babel.numbers
 import decimal
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def generate_portfolio(csv_location):
 	    """Generate portfolio list of Bond objects from the CSV at the inputted location"""
@@ -63,7 +63,10 @@ class Portfolio(object):
 	def value(self):
 		"""Generate the value the portfolio"""
 		return sum([bond.value() for bond in self.contents])
-		#return babel.numbers.format_currency(decimal.Decimal(str(sum([bond.value() for bond in self.contents]))), self.currency)
+
+	def value_formatted(self):
+		"""Generate the value the portfolio formatted with the respective currency"""
+		return babel.numbers.format_currency(decimal.Decimal(str(sum([bond.value() for bond in self.contents]))), self.currency)
 
 	def value_VaR(self,scenario_spl):
 		"""Generate the value the portfolio"""
@@ -113,10 +116,9 @@ class Portfolio(object):
 		Will likely improve with parallel computing of each VaR calculation within the set
 		of scenarios; this should cut down the time but by how much I don't know.
 		"""
-		var_scenarios = vsg.var_strips_data_generation(self.var_horizon, self.var_subsample_fraction, self.currency)
-		# Above takes roughly 2 minutes
-		print(datetime.now(), 'Estimated time remaining: ', divmod(((len(var_scenarios)) * 5), 60) )
-		VaR_value_set = np.array([self.value_VaR(scenario_spl) for scenario_spl in var_scenarios])
+		#print(datetime.now(), 'Starting scenario evaluations.')
+		VaR_value_set = np.array([self.value_VaR(scenario_spl) for scenario_spl in 
+									vsg.var_strips_data_generation(self.var_horizon, self.var_subsample_fraction, self.currency)])
 		portfolio_value_bottom = np.percentile(VaR_value_set, (1 - (self.var_percentile/100)))
 		VaR = self.value() - portfolio_value_bottom
 		VaR_formatted = babel.numbers.format_currency(decimal.Decimal(str(VaR)), self.currency)
@@ -131,16 +133,34 @@ class Portfolio(object):
 	
 
 if __name__ == "__main__":
-	"""portfolio_a = Portfolio('All', 'USD', 10, .1, 95)
-	portfolio_c = Portfolio('Corporate', 'USD', 10, .1, 95)
-	portfolio_g = Portfolio('Government', 'USD', 10, .1, 95)
-	print('Initiate VaR', datetime.now())
+	portfolio_test = Portfolio('All', 'USD', 10, .25, 95)
+	print(portfolio_test.value())
+	"""for i in (.25,.2,.15,.1,.05):
+		portfolio_test = Portfolio('All', 'USD', 10, i, 95)
+		for integ in range(1,11):
+			print('Cycle', integ)
+			start = datetime.now()
+			print(portfolio_test.VaR())
+			end = datetime.now()
+			print(end - start, 'Time Elapsed')
+			"""
+
+
+
+	"""portfolio_1 = Portfolio('All', 'USD', 10, .1, 95)
+	portfolio_2 = Portfolio('Corporate', 'USD', 10, .1, 95)
+	portfolio_3 = Portfolio('Government', 'USD', 10, .1, 95)
+	print('Initiate VaR All', datetime.now())
 	print(portfolio_a.VaR())
-	print('Process Completed', datetime.now())
-	"""
-	"""
+	print('Process Completed All', datetime.now())
+	
+	print('Initiate VaR Corporate', datetime.now())
 	print(portfolio_c.VaR())
+	print('Process Completed Corporate', datetime.now())
+
+	print('Initiate VaR Government', datetime.now())
 	print(portfolio_g.VaR())
+	print('Process Completed Government', datetime.now())
 	"""
 	
 	#print(portfolio_a.value())

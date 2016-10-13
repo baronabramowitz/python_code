@@ -28,6 +28,21 @@ class Bond(object):
 		self.payments_per_year = int(payments_per_year)
 		self.rating = rating
 		self.btype = btype
+	
+	def __repr__(self):
+		if self.payments_per_year == 1:
+			pay_freq = 'Annual'
+		if self.payments_per_year == 2:
+			pay_freq = 'Semi annual'
+		if self.payments_per_year == 4:
+			pay_freq = 'Quarterly'
+		if self.payments_per_year == 12:
+			pay_freq = 'Monthly'
+		if self.payments_per_year == 52:
+			pay_freq = 'Weekly'
+		if self.payments_per_year == 365:
+			pay_freq = 'Daily'
+		return "%s %s%s %s %s" % (self.btype, str(self.coupon_rate),'%', self.maturity_date, pay_freq)
 
 	def days_to_payments(self):
 		"""Generate the set of days to each payment"""
@@ -226,6 +241,8 @@ if __name__ == "__main__":
 				payments_per_year = 2,
 				rating = 'AAA',
 				btype = 'Corporate')
+	print(bond1)
+
 	print(bond1.value())
 	print(bond1.value_c())
 	print((bond1.value_c()/bond1.value())*100)
@@ -238,11 +255,10 @@ if __name__ == "__main__":
 	print(bond1.convexity_c())
 	print((bond1.convexity_c()/bond1.convexity())*100)
 
-	"""
+
 	print(bond1.face_value)
 	print(bond1.maturity_date)
 	print(bond1.coupon_rate)
 	print(bond1.payments_per_year)
 	print(bond1.rating)
 	print(bond1.btype)
-	"""

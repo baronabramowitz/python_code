@@ -269,7 +269,6 @@ class BankDate(_pythondate):
     @staticmethod
     def ultimo(nbr_month):
         '''Return last day of month for a given number of month.
-
         :param nbr_month: Number of month
         :type nbr_month: int
         '''
@@ -286,7 +285,6 @@ class BankDate(_pythondate):
 
     def add_months(self, nbr_months):
         '''Adds nbr_months months to the BankDate.
-
         :param nbr_months: Number of months to be added
         :type nbr_months: int
         '''
@@ -301,10 +299,8 @@ class BankDate(_pythondate):
 
     def add_years(self, nbr_years):
         '''Adds nbr_years years to the BankDate.
-
         :param nbr_years: Number of years to be added
         :type nbr_years: int
-
          '''
         if isinstance(nbr_years, int):
             result = _pythondate(self.year + nbr_years, self.month, self.day)
@@ -312,7 +308,6 @@ class BankDate(_pythondate):
 
     def add_days(self, nbr_days):
         '''Adds nbr_days days to the BankDate.
-
         :param nbr_days: Number of days to be added
         :type nbr_days: int
          '''
@@ -404,9 +399,7 @@ class BankDate(_pythondate):
     def next_imm_date(self, future=True):
         '''An IMM date is the 3. wednesday in the months march, june,
         september and december
-
         reference: http://en.wikipedia.org/wiki/IMM_dates
-
         :Return: Next IMM date for BankDate as BankDate
         '''
         month = self.month
@@ -493,6 +486,4 @@ def daterange(enddate_or_integer,start_date=BankDate(),step='1y',
 
 
 def period_count(end_date, start_date=BankDate(), period='1y'):
-
-    return len(list(daterange_iter(end_date,  start_date, period,  False)))
-
+    return len(list(daterange_iter(end_date, start_date, period, False)))
