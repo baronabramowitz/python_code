@@ -128,7 +128,7 @@ def var_strips_data_generation(data_start_date, var_days, sample_fraction, curre
     ustreasury_yield_data.columns = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
     ustreasury_yield_delta = ustreasury_yield_data.diff(var_days)
     ustreasury_yield_delta_modern = ustreasury_yield_delta.ix[data_start_date:str(_pythondate.today())]
-    rand_sample = ustreasury_yield_delta_modern.sample(frac=sample_fraction, replace=True)
+    rand_sample = ustreasury_yield_delta_modern.sample(frac=sample_fraction, replace=False)
     for i in range(31, 41):
         rand_sample[i] = rand_sample[30]
     rand_sample[0] = rand_sample[1]
