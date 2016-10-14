@@ -15,7 +15,12 @@ older files have been moved to the old_code directory.
 * Calculate the convexity for a single bond given bond charachteristics
 * Calculate the convexity for a portfolio of bonds
 * Calculates the Value at Risk for a portfolio of bonds using historical yield curve shifts
-	* Allows selection of VaR percentile of loss, size of historical returns subsample, and the time horizon in days for the VaR
+	* Allows selection of:
+		* Percentile of loss
+		* Size of historical returns subsample
+		* Historical sample start date (Runs to most recent date available)
+		* Time horizon in days for the VaR
+	* Runtime has been cut down to ~15 minutes from over 2 hours for the whole history
 * And several other functions that help to perform the above calculations
 * **Further development necessary to handle translations to and from foreign currencies**
 
