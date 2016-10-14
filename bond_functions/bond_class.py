@@ -113,11 +113,12 @@ class Bond(object):
 		pv_fcf = []
 		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
-		for i, day_count in enumerate(self.days_to_payments()):
-			if day_count == max(self.days_to_payments()):
+		dtp = self.days_to_payments()
+		for i, day_count in enumerate(dtp):
+			if day_count == max(dtp):
 				pv_cf = (self.coupon_payment() + self.face_value)/((1+(discount_rates[i]/100/365))**day_count)
 				pv_fcf.append(pv_cf)
-			elif day_count != 0 and day_count != max(self.days_to_payments()):
+			elif day_count != 0 and day_count != max(dtp):
 				pv_cf = self.coupon_payment()/((1+(discount_rates[i]/100/365))**day_count)
 				pv_fcf.append(pv_cf)
 			else:
@@ -131,11 +132,12 @@ class Bond(object):
 		pv_fcf = []
 		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates()]
-		for i, day_count in enumerate(self.days_to_payments()):
-			if day_count == max(self.days_to_payments()):
+		dtp = self.days_to_payments()
+		for i, day_count in enumerate(dtp):
+			if day_count == max(dtp):
 				pv_cf = (self.coupon_payment() + self.face_value) * exp(-(discount_rates[i]/100) * (day_count/365))
 				pv_fcf.append(pv_cf)
-			elif day_count != 0 and day_count != max(self.days_to_payments()):
+			elif day_count != 0 and day_count != max(dtp):
 				pv_cf = self.coupon_payment() * exp(-(discount_rates[i]/100) * (day_count/365))
 				pv_fcf.append(pv_cf)
 			else:
@@ -149,11 +151,12 @@ class Bond(object):
 		pv_fcf = []
 		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates_VaR(scenario_spl)]
-		for i, day_count in enumerate(self.days_to_payments()):
-			if day_count == max(self.days_to_payments()):
+		dtp = self.days_to_payments()
+		for i, day_count in enumerate(dtp):
+			if day_count == max(dtp):
 				pv_cf = (self.coupon_payment() + self.face_value)/((1+(discount_rates[i]/100/365))**day_count)
 				pv_fcf.append(pv_cf)
-			elif day_count != 0 and day_count != max(self.days_to_payments()):
+			elif day_count != 0 and day_count != max(dtp):
 				pv_cf = self.coupon_payment()/((1+(discount_rates[i]/100/365))**day_count)
 				pv_fcf.append(pv_cf)
 			else:
@@ -167,11 +170,12 @@ class Bond(object):
 		pv_fcf = []
 		# Could have made this a list comprehansion but it would be much less clear
 		discount_rates = [x * (1 + self.rating_premium()) for x in self.discount_rates_VaR(scenario_spl)]
-		for i, day_count in enumerate(self.days_to_payments()):
-			if day_count == max(self.days_to_payments()):
+		dtp = self.days_to_payments()
+		for i, day_count in enumerate(dtp):
+			if day_count == max(dtp):
 				pv_cf = (self.coupon_payment() + self.face_value) * exp(-(discount_rates[i]/100) * (day_count/365))
 				pv_fcf.append(pv_cf)
-			elif day_count != 0 and day_count != max(self.days_to_payments()):
+			elif day_count != 0 and day_count != max(dtp):
 				pv_cf = self.coupon_payment() * exp(-(discount_rates[i]/100) * (day_count/365))
 				pv_fcf.append(pv_cf)
 			else:
