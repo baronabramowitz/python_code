@@ -107,21 +107,16 @@ class Portfolio(object):
 	def VaR(self, data_start_date, var_day_count, var_subsample_fraction, var_percentile):
 		"""Generate the Value at Risk for the portfolio
 
-		Uses a subset of historical yield curve shifts to model possible yield curve movements.
-		Return the percentile specified of the set of loss scenarios as both a formatted value and 
-		a percentage of portfolio value.
-		Takes an age to compute.
-		Increasing the subsample fraction will make the results more consistent and accurate 
-		but will also tremendously increase the time it takes to calculate.
-		Will likely improve with parallel computing of each VaR calculation within the set
-		of scenarios; this should cut down the time but by how much I don't know.
+		Uses a subset of historical yield curve shifts (can use all of them) to model possible 
+		yield curve movements. Return the percentile specified of the set of loss scenarios as 
+		both a formatted value and a percentage of portfolio value.
 
 		*Currently Biggest Issue*
 		The function recalculates the days to each payment for each bond every time it values the bond;
 		Long term solution, rewrite so that days to payment for each bond only calc'd once per bond and 
 		then passed to the appropriate functions
 		Short term solution, rewrote the pv fcf method to only calc dtp once per bond valuation, not 3
-		times; I am an idiot
+		times; I am an idiot, this cut runtime by 89%
 		"""
 		#print(datetime.now(), 'Starting scenario evaluations.')
 		var_strips_data = vsg.var_strips_data_generation(data_start_date, var_day_count, var_subsample_fraction, self.currency)
