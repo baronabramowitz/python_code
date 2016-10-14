@@ -118,6 +118,7 @@ def var_strips_data_generation(var_days, sample_fraction, currency):
     """Generate a set of splines of yield changes for use in VaR calculations
     
     Some of this code is bound to be circular and will need to be cleaned up
+    Performed one iteration of cleaning so far
     """
     print('VaR SDG Start ', datetime.now())
     ustreasury_yield_data = quandl.get("FED/SVENY", authtoken="51d6hxsDAX_CwENkcUEB")
@@ -129,41 +130,20 @@ def var_strips_data_generation(var_days, sample_fraction, currency):
         rand_sample[i] = rand_sample[30]
     rand_sample[0] = rand_sample[1]
     rand_sample.sort_index(axis=1, inplace=True)
-    spl_list = []
-
-    for row in rand_sample.itertuples():
-        x = range(0,41)
-        y = row[1:]
-        spl = InterpolatedUnivariateSpline(x, y)
-        spl_list.append(spl)
-
-    years_for_payments = [days/365 for days in  strips_data_generation_for_VaR(currency)[1]]
-    yield_change_list = []
-    for spl in spl_list:
-        l = [spl(years) for years in years_for_payments]
-        yield_change_list.append(l)
+    xrange = range(0,41)
+    mat_dates = strips_data_generation_for_VaR(currency)[1]
+    spl_list = [InterpolatedUnivariateSpline(xrange, row[1:]) for row in rand_sample.itertuples()]
+    years_for_payments = [days/365 for days in  mat_dates]
+    yield_change_list = [[spl(years) for years in years_for_payments] for spl in spl_list]
     base_yield_curve = strips_data_generation_for_VaR(currency)[0]
-    base_yield_points = [base_yield_curve(mat_date) for mat_date in strips_data_generation_for_VaR(currency)[1]]
-
-    yield_scenario_set = []
-    for yield_delta_set in yield_change_list:
-        scenario_yield_set = [x+y for x,y in zip(yield_delta_set, base_yield_points)]
-        yield_scenario_set.append(scenario_yield_set)
-
-    final_spl_set = []
-    for y_set in yield_scenario_set:
-        x = strips_data_generation_for_VaR(currency)[1]
-        y = y_set
-        spl = InterpolatedUnivariateSpline(x, y)
-        final_spl_set.append(spl)
+    base_yield_points = [base_yield_curve(mat_date) for mat_date in mat_dates]
+    yield_scenario_set = [[y1 + y2 for y1,y2 in zip(yield_delta_set, base_yield_points)] for yield_delta_set in yield_change_list]
+    final_spl_set = [ InterpolatedUnivariateSpline(mat_dates, y_set)for y_set in yield_scenario_set]
     print('VaR SDG End ', datetime.now())
     return final_spl_set
 
-
-
-
 if __name__ == "__main__":
-    print(var_strips_data_generation(10, .1, 'USD'))
+    var_strips_data_generation(10, .1, 'USD')
 
 
 
