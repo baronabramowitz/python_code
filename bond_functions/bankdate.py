@@ -31,29 +31,33 @@ class BankDate(object):
     
     def _add(self, period):
         """A TimePeriod can be added to a BankDate"""
-        period = TimePeriod(period)
-        if period.unit == 'y':
-            return self.bank_date + relativedelta(years = period.count)
-        elif period.unit == 'm':
-            return self.bank_date + relativedelta(months = period.count)
-        elif period.unit == 'w':
-            return self.bank_date + relativedelta(weeks = period.count)
-        elif period.unit == 'd':
-            return self.bank_date + relativedelta(days = period.count)
+        #period = TimePeriod(period)
+        period_count = int(period[:-1])
+        period_unit = period [-1:]
+        if period_unit == 'y':
+            return self.bank_date + relativedelta(years = period_count)
+        elif period_unit == 'm':
+            return self.bank_date + relativedelta(months = period_count)
+        elif period_unit == 'w':
+            return self.bank_date + relativedelta(weeks = period_count)
+        elif period_unit == 'd':
+            return self.bank_date + relativedelta(days = period_count)
     def __str__ (self):
         return str(self.bank_date)
     
     def _sub(self, period):
         """A TimePeriod can be added to a BankDate"""
-        period = TimePeriod(period)
-        if period.unit == 'y':
-            return self.bank_date - relativedelta(years = period.count)
-        elif period.unit == 'm':
-            return self.bank_date - relativedelta(months = period.count)
-        elif period.unit == 'w':
-            return self.bank_date - relativedelta(weeks = period.count)
-        elif period.unit == 'd':
-            return self.bank_date - relativedelta(days = period.count)
+        #period = TimePeriod(period)
+        period_count = int(period[:-1])
+        period_unit = period [-1:]
+        if period_unit == 'y':
+            return self.bank_date - relativedelta(years = period_count)
+        elif period_unit == 'm':
+            return self.bank_date - relativedelta(months = period_count)
+        elif period_unit == 'w':
+            return self.bank_date - relativedelta(weeks = period_count)
+        elif period_unit == 'd':
+            return self.bank_date - relativedelta(days = period_count)
 
     def num_of_days(self, fut_date):
         """Return the number of days between a future date and today(or the next BankDate)"""
