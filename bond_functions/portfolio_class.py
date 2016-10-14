@@ -31,10 +31,10 @@ def generate_portfolio(csv_location):
 
 def generate_portfolio_psql(bond_set):
 	try:
-	    conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
+	    conn = psycopg2.connect("dbname='fi_data' user='pyconnect' host='localhost' password='pypwcon'")
 	except:
 	    print ("I am unable to connect to the database")
-	conn = psycopg2.connect("dbname='fi_data' user='your_user' host='localhost' password='your_pw'")
+	conn = psycopg2.connect("dbname='fi_data' user='pyconnect' host='localhost' password='pypwcon'")
 	cur = conn.cursor()
 	if bond_set == 'All':
 		cur.execute("SELECT * FROM bond_data")
@@ -142,8 +142,7 @@ if __name__ == "__main__":
 			start = datetime.now()
 			print(portfolio_test.VaR())
 			end = datetime.now()
-			print(end - start, 'Time Elapsed')
-			"""
+			print(end - start, 'Time Elapsed')"""			
 
 
 

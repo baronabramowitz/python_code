@@ -4,7 +4,7 @@ __email__ = 'baron.abramowitz@yahoo.com'
 __date__ = '05/10/2016'
 
 import date_functions as df
-import BankDate_ as BD
+import bankdate as BD
 from math import exp
 
 class Bond(object):
@@ -96,7 +96,7 @@ class Bond(object):
 
 	def maturity_remaining(self):
 		"""Generate the maturity remaining in years for a single bond"""
-		return (BD.BankDate().nbr_of_days(self.maturity_date))/365
+		return (BD.BankDate().num_of_days(self.maturity_date))/365
 
 	def coupon_payment(self):
 		"""Claculate the coupon payment for each payment date for the bond"""
@@ -242,6 +242,7 @@ if __name__ == "__main__":
 				rating = 'AAA',
 				btype = 'Corporate')
 	print(bond1)
+
 
 	print(bond1.value())
 	print(bond1.value_c())

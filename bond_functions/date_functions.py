@@ -4,7 +4,7 @@ __maintainer__ = 'Baron Abramowitz'
 __email__ = 'baron.abramowitz@yahoo.com'
 __date__ = '05/10/2016'
 
-import BankDate_ as BD
+import bankdate as BD
 import strips_data_config as sdc
 from datetime import timedelta, datetime
 
@@ -17,11 +17,14 @@ def payment_dates(dateval, step):
     """Generate the dates on which payments (coupon & principal) occur given maturity date"""
     #Steps in number of months e.g. '6m', '3m', '24m'
     #Default is semi-annual compounding
-    new_dates = [ date + '1d' if datetime.weekday(date) == 6 
+    
+    """new_dates = [ date + '1d' if datetime.weekday(date) == 6 
                 else date + '2d' if datetime.weekday(date) == 5 
-                else date for date in BD.daterange(dateval, step ='6m')]
+                else date for date in BD.date_range(dateval, step ='6m')]
     del new_dates[0]
     return(new_dates)
+    """
+    return BD.date_range(dateval, step ='6m')
 
 
 def yields_for_payment_dates(mat_date, pay_step):
@@ -44,7 +47,7 @@ def yields_for_payment_dates_VaR(mat_date, pay_step, scenario_spl):
 def days_to_payment(mat_date, pay_step):
     '''Return a list of days until coupon dates'''
     new_dates = payment_dates(mat_date, pay_step)
-    days_to_payment = [BD.BankDate().nbr_of_days(date) for date in new_dates]
+    days_to_payment = [BD.BankDate().num_of_days(date) for date in new_dates]
     return days_to_payment  
 
 
