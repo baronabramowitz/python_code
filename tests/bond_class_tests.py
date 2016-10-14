@@ -65,20 +65,20 @@ class TestSuiteBondCode(unittest.TestCase):
                 btype = 'Corporate').modified_duration_c() <= 6 )
 
     def test_bond_convexity(self):
-        self.assertTrue( 34 <= Bond(face_value = 10000.0,
+        self.assertTrue( 0 <= Bond(face_value = 10000.0,
                 maturity_date = '2022-06-15',
                 coupon_rate = 2.5,
                 payments_per_year = 2,
                 rating = 'AAA',
-                btype = 'Corporate').convexity() <= 36 )
+                btype = 'Corporate').convexity() <= 50 )
 
     def test_bond_convexity_c(self):
-        self.assertTrue( 34 <= Bond(face_value = 10000.0,
+        self.assertTrue( 0 <= Bond(face_value = 10000.0,
                 maturity_date = '2022-06-15',
                 coupon_rate = 2.5,
                 payments_per_year = 2,
                 rating = 'AAA',
-                btype = 'Corporate').convexity_c() <= 36 )
+                btype = 'Corporate').convexity_c() <= 50 )
 
 if __name__ == "__main__":
     unittest.main()
