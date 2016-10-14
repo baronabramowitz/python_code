@@ -12,21 +12,6 @@ from datetime import timedelta, datetime
 
 """Contains the functions related to dates"""
 
-
-def payment_dates(dateval, step):
-    """Generate the dates on which payments (coupon & principal) occur given maturity date"""
-    #Steps in number of months e.g. '6m', '3m', '24m'
-    #Default is semi-annual compounding
-    
-    """new_dates = [ date + '1d' if datetime.weekday(date) == 6 
-                else date + '2d' if datetime.weekday(date) == 5 
-                else date for date in BD.date_range(dateval, step ='6m')]
-    del new_dates[0]
-    return(new_dates)
-    """
-    return BD.date_range(dateval, step ='6m')
-
-
 def yields_for_payment_dates(mat_date, pay_step):
     """Generate list of discount rates for coupon payment dates"""
     # Currently hard coded to USD as currency
@@ -34,6 +19,7 @@ def yields_for_payment_dates(mat_date, pay_step):
     spl = sdc.todays_strips_data_usd
     payment_date_approximate_yields = [float(spl(days_to_mat)) for days_to_mat in days_to_mat_new_dates]
     return payment_date_approximate_yields    
+
 
 def yields_for_payment_dates_VaR(mat_date, pay_step, scenario_spl):
     """Generate list of discount rates for coupon payment dates"""
@@ -46,7 +32,7 @@ def yields_for_payment_dates_VaR(mat_date, pay_step, scenario_spl):
 
 def days_to_payment(mat_date, pay_step):
     '''Return a list of days until coupon dates'''
-    new_dates = payment_dates(mat_date, pay_step)
+    new_dates = BD.date_range(mat_date, step ='6m')
     days_to_payment = [BD.BankDate().num_of_days(date) for date in new_dates]
     return days_to_payment  
 
