@@ -8,7 +8,7 @@ import sys
 sys.path.append('/Users/baronabramowitz/Desktop/python_code/bond_functions')
 
 from bond_class import Bond
-from portfolio_class import Portfolio, generate_portfolio
+from portfolio_class import Portfolio, generate_portfolio, generate_portfolio_psql
 
 
 class TestSuiteBondCode(unittest.TestCase):
@@ -18,18 +18,17 @@ class TestSuiteBondCode(unittest.TestCase):
     as the bond values will change day to day as the yield curves on which they are based move as well.
     In the interim I've simply used ranges ov values to encompas possibilities for changes in the daily yield curve
     """
-    portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
 
     def test_portfolio_value(self):
-        self.assertTrue( 5500000 <= portfolio.value() <= 6500000 )
+        self.assertTrue( 14000000 <= portfolio_test.value() <= 19000000 )
 
     def test_portfolio_duration(self):
-        self.assertTrue( 10 <= portfolio.duration() <= 12 )
+        self.assertTrue( 10 <= portfolio_test.duration() <= 12 )
 
     def test_portfolio_convexity(self):
-        self.assertTrue( 130 <= portfolio.convexity() <= 150 )
+        self.assertTrue( 100 <= portfolio_test.convexity() <= 140 )
 
 
 if __name__ == "__main__":
-    portfolio = Portfolio('/Users/baronabramowitz/Desktop/bond_portfolio_data.csv')
+    portfolio_test = Portfolio('All', 'USD')
     unittest.main()
