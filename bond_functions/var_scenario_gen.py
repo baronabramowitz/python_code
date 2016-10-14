@@ -114,9 +114,12 @@ def strips_data_generation_for_VaR(bond_portfolio_currency):
     else:
         print("Currency not supported")
 
-def var_strips_data_generation(var_days, sample_fraction, currency):
+def var_strips_data_generation(data_start_date, var_days, sample_fraction, currency, ):
     """Generate a set of splines of yield changes for use in VaR calculations
     
+    The start date of '1985-12-15' is the first point 
+    from which a full 30 year horizon is available
+
     Some of this code is bound to be circular and will need to be cleaned up
     Performed one iteration of cleaning so far
     """
@@ -124,7 +127,7 @@ def var_strips_data_generation(var_days, sample_fraction, currency):
     ustreasury_yield_data = quandl.get("FED/SVENY", authtoken="51d6hxsDAX_CwENkcUEB")
     ustreasury_yield_data.columns = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
     ustreasury_yield_delta = ustreasury_yield_data.diff(var_days)
-    ustreasury_yield_delta_modern = ustreasury_yield_delta.ix['1985-12-15':'2016-09-30']
+    ustreasury_yield_delta_modern = ustreasury_yield_delta.ix[data_start_date:str(_pythondate.today())]
     rand_sample = ustreasury_yield_delta_modern.sample(frac=sample_fraction, replace=True)
     for i in range(31, 41):
         rand_sample[i] = rand_sample[30]
@@ -139,11 +142,11 @@ def var_strips_data_generation(var_days, sample_fraction, currency):
     base_yield_points = [base_yield_curve(mat_date) for mat_date in mat_dates]
     yield_scenario_set = [[y1 + y2 for y1,y2 in zip(yield_delta_set, base_yield_points)] for yield_delta_set in yield_change_list]
     final_spl_set = [ InterpolatedUnivariateSpline(mat_dates, y_set)for y_set in yield_scenario_set]
-    print('VaR SDG End ', datetime.now())
+    print('VaR SDG End   ', datetime.now())
     return final_spl_set
 
 if __name__ == "__main__":
-    var_strips_data_generation(10, .1, 'USD')
+    var_strips_data_generation(10, .1, 'USD', '1985-12-15')
 
 
 

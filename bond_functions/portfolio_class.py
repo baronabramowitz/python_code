@@ -52,13 +52,10 @@ def generate_portfolio_psql(bond_set):
 
 class Portfolio(object):
 	"""A portfolio class that contains a set of Bond objects"""
-	def __init__(self, bond_set, currency, var_day_count, var_subsample_fraction, var_percentile):
+	def __init__(self, bond_set, currency):
 		#self.contents = generate_portfolio(csv_location)
 		self.contents = generate_portfolio_psql(bond_set)
 		self.currency = currency
-		self.var_horizon = var_day_count
-		self.var_subsample_fraction = var_subsample_fraction
-		self.var_percentile = var_percentile
 	
 	def value(self):
 		"""Generate the value the portfolio"""
@@ -104,7 +101,7 @@ class Portfolio(object):
 		"""Generate the convexity contribution of each bond in the portfolio"""
 		return [(bond.convexity()*bond.value())/self.value() for bond in self.contents]
 
-	def VaR(self):
+	def VaR(self, data_start_date, var_day_count, var_subsample_fraction, var_percentile):
 		"""Generate the Value at Risk for the portfolio
 
 		Uses a subset of historical yield curve shifts to model possible yield curve movements.
@@ -117,9 +114,9 @@ class Portfolio(object):
 		of scenarios; this should cut down the time but by how much I don't know.
 		"""
 		#print(datetime.now(), 'Starting scenario evaluations.')
-		VaR_value_set = np.array([self.value_VaR(scenario_spl) for scenario_spl in 
-									vsg.var_strips_data_generation(self.var_horizon, self.var_subsample_fraction, self.currency)])
-		portfolio_value_bottom = np.percentile(VaR_value_set, (1 - (self.var_percentile/100)))
+		var_strips_data = vsg.var_strips_data_generation(data_start_date, var_day_count, var_subsample_fraction, self.currency)
+		VaR_value_set = np.array([self.value_VaR(scenario_spl) for scenario_spl in var_strips_data])
+		portfolio_value_bottom = np.percentile(VaR_value_set, (1 - (var_percentile/100)))
 		VaR = self.value() - portfolio_value_bottom
 		VaR_formatted = babel.numbers.format_currency(decimal.Decimal(str(VaR)), self.currency)
 		VaR_percentile = str((VaR/self.value()) * 100) + '%'
@@ -133,46 +130,5 @@ class Portfolio(object):
 	
 
 if __name__ == "__main__":
-	portfolio_test = Portfolio('All', 'USD', 10, .25, 95)
-	print(portfolio_test.value())
-	"""for i in (.25,.2,.15,.1,.05):
-		portfolio_test = Portfolio('All', 'USD', 10, i, 95)
-		for integ in range(1,11):
-			print('Cycle', integ)
-			start = datetime.now()
-			print(portfolio_test.VaR())
-			end = datetime.now()
-			print(end - start, 'Time Elapsed')"""			
-
-
-
-	"""portfolio_1 = Portfolio('All', 'USD', 10, .1, 95)
-	portfolio_2 = Portfolio('Corporate', 'USD', 10, .1, 95)
-	portfolio_3 = Portfolio('Government', 'USD', 10, .1, 95)
-	print('Initiate VaR All', datetime.now())
-	print(portfolio_a.VaR())
-	print('Process Completed All', datetime.now())
-	
-	print('Initiate VaR Corporate', datetime.now())
-	print(portfolio_c.VaR())
-	print('Process Completed Corporate', datetime.now())
-
-	print('Initiate VaR Government', datetime.now())
-	print(portfolio_g.VaR())
-	print('Process Completed Government', datetime.now())
-	"""
-	
-	#print(portfolio_a.value())
-	"""
-	print(portfolio_a.duration())
-	print(portfolio_a.convexity())
-	print(portfolio_c.value())
-	print(portfolio_c.duration())
-	print(portfolio_c.convexity())
-	print(portfolio_g.value())
-	print(portfolio_g.duration())
-	print(portfolio_g.convexity())
-	"""
-
-
-		
+	portfolio_test = Portfolio('All', 'USD')
+	print(portfolio_test.VaR('1985-12-25', 10, .01, 95))
