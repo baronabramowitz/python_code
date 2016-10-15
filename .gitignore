@@ -5,3 +5,6 @@
 
 #Ignores .DS_store files that OSX automatically generates
 *.DS_store
+
+#Ignore Visual Studio Code Settings json
+.vscode/*
