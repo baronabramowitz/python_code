@@ -22,7 +22,7 @@ def yields_for_payment_dates(mat_date, pay_step):
     return payment_date_approximate_yields
 
 
-def yields_for_payment_dates_VaR(mat_date, pay_step, scenario_spl):
+def yields_for_payment_dates_var(mat_date, pay_step, scenario_spl):
     """Generate list of discount rates for coupon payment dates"""
     # Currently hard coded to USD as currency
     days_to_mat_new_dates = days_to_payment(mat_date, pay_step)

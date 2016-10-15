@@ -18,7 +18,7 @@ from scipy.interpolate import InterpolatedUnivariateSpline
 
 
 
-def strips_data_generation_for_VaR(bond_portfolio_currency):
+def strips_data_generation_for_var(bond_portfolio_currency):
     """Retrieves STRIPS data from US Treasuries or UK Gilts and generates a VaR scenario of different yield curves.
 
     Returns a set of interpolated univariate splines of the yields 
@@ -134,11 +134,11 @@ def var_strips_data_generation(data_start_date, var_days, sample_fraction, curre
     rand_sample[0] = rand_sample[1]
     rand_sample.sort_index(axis=1, inplace=True)
     xrange = range(0,41)
-    mat_dates = strips_data_generation_for_VaR(currency)[1]
+    mat_dates = strips_data_generation_for_var(currency)[1]
     spl_list = [InterpolatedUnivariateSpline(xrange, row[1:]) for row in rand_sample.itertuples()]
     years_for_payments = [days/365 for days in  mat_dates]
     yield_change_list = [[spl(years) for years in years_for_payments] for spl in spl_list]
-    base_yield_curve = strips_data_generation_for_VaR(currency)[0]
+    base_yield_curve = strips_data_generation_for_var(currency)[0]
     base_yield_points = [base_yield_curve(mat_date) for mat_date in mat_dates]
     yield_scenario_set = [[y1 + y2 for y1,y2 in zip(yield_delta_set, base_yield_points)] for yield_delta_set in yield_change_list]
     final_spl_set = [ InterpolatedUnivariateSpline(mat_dates, y_set)for y_set in yield_scenario_set]

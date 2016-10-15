@@ -131,15 +131,15 @@ class Portfolio(object):
         # print(datetime.now(), 'Starting scenario evaluations.')
         var_strips_data = vsg.var_strips_data_generation(
             data_start_date, var_day_count, var_subsample_fraction, self.currency)
-        VaR_value_set = np.array([self.value_var(scenario_spl)
+        var_value_set = np.array([self.value_var(scenario_spl)
                                   for scenario_spl in var_strips_data])
         portfolio_value_bottom = np.percentile(
-            VaR_value_set, (1 - (var_percentile / 100)))
-        VaR = self.value() - portfolio_value_bottom
-        VaR_formatted = babel.numbers.format_currency(
-            decimal.Decimal(str(VaR)), self.currency)
-        VaR_percentile = str((VaR / self.value()) * 100) + '%'
-        return {'VaR': VaR_formatted, 'VaR Percentage': VaR_percentile}
+            var_value_set, (1 - (var_percentile / 100)))
+        var = self.value() - portfolio_value_bottom
+        var_formatted = babel.numbers.format_currency(
+            decimal.Decimal(str(var)), self.currency)
+        var_percentile = str((var / self.value()) * 100) + '%'
+        return {'var': var_formatted, 'var Percentage': var_percentile}
 
 
 if __name__ == "__main__":
