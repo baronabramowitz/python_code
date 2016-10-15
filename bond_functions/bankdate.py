@@ -33,7 +33,10 @@ class BankDate(object):
         """A TimePeriod can be added to a BankDate"""
         #period = TimePeriod(period)
         period_count = int(period[:-1])
-        period_unit = period [-1:]
+        period_unit = period[-1:]
+        # rd_input = {'y' : 'years','m' : 'months','w' : 'weeks','d' : 'days'}[period[-1:]]
+        # return self.bank_date + relativedelta(**{rd_input : period_count})
+        # Below code is more efficient than above dict method
         if period_unit == 'y':
             return self.bank_date + relativedelta(years = period_count)
         elif period_unit == 'm':
@@ -42,6 +45,7 @@ class BankDate(object):
             return self.bank_date + relativedelta(weeks = period_count)
         elif period_unit == 'd':
             return self.bank_date + relativedelta(days = period_count)
+
     def __str__ (self):
         return str(self.bank_date)
     
@@ -50,6 +54,9 @@ class BankDate(object):
         #period = TimePeriod(period)
         period_count = int(period[:-1])
         period_unit = period [-1:]
+        #rd_input = {'y' : 'years','m' : 'months','w' : 'weeks','d' : 'days'}[period[-1:]]
+        #return self.bank_date - relativedelta(**{rd_input : period_count})
+        # Below code is more efficient than above dict method
         if period_unit == 'y':
             return self.bank_date - relativedelta(years = period_count)
         elif period_unit == 'm':
@@ -58,12 +65,14 @@ class BankDate(object):
             return self.bank_date - relativedelta(weeks = period_count)
         elif period_unit == 'd':
             return self.bank_date - relativedelta(days = period_count)
+        
 
     def num_of_days(self, fut_date):
         """Return the number of days between a future date and today(or the next BankDate)"""
         return (fut_date.bank_date - self.bank_date).days
 
 def date_range(enddate, step,  startdate = BankDate()):
+    """Return a set of dates iterating back from enddate by step"""
     #step = TimePeriod(step)
     enddate = datetime.strptime(enddate, '%Y-%m-%d').date()
     _date = BankDate(enddate)
@@ -76,7 +85,10 @@ def date_range(enddate, step,  startdate = BankDate()):
  
 if __name__ == "__main__":
     #print(_pythondate.today())
-    #three_years = BankDate()._add('3y')
-    #print(three_years)
-    for i in date_range('2022-06-15', '6m'):
-        print(str(i), type(i))
+    three_yearsf = BankDate()._add('3y')
+    three_yearsb = BankDate()._sub('3y')
+    print(type(three_yearsf))
+    print(three_yearsb)
+
+    #for i in date_range('2022-06-15', '6m'):
+    #    print(str(i), type(i))
