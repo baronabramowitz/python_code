@@ -140,4 +140,4 @@ class Portfolio(object):
 
 if __name__ == "__main__":
 	portfolio_test = Portfolio('All', 'USD')
-	print(portfolio_test.VaR('1985-12-25', 10, 1, 95))
+	print(portfolio_test.VaR('1985-12-25', 1, 1, 95))
