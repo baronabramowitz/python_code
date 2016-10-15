@@ -1,8 +1,7 @@
 __author__ = 'Baron Abramowitz'
-__version__ = '0.1.0'
 __maintainer__ = 'Baron Abramowitz'
 __email__ = 'baron.abramowitz@yahoo.com'
-__date__ = '22/08/2016'
+__date__ = '15/10/2016'
 
 from datetime import date as _pythondate
 from datetime import timedelta, datetime
