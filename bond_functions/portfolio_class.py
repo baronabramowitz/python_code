@@ -5,15 +5,15 @@ __date__ = '15/10/2016'
 
 """Portfolio Generation Code"""
 
-import bond_class as bc
-import var_scenario_gen as vsg
 import decimal
-from datetime import datetime, timedelta
 
 import babel.numbers
 import numpy as np
 import pandas as pd
 import psycopg2
+
+import bond_class as bc
+import var_scenario_gen as vsg
 
 
 def generate_portfolio(csv_location):
@@ -100,7 +100,8 @@ class Portfolio(object):
 
     def modified_duration(self):
         """Generate the modified duration the portfolio"""
-        return sum([(bond.modified_duration() * bond.value()) / self.value() for bond in self.contents])
+        return sum([(bond.modified_duration() * bond.value())
+                    / self.value() for bond in self.contents])
 
     def contents_modified_duration(self):
         """Generate the modified duration contribution of each bond in the portfolio"""
@@ -122,11 +123,12 @@ class Portfolio(object):
         both a formatted value and a percentage of portfolio value.
 
         *Currently Biggest Issue*
-        The function recalculates the days to each payment for each bond every time it values the bond;
-        Long term solution, rewrite so that days to payment for each bond only calc'd once per bond and
-        then passed to the appropriate functions
-        Short term solution, rewrote the pv fcf method to only calc dtp once per bond valuation, not 3
-        times; I am an idiot, this cut runtime by 89%
+        The function recalculates the days to each payment for each bond every
+        time it values the bond;
+        Long term solution, rewrite so that days to payment for each bond only
+        calc'd once per bond and then passed to the appropriate functions
+        Short term solution, rewrote the pv fcf method to only calc dtp once per
+        bond valuation, not 3 times; I am an idiot, this cut runtime by 89%
         """
         # print(datetime.now(), 'Starting scenario evaluations.')
         var_strips_data = vsg.var_strips_data_generation(
@@ -144,4 +146,5 @@ class Portfolio(object):
 
 if __name__ == "__main__":
     portfolio_test = Portfolio('All', 'USD')
+    # print(portfolio_test.value())
     print(portfolio_test.value_at_risk('1985-12-25', 1, 1, 95))
