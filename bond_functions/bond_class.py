@@ -50,14 +50,10 @@ class Bond(object):
 
     def days_to_payments(self):
         """Generate the set of days to each payment"""
-        if self.payments_per_year == 0:
-            pass
-            # days_to_paymenys = list()
-        else:
-            payment_step = str(12 / self.payments_per_year) + 'm'
-            days_to_payments = df.days_to_payment(
-                self.maturity_date, payment_step)
-        return days_to_payments
+        try:
+            return df.days_to_payment(self.maturity_date, (str(12 / self.payments_per_year) + 'm'))
+        except ZeroDivisionError:
+            return None
 
     def update_rating(self, new_rating):
         """Update the rating for a specific bond"""
@@ -65,64 +61,39 @@ class Bond(object):
 
     def rating_premium(self):
         """Set the rating premium above the discount rates for different bond ratings/types"""
-        if self.btype == 'Corporate':
-            if self.rating == 'AAA':
-                rating_premium = .015
-            elif self.rating == 'AA':
-                rating_premium = .025
-            elif self.rating == 'A':
-                rating_premium = .035
-            else:
-                pass
-        elif self.btype == 'Government':
-            if self.rating == 'AAA':
-                rating_premium = 0
-            elif self.rating == 'AA':
-                rating_premium = .015
-            elif self.rating == 'A':
-                rating_premium = .025
-            else:
-                pass
-        else:
-            pass
-        return rating_premium
+        rating_dict = {'Corporate': {'AAA': .015, 'AA': .025, 'A': .035},
+                       'Government': {'AAA': 0, 'AA': .015, 'A': .025}}
+        return rating_dict[self.btype][self.rating]
 
     def discount_rates(self):
         """Generate a set of discount rates for each of the payment dates"""
-
-        if self.payments_per_year == 0:
-            discount_rates = df.yields_for_payment_dates(
-                self.maturity_date, '12m')  # Hacky workaround
-        else:
-            payment_step = str(12 / self.payments_per_year) + 'm'
-            discount_rates = df.yields_for_payment_dates(
-                self.maturity_date, payment_step)
-        return discount_rates
+        try:
+            return df.yields_for_payment_dates(self.maturity_date,
+                                               (str(12 / self.payments_per_year) + 'm'))
+        except ZeroDivisionError:
+            return df.yields_for_payment_dates(self.maturity_date, '12m')
+            # Hacky hard code 12m
 
     def discount_rates_var(self, scenario_spl):
         """Generate a set of discount rates for each of the payment dates"""
-
-        if self.payments_per_year == 0:
-            discount_rates = df.yields_for_payment_dates_var(
-                self.maturity_date, '12m', scenario_spl)  # Hacky workaround
-        else:
-            payment_step = str(12 / self.payments_per_year) + 'm'
-            discount_rates = df.yields_for_payment_dates_var(
-                self.maturity_date, payment_step, scenario_spl)
-        return discount_rates
+        try:
+            return df.yields_for_payment_dates_var(
+                self.maturity_date, (str(12 / self.payments_per_year) + 'm'), scenario_spl)
+        except ZeroDivisionError:
+            return df.yields_for_payment_dates_var(self.maturity_date, '12m', scenario_spl)
+            # Hacky hard code 12m
 
     def maturity_remaining(self):
         """Generate the maturity remaining in years for a single bond"""
         return ((BD.BankDate().num_of_days(self.maturity_date)) / 365)
 
     def coupon_payment(self):
-        """Claculate the coupon payment for each payment date for the bond"""
-        if self.payments_per_year == 0:
-            coupon_payment = 0
-        else:
-            coupon_payment = ((self.coupon_rate / 100) *
-                              self.face_value) / self.payments_per_year
-        return coupon_payment
+        """Calculate the coupon payment for each payment date for the bond"""
+        try:
+            return ((self.coupon_rate / 100) *
+                    self.face_value) / self.payments_per_year
+        except ZeroDivisionError:
+            return 0
 
     def present_value_fcf(self):
         """Calculate the present value of each cash flow for a bond using daily compounding"""
@@ -135,10 +106,7 @@ class Bond(object):
 
         discount_rates = [x * (1 + self.rating_premium())
                           for x in self.discount_rates()]
-        if self.payments_per_year == 0:
-            pv_fcf.append(self.face_value /
-                          ((1 + (discount_rates[0] / 100 / 365))**BD.BankDate().num_of_days(self.maturity_date)))
-        else:
+        try:
             dtp = self.days_to_payments()
             for i, day_count in enumerate(dtp):
                 if day_count == max(dtp):
@@ -151,6 +119,9 @@ class Bond(object):
                     pv_fcf.append(pv_cf)
                 else:
                     pass
+        except TypeError:
+            pv_fcf.append(self.face_value /
+                          ((1 + (discount_rates[0] / 100 / 365))**BD.BankDate().num_of_days(self.maturity_date)))
         return pv_fcf
 
     def present_value_fcf_c(self):
@@ -163,10 +134,7 @@ class Bond(object):
         # clear
         discount_rates = [x * (1 + self.rating_premium())
                           for x in self.discount_rates()]
-        if self.payments_per_year == 0:
-            pv_fcf.append(self.face_value * exp(-(discount_rates[0] / 100)
-                                                * (self.maturity_remaining())))
-        else:
+        try:
             dtp = self.days_to_payments()
             for i, day_count in enumerate(dtp):
                 if day_count == max(dtp):
@@ -180,6 +148,9 @@ class Bond(object):
                     pv_fcf.append(pv_cf)
                 else:
                     pass
+        except TypeError:
+            pv_fcf.append(self.face_value * exp(-(discount_rates[0] / 100)
+                                                * (self.maturity_remaining())))
         return pv_fcf
 
     def present_value_fcf_var(self, scenario_spl):
@@ -192,11 +163,7 @@ class Bond(object):
         # clear
         discount_rates = [x * (1 + self.rating_premium())
                           for x in self.discount_rates_var(scenario_spl)]
-        if self.payments_per_year == 0:
-
-            pv_fcf.append(self.face_value /
-                          ((1 + (discount_rates[0] / 100 / 365))**BD.BankDate().num_of_days(self.maturity_date)))
-        else:
+        try:
             dtp = self.days_to_payments()
             for i, day_count in enumerate(dtp):
                 if day_count == max(dtp):
@@ -211,6 +178,9 @@ class Bond(object):
                     pv_fcf.append(pv_cf)
                 else:
                     pass
+        except TypeError:
+            pv_fcf.append(self.face_value /
+                          ((1 + (discount_rates[0] / 100 / 365))**BD.BankDate().num_of_days(self.maturity_date)))
         return pv_fcf
 
     def present_value_fcf_c_var(self, scenario_spl):
@@ -223,10 +193,7 @@ class Bond(object):
         # clear
         discount_rates = [x * (1 + self.rating_premium())
                           for x in self.discount_rates_var(scenario_spl)]
-        if self.payments_per_year == 0:
-            pv_fcf.append(self.face_value * exp(-(discount_rates[0] / 100)
-                                                * (self.maturity_remaining())))
-        else:
+        try:
             dtp = self.days_to_payments()
             for i, day_count in enumerate(dtp):
                 if day_count == max(dtp):
@@ -241,6 +208,9 @@ class Bond(object):
                     pv_fcf.append(pv_cf)
                 else:
                     pass
+        except TypeError:
+            pv_fcf.append(self.face_value * exp(-(discount_rates[0] / 100)
+                                                * (self.maturity_remaining())))
         return pv_fcf
 
     def value(self):
@@ -261,27 +231,25 @@ class Bond(object):
 
     def duration(self):
         """Calculate the duration of a Bond object using daily compounding"""
-        if self.payments_per_year == 0:
-            duration = self.maturity_remaining()
-        else:
+        try:
             years_to_payments = [
                 days / 365 for days in self.days_to_payments()]
             intermediate_dur_calcs = [
                 (cf[0] * cf[1]) for cf in zip(self.present_value_fcf(), years_to_payments)]
-            duration = sum(intermediate_dur_calcs) / self.value()
-        return duration
+            return sum(intermediate_dur_calcs) / self.value()
+        except TypeError:
+            return self.maturity_remaining()
 
     def duration_c(self):
         """Calculate the duration of a Bond object using continuous compounding"""
-        if self.payments_per_year == 0:
-            duration_c = self.maturity_remaining()
-        else:
+        try:
             years_to_payments = [
                 days / 365 for days in self.days_to_payments()]
             intermediate_dur_calcs = [
                 (cf[0] * cf[1]) for cf in zip(self.present_value_fcf_c(), years_to_payments)]
-            duration_c = sum(intermediate_dur_calcs) / self.value_c()
-        return duration_c
+            return sum(intermediate_dur_calcs) / self.value_c()
+        except TypeError:
+            return self.maturity_remaining()
 
     def modified_duration(self):
         """Calculate the modified duration of a Bond object using daily compounding"""
@@ -294,36 +262,33 @@ class Bond(object):
 
     def convexity(self):
         """Calculate the convexity of an indivudal bond using daily compounding"""
-        if self.payments_per_year == 0:
-            t = self.maturity_remaining()
-            convexity = ((self.face_value * (t**2 + t) / (1 + self.discount_rates()[0] / 100)**t)
-                         / (self.value() * (1 + self.discount_rates()[0] / 100)**2))
-        else:
+        try:
             years_to_payments = [
                 days / 365 for days in self.days_to_payments()]
             intermediate_conv_calcs = [((pv_cf[0]) * (pv_cf[1]**2 + pv_cf[1]))
                                        for pv_cf in zip(self.present_value_fcf(), years_to_payments)]
-            convexity = (sum(intermediate_conv_calcs) /
-                         (self.value() * (1 + sum(self.discount_rates())
-                                          / len(self.discount_rates()) / 100)**2))
-        return convexity
+            return (sum(intermediate_conv_calcs) /
+                    (self.value() * (1 + sum(self.discount_rates())
+                                     / len(self.discount_rates()) / 100)**2))
+        except TypeError:
+            t = self.maturity_remaining()
+            return ((self.face_value * (t**2 + t) / (1 + self.discount_rates()[0] / 100)**t)
+                    / (self.value() * (1 + self.discount_rates()[0] / 100)**2))
 
     def convexity_c(self):
         """Calculate the convexity of an indivudal bond using continuous compounding"""
-
-        if self.payments_per_year == 0:
-            t = self.maturity_remaining()
-            convexity = (self.face_value * (t**2 + t) * exp(-(self.discount_rates()[0] / 100) * t)
-                         / (self.value() * (1 + self.discount_rates()[0] / 100)**2))
-        else:
+        try:
             years_to_payments = [
                 days / 365 for days in self.days_to_payments()]
             intermediate_conv_calcs = [((pv_cf[0]) * (pv_cf[1]**2 + pv_cf[1]))
                                        for pv_cf in zip(self.present_value_fcf_c(), years_to_payments)]
-            convexity = (sum(intermediate_conv_calcs) /
-                         (self.value_c() * (1 + sum(self.discount_rates())
-                                            / len(self.discount_rates()) / 100)**2))
-        return convexity
+            return (sum(intermediate_conv_calcs) /
+                    (self.value_c() * (1 + sum(self.discount_rates())
+                                       / len(self.discount_rates()) / 100)**2))
+        except TypeError:
+            t = self.maturity_remaining()
+            return (self.face_value * (t**2 + t) * exp(-(self.discount_rates()[0] / 100) * t)
+                    / (self.value() * (1 + self.discount_rates()[0] / 100)**2))
 
 
 if __name__ == "__main__":
