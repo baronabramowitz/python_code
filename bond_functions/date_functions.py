@@ -13,7 +13,6 @@ def yields_for_payment_dates(mat_date, pay_step):
     """Generate list of discount rates for coupon payment dates"""
     # Currently hard coded to USD as currency
     days_to_mat_dates = days_to_payment(mat_date, pay_step)
-
     spl = sdc.todays_strips_data_usd
     payment_date_approximate_yields = [
         float(spl(days_to_mat)) for days_to_mat in days_to_mat_dates]
