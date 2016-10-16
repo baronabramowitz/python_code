@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 
 
 class TimePeriod(object):
+    # Likely would be improved as a named tupel
 
     def __init__(self, period):
         self.period = period
@@ -19,13 +20,10 @@ class TimePeriod(object):
 class BankDate(object):
 
     def __init__(self, bank_date=_pythondate.today()):
-        if isinstance(bank_date, str):
+        try:
             self.bank_date = datetime.strptime(bank_date, '%Y-%m-%d').date()
-            # Functions as expected
-        else:
+        except TypeError:
             self.bank_date = bank_date
-            # Functions as expected
-
         # Ensure not weekend
         if datetime.weekday(self.bank_date) == 6:
             self.bank_date = self.bank_date + relativedelta(days=1)
