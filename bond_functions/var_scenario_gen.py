@@ -138,8 +138,10 @@ def var_strips_data_generation(data_start_date, var_days, sample_fraction, curre
     print('VaR SDG Start ', datetime.now())
     ustreasury_yield_data = quandl.get(
         "FED/SVENY", authtoken="51d6hxsDAX_CwENkcUEB")
-    ustreasury_yield_data.columns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                                     13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    # pylint: disable=C0326
+    ustreasury_yield_data.columns = [1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                                     11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                                     21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
     ustreasury_yield_delta = ustreasury_yield_data.diff(var_days)
     ustreasury_yield_delta_modern = ustreasury_yield_delta.ix[
         data_start_date:str(_pythondate.today())]
