@@ -142,10 +142,10 @@ class Portfolio(object):
         var_formatted = babel.numbers.format_currency(
             decimal.Decimal(str(var)), self.currency)
         var_percentile = str((var / self.value()) * 100) + '%'
-        return {'var': var_formatted, 'var Percentage': var_percentile}
+        return {'VaR': var_formatted, 'VaR Percentage': var_percentile}
 
 
 if __name__ == "__main__":
     portfolio_test = Portfolio('All', 'USD')
-    # print(portfolio_test.value())
-    print(portfolio_test.value_at_risk('2003-12-25', 10, 1, 95))
+    print(portfolio_test.value())
+    print(portfolio_test.value_at_risk('2015-12-25', 10, 1, 95))
