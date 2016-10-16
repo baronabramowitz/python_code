@@ -12,9 +12,11 @@ from bond_class import Bond
 class TestSuiteBondCode(unittest.TestCase):
     """Large Selection of Tests for the bond_class.py
 
-    I have recently realized that these tests will need to point to fixed data sets for yields 
-    as the bond values will change day to day as the yield curves on which they are based move as well.
-    In the interim I've simply used ranges ov values to encompas possibilities for changes in the daily yield curve
+    I have recently realized that these tests will need to point to fixed
+    data sets for yields as the bond values will change day to day as the
+    yield curves on which they are based move as well. In the interim I've
+    simply used ranges ov values to encompas possibilities for changes in
+    the daily yield curve
     """
 
     def test_bond_value(self):

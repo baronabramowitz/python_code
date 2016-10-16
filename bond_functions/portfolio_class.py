@@ -118,9 +118,10 @@ class Portfolio(object):
     def value_at_risk(self, data_start_date, var_day_count, var_subsample_fraction, var_percentile):
         """Generate the Value at Risk for the portfolio
 
-        Uses a subset of historical yield curve shifts (can use all of them) to model possible
-        yield curve movements. Return the percentile specified of the set of loss scenarios as
-        both a formatted value and a percentage of portfolio value.
+        Uses a subset of historical yield curve shifts (can use all of them)
+        to model possible yield curve movements. Return the percentile specified
+        of the set of loss scenarios as both a formatted value and a percentage
+        of portfolio value.
 
         *Currently Biggest Issue*
         The function recalculates the days to each payment for each bond every
@@ -147,4 +148,4 @@ class Portfolio(object):
 if __name__ == "__main__":
     portfolio_test = Portfolio('All', 'USD')
     # print(portfolio_test.value())
-    print(portfolio_test.value_at_risk('1985-12-25', 1, 1, 95))
+    print(portfolio_test.value_at_risk('2003-12-25', 10, 1, 95))
