@@ -45,10 +45,14 @@ def strips_data_generation_for_var(bond_portfolio_currency):
             "INSTRUMENT_NAME=\"Treasury Coupon Strip \d{2}[a-zA-Z]{3}2\d{3}\" REDEMPTION_DATE=\"(2\d{3}[-][0-1][0-9][-][0-3][0-9])T.{157}YIELD=\"(\d{1,2}\.\d{12})\"")
         pattern_g1_matches = []
         pattern_g2_matches = []
-        for i, line in enumerate(open(base_data_location_string, 'r')):
-            for match in re.finditer(pattern, line):
-                pattern_g1_matches.append(match.group(1))
-                pattern_g2_matches.append(match.group(2))
+        try:
+            opened_file_path = open(base_data_location_string, 'r')
+            for i, line in enumerate(opened_file_path):
+                for match in re.finditer(pattern, line):
+                    pattern_g1_matches.append(match.group(1))
+                    pattern_g2_matches.append(match.group(2))
+        finally:
+            opened_file_path.close()
         pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
         pattern_g2_matches_df = pd.DataFrame(pattern_g2_matches)
         strips_output = pd.merge(pattern_g1_matches_df, pattern_g2_matches_df,
@@ -91,19 +95,27 @@ def strips_data_generation_for_var(bond_portfolio_currency):
             r"<td style=\"border-right:0px\" class=\"num\">([0-9]{1,2}\.[0-9]{2})</td>")
         pattern_g1_matches = []
         pattern_g2_matches = []
-        for i, line in enumerate(open(base_data_location_string, 'r')):
-            if i > 2480:
-                for match in re.finditer(pattern_date, line):
-                    pattern_g1_matches.append(match.group(1))
-            else:
-                pass
+        try:
+            opened_file_path = open(base_data_location_string, 'r')
+            for i, line in enumerate(opened_file_path):
+                if i > 2480:
+                    for match in re.finditer(pattern_date, line):
+                        pattern_g1_matches.append(match.group(1))
+                else:
+                    pass
+        finally:
+            opened_file_path.close()
 
-        for i, line in enumerate(open(base_data_location_string, 'r')):
-            if i > 2480:
-                for match in re.finditer(pattern_yield, line):
-                    pattern_g2_matches.append(match.group(1))
-            else:
-                pass
+        try:
+            opened_file_path = open(base_data_location_string, 'r')
+            for i, line in enumerate(opened_file_path):
+                if i > 2480:
+                    for match in re.finditer(pattern_yield, line):
+                        pattern_g2_matches.append(match.group(1))
+                else:
+                    pass
+        finally:
+            opened_file_path.close()
 
         pattern_g1_matches_df = pd.DataFrame(pattern_g1_matches)
         pattern_g2_matches_df = pd.DataFrame(pattern_g2_matches)
@@ -137,7 +149,7 @@ def var_strips_data_generation(data_start_date, var_days, sample_fraction, curre
     """
     print('VaR SDG Start ', datetime.now())
     ustreasury_yield_data = quandl.get(
-        "FED/SVENY", authtoken="51d6hxsDAX_CwENkcUEB")
+        "FED/SVENY", api_key="51d6hxsDAX_CwENkcUEB")
     # pylint: disable=C0326
     ustreasury_yield_data.columns = [1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
                                      11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
