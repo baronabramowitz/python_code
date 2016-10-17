@@ -9,34 +9,35 @@ import bankdate as BD
 import strips_data_config as sdc
 
 
-def yields_for_payment_dates(mat_date, pay_step):
+def yields_for_payment_dates(payment_dates):
     """Generate list of discount rates for coupon payment dates"""
     # Currently hard coded to USD as currency
-    days_to_mat_dates = days_to_payment(mat_date, pay_step)
+    days_to_mat_dates = days_to_payment(payment_dates)
     spl = sdc.todays_strips_data_usd
     payment_date_approximate_yields = [
         float(spl(days_to_mat)) for days_to_mat in days_to_mat_dates]
     return payment_date_approximate_yields
 
 
-def yields_for_payment_dates_var(mat_date, pay_step, scenario_spl):
+def yields_for_payment_dates_var(payment_dates, scenario_spl):
     """Generate list of discount rates for coupon payment dates"""
     # Currently hard coded to USD as currency
 
-    days_to_mat_dates = days_to_payment(mat_date, pay_step)
-    spl = scenario_spl
+    days_to_mat_dates = days_to_payment(payment_dates)
     payment_date_approximate_yields = [
-        float(spl(days_to_mat)) for days_to_mat in days_to_mat_dates]
+        float(scenario_spl(days_to_mat)) for days_to_mat in days_to_mat_dates]
     return payment_date_approximate_yields
 
 
-def days_to_payment(mat_date, pay_step):
+def days_to_payment(payment_dates):
     """Return a list of days until coupon dates"""
 
-    new_dates = BD.date_range(mat_date, pay_step)
-
-    days_to_payment = [BD.BankDate().num_of_days(date) for date in new_dates]
-    return days_to_payment
+    try:
+        days_to_payment = [BD.BankDate().num_of_days(date.bank_date)
+                           for date in payment_dates]
+        return days_to_payment
+    except TypeError:
+        return [BD.BankDate().num_of_days(payment_dates.bank_date)]
 
 
 if __name__ == "__main__":

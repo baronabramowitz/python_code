@@ -36,7 +36,7 @@ class BankDate(object):
 
     def _add(self, period):
         """A TimePeriod can be added to a BankDate"""
-        #period = TimePeriod(period)
+
         period_count = int(float(period[:-1]))
         period_unit = period[-1:]
         # rd_input = {'y' : 'years','m' : 'months','w' : 'weeks','d' : 'days'}[period[-1:]]
@@ -54,9 +54,12 @@ class BankDate(object):
     def __str__(self):
         return str(self.bank_date)
 
+    def __repr__(self):
+        return str(self.bank_date)
+
     def _sub(self, period):
-        """A TimePeriod can be added to a BankDate"""
-        #period = TimePeriod(period)
+        """A TimePeriod can be subtracted from a BankDate"""
+
         period_count = int(float(period[:-1]))
         period_unit = period[-1:]
         # rd_input = {'y' : 'years','m' : 'months','w' : 'weeks','d' : 'days'}[period[-1:]]
@@ -73,13 +76,14 @@ class BankDate(object):
 
     def num_of_days(self, fut_date):
         """Return the number of days between a future date and today(or the next BankDate)"""
-        return (fut_date.bank_date - self.bank_date).days
+        try:
+            return (fut_date - self.bank_date).days
+        except TypeError:
+            return (fut_date.bank_date - self.bank_date).days
 
 
 def date_range(enddate, step, startdate=BankDate()):
     """Return a set of dates iterating back from enddate by step"""
-    #step = TimePeriod(step)
-    #enddate = datetime.strptime(enddate, '%Y-%m-%d').date()
 
     _date = enddate
     date_list = [_date]

@@ -31,6 +31,11 @@ class Bond(object):
         self.payments_per_year = int(payments_per_year)
         self.rating = rating
         self.btype = btype
+        try:
+            self.payment_dates = BD.date_range(
+                self.maturity_date, (str(12 / self.payments_per_year) + 'm'))
+        except ZeroDivisionError:
+            self.payment_dates = self.maturity_date
 
     def __repr__(self):
         if self.payments_per_year == 1:
@@ -50,10 +55,7 @@ class Bond(object):
 
     def days_to_payments(self):
         """Generate the set of days to each payment"""
-        try:
-            return df.days_to_payment(self.maturity_date, (str(12 / self.payments_per_year) + 'm'))
-        except ZeroDivisionError:
-            return None
+        return df.days_to_payment(self.payment_dates)
 
     def update_rating(self, new_rating):
         """Update the rating for a specific bond"""
@@ -67,21 +69,11 @@ class Bond(object):
 
     def discount_rates(self):
         """Generate a set of discount rates for each of the payment dates"""
-        try:
-            return df.yields_for_payment_dates(self.maturity_date,
-                                               (str(12 / self.payments_per_year) + 'm'))
-        except ZeroDivisionError:
-            return df.yields_for_payment_dates(self.maturity_date, '12m')
-            # Hacky hard code 12m
+        return df.yields_for_payment_dates(self.payment_dates)
 
     def discount_rates_var(self, scenario_spl):
         """Generate a set of discount rates for each of the payment dates"""
-        try:
-            return df.yields_for_payment_dates_var(
-                self.maturity_date, (str(12 / self.payments_per_year) + 'm'), scenario_spl)
-        except ZeroDivisionError:
-            return df.yields_for_payment_dates_var(self.maturity_date, '12m', scenario_spl)
-            # Hacky hard code 12m
+        return df.yields_for_payment_dates_var(self.payment_dates, scenario_spl)
 
     def maturity_remaining(self):
         """Generate the maturity remaining in years for a single bond"""
