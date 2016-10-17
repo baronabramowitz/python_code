@@ -20,72 +20,56 @@ class TestSuiteBondCode(unittest.TestCase):
     """
 
     def test_bond_value(self):
-        self.assertTrue(10000 <= Bond(10000.0, '2022-06-15',
-                                      2.5, 2, 'AAA', 'Corporate').value() <= 12000)
+        self.assertTrue(10000 <= bond_test.value() <= 12000)
 
     def test_bond_value_c(self):
-        self.assertTrue(10000 <= Bond(10000.0, '2022-06-15', 2.5,
-                                      2, 'AAA', 'Corporate').value_c() <= 12000)
+        self.assertTrue(10000 <= bond_test.value_c() <= 12000)
 
     def test_bond_duration(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5,
-                                  2, 'AAA', 'Corporate').duration() <= 6)
+        self.assertTrue(4 <= bond_test.duration() <= 6)
 
     def test_bond_duration_c(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5,
-                                  2, 'AAA', 'Corporate').duration_c() <= 6)
+        self.assertTrue(4 <= bond_test.duration_c() <= 6)
 
     def test_modified_bond_duration(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5, 2,
-                                  'AAA', 'Corporate').modified_duration() <= 6)
+        self.assertTrue(4 <= bond_test.modified_duration() <= 6)
 
     def test_modified_bond_duration_c(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5, 2,
-                                  'AAA', 'Corporate').modified_duration_c() <= 6)
+        self.assertTrue(4 <= bond_test.modified_duration_c() <= 6)
 
     def test_bond_convexity(self):
-        self.assertTrue(0 <= Bond(10000.0, '2022-06-15', 2.5,
-                                  2, 'AAA', 'Corporate').convexity() <= 50)
+        self.assertTrue(0 <= bond_test.convexity() <= 50)
 
     def test_bond_convexity_c(self):
-        self.assertTrue(0 <= Bond(10000.0, '2022-06-15', 2.5, 2,
-                                  'AAA', 'Corporate').convexity_c() <= 50)
+        self.assertTrue(0 <= bond_test.convexity_c() <= 50)
 
     def test_bond_value_zcb(self):
-        self.assertTrue(8000 <= Bond(10000.0, '2022-06-15',
-                                     2.5, 0, 'AAA', 'Corporate').value() <= 12000)
-        # Would make max value face value but with neg int rates, who knows
-        # these days
+        self.assertTrue(8000 <= bond_test_zcb.value() <= 12000)
 
     def test_bond_value_c_zcb(self):
-        self.assertTrue(8000 <= Bond(10000.0, '2022-06-15', 2.5,
-                                     0, 'AAA', 'Corporate').value_c() <= 12000)
-        # Would make max value face value but with neg int rates, who knows
-        # these days
+        self.assertTrue(8000 <= bond_test_zcb.value_c() <= 12000)
 
     def test_bond_duration_zcb(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5,
-                                  0, 'AAA', 'Corporate').duration() <= 6)
+        self.assertTrue(4 <= bond_test_zcb.duration() <= 6)
 
     def test_bond_duration_c_zcb(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5,
-                                  0, 'AAA', 'Corporate').duration_c() <= 6)
+        self.assertTrue(4 <= bond_test_zcb.duration_c() <= 6)
 
     def test_modified_bond_duration_zcb(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5, 0,
-                                  'AAA', 'Corporate').modified_duration() <= 6)
+        self.assertTrue(4 <= bond_test_zcb.modified_duration() <= 6)
 
     def test_modified_bond_duration_c_zcb(self):
-        self.assertTrue(4 <= Bond(10000.0, '2022-06-15', 2.5, 0,
-                                  'AAA', 'Corporate').modified_duration_c() <= 6)
+        self.assertTrue(4 <= bond_test_zcb.modified_duration_c() <= 6)
 
     def test_bond_convexity_zcb(self):
-        self.assertTrue(0 <= Bond(10000.0, '2022-06-15', 2.5,
-                                  0, 'AAA', 'Corporate').convexity() <= 50)
+        self.assertTrue(0 <= bond_test_zcb.convexity() <= 50)
 
     def test_bond_convexity_c_zcb(self):
-        self.assertTrue(0 <= Bond(10000.0, '2022-06-15', 2.5, 0,
-                                  'AAA', 'Corporate').convexity_c() <= 50)
+        self.assertTrue(0 <= bond_test_zcb.convexity_c() <= 50)
 
 if __name__ == "__main__":
+    bond_test = Bond(10000.0, '2022-06-15', 2.5, 2, 'AAA', 'Corporate')
+    bond_test_zcb = Bond(10000.0, '2022-06-15', 2.5, 0, 'AAA', 'Corporate')
+    # Would make max value face value but with neg int rates, who knows
+    # these days
     unittest.main()
