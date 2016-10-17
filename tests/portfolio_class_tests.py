@@ -20,14 +20,19 @@ class TestSuiteBondCode(unittest.TestCase):
     """
 
     def test_portfolio_value(self):
-        self.assertTrue( 14000000 <= portfolio_test.value() <= 19000000 )
+        self.assertTrue(14000000 <= portfolio_test.value() <= 19000000)
 
     def test_portfolio_duration(self):
-        self.assertTrue( 10 <= portfolio_test.duration() <= 12 )
+        self.assertTrue(10 <= portfolio_test.duration() <= 12)
 
     def test_portfolio_convexity(self):
-        self.assertTrue( 100 <= portfolio_test.convexity() <= 140 )
+        self.assertTrue(100 <= portfolio_test.convexity() <= 140)
 
+    def test_portfolio_var(self):
+        self.assertTrue(1 <= float(portfolio_test.value_at_risk(
+            '2015-12-25', 10, 1, 95)['VaR Percentage'][:-1]) <= 3)
+
+    # {'var Percentage': '2.20804229906%', 'var': 'US$400,597.70'}
 
 if __name__ == "__main__":
     portfolio_test = Portfolio('All', 'USD')
