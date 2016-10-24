@@ -69,7 +69,7 @@ class TestSuiteBondCode(unittest.TestCase):
 
 if __name__ == "__main__":
     bond_test = Bond(10000.0, '2022-06-15', 2.5, 2, 'AAA', 'Corporate')
-    bond_test_zcb = Bond(10000.0, '2022-06-15', 2.5, 0, 'AAA', 'Corporate')
+    bond_test_zcb = Bond(10000.0, '2022-06-15', 0, 0, 'AAA', 'Corporate')
     # Would make max value face value but with neg int rates, who knows
     # these days
     unittest.main()
