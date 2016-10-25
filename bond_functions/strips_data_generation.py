@@ -106,14 +106,14 @@ def strips_data_generation(bond_portfolio_currency):
         pattern_g1_matches = []
         pattern_g2_matches = []
         for i, line in enumerate(open(base_data_location_string, 'r')):
-            if i > 2480:
+            if i > 2407:
                 for match in re.finditer(pattern_date, line):
                     pattern_g1_matches.append(match.group(1))
             else:
                 pass
 
         for i, line in enumerate(open(base_data_location_string, 'r')):
-            if i > 2480:
+            if i > 2407:
                 for match in re.finditer(pattern_yield, line):
                     pattern_g2_matches.append(match.group(1))
             else:
