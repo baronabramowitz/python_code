@@ -125,6 +125,7 @@ def date_range(enddate, step, startdate=_pythondate.today()):
         _date = _date._sub(step)
         date_list.append(BankDate(_date))
         _date = DateSub(_date)
+    del date_list[-1]
     return date_list
 
 
