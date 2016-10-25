@@ -81,15 +81,50 @@ class BankDate(object):
         except TypeError:
             return (fut_date.bank_date - self.bank_date).days
 
+class DateSub(object):
+    """Class used just for subtracting relativedeltas from datetime objects
+    
+    Created in order to solve issue with date_range where use of BankDate
+    class to iterate backwards caused issues with payment dates being 
+    iterated backwards including movements to weekdays, needed to apply weekend
+    validation only after the initial dates had been created
+    """
+    def __init__(self, sub_date):
+        try:
+            self.sub_date = datetime.strptime(sub_date, '%Y-%m-%d').date()
+        except TypeError:
+            self.sub_date = sub_date
+            # self.bank_date = bank_date **FIXED**
+            # Above code caused bank_date to be a string
+    def _sub(self, period):
+        """A TimePeriod can be subtracted from a SubDate"""
 
-def date_range(enddate, step, startdate=BankDate()):
-    """Return a set of dates iterating back from enddate by step"""
+        period_count = int(float(period[:-1]))
+        period_unit = period[-1:]
+        if period_unit == 'y':
+            return self.sub_date - relativedelta(years=period_count)
+        elif period_unit == 'm':
+            return self.sub_date - relativedelta(months=period_count)
+        elif period_unit == 'w':
+            return self.sub_date - relativedelta(weeks=period_count)
+        elif period_unit == 'd':
+            return self.sub_date - relativedelta(days=period_count)
 
-    _date = enddate
-    date_list = [_date]
-    while _date.bank_date > startdate.bank_date:
-        _date = BankDate(_date._sub(step))
-        date_list.append(_date)
+
+def date_range(enddate, step, startdate=_pythondate.today()):
+    """Return a set of dates iterating back from enddate by step
+    
+    This is very, very hacky. It really shouldn't switch between classes.
+    However, it works and is only run once per bond upon the class init.
+    Could really use a second set of eyes.
+    """
+
+    _date = DateSub(enddate.bank_date)
+    date_list = [enddate]
+    while _date.sub_date > startdate:
+        _date = _date._sub(step)
+        date_list.append(BankDate(_date))
+        _date = DateSub(_date)
     return date_list
 
 
