@@ -32,10 +32,10 @@ class TestSuiteBondCode(unittest.TestCase):
         self.assertTrue(4 <= bond_test.duration_c() <= 6)
 
     def test_modified_bond_duration(self):
-        self.assertTrue(4 <= bond_test.modified_duration() <= 6)
+        self.assertTrue(4 <= bond_test.modified_duration() <= 7)
 
     def test_modified_bond_duration_c(self):
-        self.assertTrue(4 <= bond_test.modified_duration_c() <= 6)
+        self.assertTrue(4 <= bond_test.modified_duration_c() <= 7)
 
     def test_bond_convexity(self):
         self.assertTrue(0 <= bond_test.convexity() <= 50)
