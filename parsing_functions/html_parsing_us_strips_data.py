@@ -32,7 +32,7 @@ def generate_yield_curve_data():
 	pattern_g2_matches = []
 	match_list = []
 	for i, line in enumerate(open(base_data_location_string, 'r')): 
-		if i > 2480:
+		if i > 2407:
 			for match in re.finditer(pattern_date, line):
 				match_list.append(match)
 				pattern_g1_matches.append(match.group(1))
@@ -40,7 +40,7 @@ def generate_yield_curve_data():
 			pass
 
 	for i, line in enumerate(open(base_data_location_string, 'r')):
-		if i > 2480:
+		if i > 2407:
 			for match in re.finditer(pattern_yield, line):
 				match_list.append(match)
 				pattern_g2_matches.append(match.group(1))
