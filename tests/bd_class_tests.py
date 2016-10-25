@@ -7,7 +7,7 @@ import unittest
 import sys
 from datetime import datetime
 sys.path.append('/Users/baronabramowitz/Desktop/python_code/bond_functions')
-from bankdate import BankDate, date_range
+from bankdate import BankDate, date_range, DateSub
 
 
 class TestSuiteBankDate(unittest.TestCase):
@@ -53,17 +53,19 @@ class TestSuiteBankDate(unittest.TestCase):
         self.assertEqual(test_date.num_of_days(fut_date), 92)
 
     def test_date_range(self):
+        
         self.assertEqual([str(date) for date in date_range(
-            BankDate(fut_date_range), '3m', test_date)],
-            ['2021-10-25', '2021-07-26', '2021-04-26', '2021-01-26', '2020-10-26',
-             '2020-07-27', '2020-04-27', '2020-01-27', '2019-10-28', '2019-07-29',
-             '2019-04-29', '2019-01-29', '2018-10-29', '2018-07-30', '2018-04-30',
-             '2018-01-30', '2017-10-30', '2017-07-31', '2017-05-01', '2017-02-01',
-             '2016-11-01', '2016-08-01'])
+            BankDate(fut_date_range), '3m', test_date_sub)],
+            ['2021-10-25', '2021-07-26', '2021-04-26', '2021-01-25','2020-10-26',
+            '2020-07-27', '2020-04-27', '2020-01-27', '2019-10-25', '2019-07-25',
+            '2019-04-25', '2019-01-25', '2018-10-25', '2018-07-25', '2018-04-25',
+            '2018-01-25', '2017-10-25', '2017-07-25', '2017-04-25', '2017-01-25',
+            '2016-10-25', '2016-07-25'])
 
 if __name__ == "__main__":
     from dateutil.relativedelta import relativedelta
     test_date = BankDate('2016-10-24')
+    test_date_sub = BankDate('2016-10-24').bank_date
     comp_date = datetime.strptime('2016-10-24', '%Y-%m-%d').date()
     fut_date = comp_date + relativedelta(months=3)
     fut_date_range = comp_date + relativedelta(years=5)
