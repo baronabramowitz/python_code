@@ -67,6 +67,26 @@ class TestSuiteBondCode(unittest.TestCase):
     def test_bond_convexity_c_zcb(self):
         self.assertTrue(0 <= bond_test_zcb.convexity_c() <= 50)
 
+    def test_bad_inputs(self):
+        with self.assertRaises(TypeError):
+            bad_bond = Bond('10000.0', '2022-06-15', 2.5, 2, 'AAA', 'Corporate')
+            print('Face value error')
+        with self.assertRaises(TypeError):
+            bad_bond = Bond(10000.0, 2022, 2.5, 2, 'AAA', 'Corporate')
+            print('Maturity Date error')
+        with self.assertRaises(TypeError):
+            bad_bond = Bond(10000.0, '2022-06-15', '2.5', 2, 'AAA', 'Corporate')
+            print('Coupon rate error')
+        with self.assertRaises(TypeError):
+            bad_bond = Bond(10000.0, '2022-06-15', 2.5, 2.5, 'AAA', 'Corporate')
+            print('Payments per year error')
+        with self.assertRaises(TypeError):
+            bad_bond = Bond(10000.0, '2022-06-15', 2.5, 2, 42, 'Corporate')
+            print('Rating error')
+        with self.assertRaises(TypeError):
+            bad_bond = Bond(10000.0, '2022-06-15', 2.5, 2, 'AAA', 42)
+            print('Bond type error')
+
 if __name__ == "__main__":
     bond_test = Bond(10000.0, '2022-06-15', 2.5, 2, 'AAA', 'Corporate')
     bond_test_zcb = Bond(10000.0, '2022-06-15', 0, 0, 'AAA', 'Corporate')

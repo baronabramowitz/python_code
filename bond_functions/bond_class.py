@@ -6,6 +6,7 @@ __date__ = '15/10/2016'
 import date_functions as df
 import bankdate as BD
 from math import exp
+from numbers import Number
 
 
 class Bond(object):
@@ -25,12 +26,30 @@ class Bond(object):
 
     # pylint: disable=R0904
     def __init__(self, face_value, maturity_date, coupon_rate, payments_per_year, rating, btype):
-        self.face_value = float(face_value)
-        self.maturity_date = BD.BankDate(maturity_date)
-        self.coupon_rate = float(coupon_rate)
-        self.payments_per_year = int(payments_per_year)
-        self.rating = rating
-        self.btype = btype
+        if not isinstance(face_value, Number):
+            raise TypeError('Face value must be numeric')
+        else:
+            self.face_value = float(face_value)
+        if not isinstance(maturity_date, str):
+            raise TypeError('Maturity date must be passed as a string')
+        else:
+            self.maturity_date = BD.BankDate(maturity_date)
+        if not isinstance(coupon_rate, Number):
+            raise TypeError('Coupon rate must be numeric')
+        else:
+            self.coupon_rate = float(coupon_rate)
+        if not isinstance(payments_per_year,int):
+            raise TypeError('Payments per year must be an integer')
+        else:
+            self.payments_per_year = int(payments_per_year)
+        if not isinstance(rating, str):
+            raise TypeError('Rating must be passed as a string')
+        else:
+            self.rating = rating
+        if not isinstance(btype, str):
+            raise TypeError('Bond type must be passed as a string')
+        else:    
+            self.btype = btype
         try:
             self.payment_dates = BD.date_range(
                 self.maturity_date, (str(12 / self.payments_per_year) + 'm'))
@@ -77,7 +96,7 @@ class Bond(object):
 
     def maturity_remaining(self):
         """Generate the maturity remaining in years for a single bond"""
-        return ((BD.BankDate().num_of_days(self.maturity_date)) / 365)
+        return (BD.BankDate().num_of_days(self.maturity_date)) / 365
 
     def coupon_payment(self):
         """Calculate the coupon payment for each payment date for the bond"""
@@ -98,6 +117,7 @@ class Bond(object):
 
         discount_rates = [x * (1 + self.rating_premium())
                           for x in self.discount_rates()]
+
         try:
             dtp = self.days_to_payments()
             for i, day_count in enumerate(dtp):
@@ -151,7 +171,7 @@ class Bond(object):
         # Currently hard coded for Actual/365 day count but can be updated to
         # reflect other conventions.
         pv_fcf = []
-        # Could have made this a list comprehansion but it would be much less
+        # Could have made this a list comprehension but it would be much less
         # clear
         discount_rates = [x * (1 + self.rating_premium())
                           for x in self.discount_rates_var(scenario_spl)]
@@ -181,7 +201,7 @@ class Bond(object):
         # Currently hard coded for Actual/365 day count but can be updated to
         # reflect other conventions.
         pv_fcf = []
-        # Could have made this a list comprehansion but it would be much less
+        # Could have made this a list comprehension but it would be much less
         # clear
         discount_rates = [x * (1 + self.rating_premium())
                           for x in self.discount_rates_var(scenario_spl)]
@@ -285,9 +305,14 @@ class Bond(object):
 
 if __name__ == "__main__":
     bond1 = Bond(10000.0, '2022-06-15', 2.5, 2, 'AAA', 'Corporate')
-    print(bond1)
-
-    print(bond1.value())
+    #print(bond1)
+    
+    from timeit import Timer
+    t = Timer("bond1.value()",
+              "from __main__ import Bond\nbond1 = Bond(10000.0, '2022-06-15', 2.5, 2, 'AAA', 'Corporate')")
+    print(t.timeit(10000))
+    #bond1.value()
+    """
     print(bond1.value_c())
     print((bond1.value_c() / bond1.value()) * 100)
 
@@ -305,3 +330,7 @@ if __name__ == "__main__":
     print(bond1.payments_per_year)
     print(bond1.rating)
     print(bond1.btype)
+    print(bond1.payment_dates)
+    print(bond1.days_to_payments())
+    print(bond1.discount_rates())
+    """

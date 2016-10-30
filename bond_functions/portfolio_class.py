@@ -54,15 +54,15 @@ def generate_portfolio_psql(bond_set):
             "SELECT * FROM bond_data WHERE bond_json ->> 'type' = 'Government'")
     else:
         print('What you doing mate?')
-    portfolio = [bc.Bond(*tuple((d[1]['face_value'], d[1]['maturity_date'], d[1]['coupon_rate'],
-                                 d[1]['payments_per_year'], d[1]['rating'], d[1]['type']))) for d in cur.fetchall()]
+    portfolio = [bc.Bond(*tuple((float(d[1]['face_value']), d[1]['maturity_date'], float(d[1]['coupon_rate']),
+                                 int(d[1]['payments_per_year']), d[1]['rating'], d[1]['type']))) for d in cur.fetchall()]
     cur.close()
     conn.close()
     return portfolio
 
 
 class Portfolio(object):
-    """A portfolio class that contains a set of Bond objects"""
+    """A portfolio class that contains a set of Bond objects of a sepcific currency"""
 
     def __init__(self, bond_set, currency):
         # self.contents = generate_portfolio(csv_location)
@@ -72,6 +72,9 @@ class Portfolio(object):
     def value(self):
         """Generate the value the portfolio"""
         return sum([bond.value() for bond in self.contents])
+        # Tried map + lambda but time results were inconclusive
+        # (10000 iterations separated by 5 sec and not consistent)
+        # prefering readability of list comp
 
     def value_formatted(self):
         """Generate the value the portfolio formatted with the respective currency"""
@@ -146,6 +149,11 @@ class Portfolio(object):
 
 
 if __name__ == "__main__":
-    portfolio_test = Portfolio('All', 'USD')
-    print(portfolio_test.value())
-    print(portfolio_test.value_at_risk('2015-12-25', 10, 1, 95))
+    from timeit import Timer
+    t = Timer("portfolio.value()",
+              "from __main__ import Portfolio\nportfolio = Portfolio('All', 'USD')")
+    print(t.timeit(10000))
+    #z = Timer("portfolio.value_at_risk('1985-12-25', 10, 1, 95)",
+    #          "from __main__ import Portfolio\nportfolio = Portfolio('All', 'USD')")
+    #portfolio_test.value_at_risk('1985-12-25', 10, 1, 95)
+    #print(z.timeit(5))

@@ -24,6 +24,8 @@ class BankDate(object):
             self.bank_date = datetime.strptime(bank_date, '%Y-%m-%d').date()
         except TypeError:
             self.bank_date = bank_date
+        except ValueError:
+            raise ValueError("Incorrect data format, should be YYYY-MM-DD")
         # Ensure not weekend
         if datetime.weekday(self.bank_date) == 6:
             self.bank_date = self.bank_date + relativedelta(days=1)
