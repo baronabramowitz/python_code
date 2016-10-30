@@ -10,13 +10,13 @@ wcl = [letters.count(letter) for letter in [chr(i)
                                             for i in range(ord('a'), ord('z') + 1)]]
 
 
-regex_input = r'\W([' + re.escape(letters) + r']{5,9})\W'
+regex_input = r'^([' + re.escape(letters) + r']{5,9})$'
 pattern = re.compile(regex_input)
 match_list = []
 # List of all words containint letters from the input
 delete_list = []
 # List of words within match_list that exceed the number of letters available
-for i, line in enumerate(open('/Users/baronabramowitz/Desktop/python_code/countdown_code/Countdown Letters/dictionary_file_OED')):
+for i, line in enumerate(open('/usr/share/dict/web2')):
     for match in re.finditer(pattern, line):
         match_list.append(match.group(1))
 match_list = list(set(match_list))
