@@ -38,7 +38,7 @@ class Bond(object):
             raise TypeError('Coupon rate must be numeric')
         else:
             self.coupon_rate = float(coupon_rate)
-        if not isinstance(payments_per_year,int):
+        if not isinstance(payments_per_year, int):
             raise TypeError('Payments per year must be an integer')
         else:
             self.payments_per_year = int(payments_per_year)
@@ -48,7 +48,7 @@ class Bond(object):
             self.rating = rating
         if not isinstance(btype, str):
             raise TypeError('Bond type must be passed as a string')
-        else:    
+        else:
             self.btype = btype
         try:
             self.payment_dates = BD.date_range(
@@ -133,7 +133,7 @@ class Bond(object):
                     pass
         except TypeError:
             pv_fcf.append(self.face_value /
-                          ((1 + (discount_rates[0] / 100 / 365))**BD.BankDate().num_of_days(self.maturity_date)))
+            ((1 + (discount_rates[0] / 100 / 365))**self.maturity_remaining()*365))
         return pv_fcf
 
     def present_value_fcf_c(self):
@@ -192,7 +192,7 @@ class Bond(object):
                     pass
         except TypeError:
             pv_fcf.append(self.face_value /
-                          ((1 + (discount_rates[0] / 100 / 365))**BD.BankDate().num_of_days(self.maturity_date)))
+                          ((1 + (discount_rates[0] / 100 / 365))**self.maturity_remaining()*365))
         return pv_fcf
 
     def present_value_fcf_c_var(self, scenario_spl):
@@ -244,10 +244,9 @@ class Bond(object):
     def duration(self):
         """Calculate the duration of a Bond object using daily compounding"""
         try:
-            years_to_payments = [
-                days / 365 for days in self.days_to_payments()]
-            intermediate_dur_calcs = [
-                (cf[0] * cf[1]) for cf in zip(self.present_value_fcf(), years_to_payments)]
+            years_to_payments = [days / 365 for days in self.days_to_payments()]
+            intermediate_dur_calcs = [(cf[0] * cf[1]) 
+                                    for cf in zip(self.present_value_fcf(), years_to_payments)]
             return sum(intermediate_dur_calcs) / self.value()
         except TypeError:
             return self.maturity_remaining()
@@ -255,10 +254,9 @@ class Bond(object):
     def duration_c(self):
         """Calculate the duration of a Bond object using continuous compounding"""
         try:
-            years_to_payments = [
-                days / 365 for days in self.days_to_payments()]
-            intermediate_dur_calcs = [
-                (cf[0] * cf[1]) for cf in zip(self.present_value_fcf_c(), years_to_payments)]
+            years_to_payments = [days / 365 for days in self.days_to_payments()]
+            intermediate_dur_calcs = [(cf[0] * cf[1]) 
+                                    for cf in zip(self.present_value_fcf_c(), years_to_payments)]
             return sum(intermediate_dur_calcs) / self.value_c()
         except TypeError:
             return self.maturity_remaining()
@@ -275,8 +273,7 @@ class Bond(object):
     def convexity(self):
         """Calculate the convexity of an indivudal bond using daily compounding"""
         try:
-            years_to_payments = [
-                days / 365 for days in self.days_to_payments()]
+            years_to_payments = [days / 365 for days in self.days_to_payments()]
             intermediate_conv_calcs = [((pv_cf[0]) * (pv_cf[1]**2 + pv_cf[1]))
                                        for pv_cf in zip(self.present_value_fcf(), years_to_payments)]
             return (sum(intermediate_conv_calcs) /
@@ -290,8 +287,7 @@ class Bond(object):
     def convexity_c(self):
         """Calculate the convexity of an indivudal bond using continuous compounding"""
         try:
-            years_to_payments = [
-                days / 365 for days in self.days_to_payments()]
+            years_to_payments = [days / 365 for days in self.days_to_payments()]
             intermediate_conv_calcs = [((pv_cf[0]) * (pv_cf[1]**2 + pv_cf[1]))
                                        for pv_cf in zip(self.present_value_fcf_c(), years_to_payments)]
             return (sum(intermediate_conv_calcs) /
