@@ -4,20 +4,31 @@ from scipy import stats
 import xmltodict
 import matplotlib.pyplot as plt
 
+# pylint: disable=C0301
+
 def wb_impact_analysis(league):
-    impact_data = dq.retrieve_data_impact_sample(league, 'home_team_goal, away_team_goal, shoton, shotoff, cross, corner')
+    impact_data = dq.retrieve_data_impact_sample(
+        league, 'home_team_goal, away_team_goal, shoton, shotoff, cross, corner')
     impact_data['Total Goals'] = impact_data['home_team_goal'] + impact_data['away_team_goal']
+
     #impact_data['shoton_count'] = [len(xmltodict.parse(item)) if item != None else item for item in impact_data['shoton']]
     #impact_data['shotoff_count'] = [len(xmltodict.parse(item)) if item != None else item  for item in impact_data['shotoff']]
     #impact_data['Total Shots'] = impact_data['shoton_count'] + impact_data['shotoff_count']
-    comp_sample = dq.retrieve_data_outside_impact(league, 'home_team_goal, away_team_goal, shoton, shotoff, cross, corner')
+
+    comp_sample = dq.retrieve_data_outside_impact(
+        league, 'home_team_goal, away_team_goal, shoton, shotoff, cross, corner')
     comp_sample['Total Goals'] = comp_sample['home_team_goal'] + comp_sample['away_team_goal']
+
     #comp_sample['shoton_count'] = [len(xmltodict.parse(item)) if item != None else item for item in comp_sample['shoton']]
     #comp_sample['shotoff_count'] = [len(xmltodict.parse(item)) if item != None else item  for item in comp_sample['shotoff']]
     #comp_sample['Total Shots'] = comp_sample['shoton_count'] + comp_sample['shotoff_count']
     #print(comp_sample)
-    goal_comps = stats.ttest_ind(comp_sample['Total Goals'], impact_data['Total Goals'], equal_var = False, nan_policy = 'omit')
+
+    goal_comps = stats.ttest_ind(comp_sample['Total Goals'], impact_data['Total Goals'],
+                                equal_var = False, nan_policy = 'omit')
+    
     #shot_comps = stats.ttest_ind(comp_sample['Total Shots'], impact_data['Total Shots'], equal_var = False, nan_policy = 'omit')
+    
     return(goal_comps)#,shot_comps)
 
 def T_test_leagues():
