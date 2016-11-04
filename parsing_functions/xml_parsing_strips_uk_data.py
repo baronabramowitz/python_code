@@ -73,10 +73,13 @@ def build_strips_curve():
 	#spl_output = spl(xs)
 	#print(spl_output)
 	plt.plot(xs, spl(xs), 'g', lw=3, alpha=0.7)
+	plt.xlabel('Days to Maturity')
+	plt.ylabel('Yield')
 	plt.show()
 	
 			#Input any Excel output file you'd like, but it makes most sense 
 			#to put it on a new sheet
+	"""
 	wb = xw.Book(r'/Users/baronabramowitz/Desktop/xlwings_testing_doc.xlsx')
 	wb.sheets('Sheet1').range('A1').value = strips_output
 	wb.sheets('Sheet1').range('A1').options(pd.DataFrame, expand='table').value
@@ -86,6 +89,7 @@ def build_strips_curve():
 	chart.set_source_data(wb.sheets('Sheet1').range('B1').expand())
 	chart.chart_type = 'line'
 	chart.name = 'Yield Curve'
+	"""
 
 
 if __name__ == "__main__":

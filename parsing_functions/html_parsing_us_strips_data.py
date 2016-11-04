@@ -58,7 +58,6 @@ def generate_yield_curve_data():
 	strips_output['Days to Maturity'] = days_to_mat_series.values
 	strips_output.index = range(0,len(strips_output))
 	strips_output = strips_output.drop_duplicates('Date', keep = 'last')
-	print(strips_output)
 	x1 = strips_output['Days to Maturity']
 	y1 = strips_output['Yield']
 	spl = InterpolatedUnivariateSpline(x1, y1)
@@ -67,9 +66,12 @@ def generate_yield_curve_data():
 	#spl_output = spl(xs)
 	#print(spl_output)
 	plt.plot(xs, spl(xs), 'g', lw=3, alpha=0.7)
+	plt.xlabel('Days to Maturity')
+	plt.ylabel('Yield')
 	plt.show()
 
 			#Input any Excel output file you'd like, but it makes most sense to put it on a new sheet
+	"""
 	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1'
 			).range('A1').value = strips_output
 	xw.Book('/Users/baronabramowitz/Desktop/us_bond_yield_data_and_curve.xlsx').sheets('Sheet1'
@@ -83,6 +85,7 @@ def generate_yield_curve_data():
 	chart.chart_type = 'line'
 	chart.name = 'Yield Curve'
 	return spl
+	"""
 
 if __name__ == "__main__":
 	generate_yield_curve_data()
