@@ -1,21 +1,30 @@
-('England Premier League', Ttest_indResult(statistic=1.6025459877656809, pvalue=0.10904693480158351))
-('France Ligue 1', Ttest_indResult(statistic=3.5306725245704733, pvalue=0.00041521546162131255))
-('Germany 1. Bundesliga', Ttest_indResult(statistic=0.25004230754381596, pvalue=0.80255659803833534))
-('Italy Serie A', Ttest_indResult(statistic=0.13127026856482035, pvalue=0.89556251330523073))
-('Portugal Liga ZON Sagres', Ttest_indResult(statistic=nan, pvalue=nan))
-('Scotland Premier League', Ttest_indResult(statistic=0.67759637532221217, pvalue=0.49803363147161672))
-('Spain LIGA BBVA', Ttest_indResult(statistic=-1.1040519654766725, pvalue=0.26958068432762661))
-('England Premier League', Ttest_indResult(statistic=1.5933588076732681, pvalue=0.1114175034402099))
-('France Ligue 1', Ttest_indResult(statistic=4.096555493799376, pvalue=5.7239872309993659e-05))
-('Germany 1. Bundesliga', Ttest_indResult(statistic=0.24415025141368743, pvalue=0.80748986703685699))
-('Italy Serie A', Ttest_indResult(statistic=0.1347052557933906, pvalue=0.89291909881766984))
-('Portugal Liga ZON Sagres', Ttest_indResult(statistic=nan, pvalue=nan))
-('Scotland Premier League', Ttest_indResult(statistic=0.64412663440461759, pvalue=0.52019279070937452))
-('Spain LIGA BBVA', Ttest_indResult(statistic=-1.1081180698934796, pvalue=0.26853863990697291))
-('England Premier League', Ttest_indResult(statistic=1.1540771852227023, pvalue=0.24862991753035299))
-('France Ligue 1', Ttest_indResult(statistic=4.096555493799376, pvalue=5.7239872309993659e-05))
-('Germany 1. Bundesliga', Ttest_indResult(statistic=0.24415025141368743, pvalue=0.80748986703685699))
-('Italy Serie A', Ttest_indResult(statistic=0.1347052557933906, pvalue=0.89291909881766984))
-('Portugal Liga ZON Sagres', Ttest_indResult(statistic=nan, pvalue=nan))
-('Scotland Premier League', Ttest_indResult(statistic=0.64412663440461759, pvalue=0.52019279070937452))
-('Spain LIGA BBVA', Ttest_indResult(statistic=-1.1081180698934796, pvalue=0.26853863990697291))
+England Premier League
+Goals: t-stat 0.4724 p-val 0.6369
+Shots: t-stat 1.1052 p-val 0.2698
+Crosses: t-stat 0.4523 p-val 0.6513
+Corners: t-stat 1.7146 p-val 0.0872
+France Ligue 1
+Goals: t-stat 0.8313 p-val 0.4067
+Shots: t-stat -0.9293 p-val 0.3538
+Crosses: t-stat -1.0586 p-val 0.291
+Corners: t-stat -1.0671 p-val 0.2871
+Germany 1. Bundesliga
+Goals: t-stat 1.5238 p-val 0.1297
+Shots: t-stat -0.663 p-val 0.5084
+Crosses: t-stat -0.6723 p-val 0.5025
+Corners: t-stat -0.6251 p-val 0.5329
+Italy Serie A
+Goals: t-stat -0.8361 p-val 0.4036
+Shots: t-stat -1.095 p-val 0.2741
+Crosses: t-stat -1.6661 p-val 0.0964
+Corners: t-stat -1.0376 p-val 0.3
+Scotland Premier League
+Goals: t-stat 1.5635 p-val 0.1439
+Shots: t-stat -0.7018 p-val 0.6008
+Crosses: t-stat -0.851 p-val 0.5204
+Corners: t-stat -1.1972 p-val 0.3753
+Spain LIGA BBVA
+Goals: t-stat -0.3873 p-val 0.6987
+Shots: t-stat -1.2737 p-val 0.2034
+Crosses: t-stat -1.0857 p-val 0.2782
+Corners: t-stat -1.3403 p-val 0.1808

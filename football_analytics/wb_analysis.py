@@ -1,43 +1,69 @@
 import pandas as pd
 import data_query as dq
 from scipy import stats
-import xmltodict
 import matplotlib.pyplot as plt
+from xml.etree import ElementTree as ET
+from xml.dom import minidom
 
 # pylint: disable=C0301
 
 def wb_impact_analysis(league):
     impact_data = dq.retrieve_data_impact_sample(
         league, 'home_team_goal, away_team_goal, shoton, shotoff, cross, corner')
+    impact_data = impact_data.dropna(axis=0, how='any')
+    
     impact_data['Total Goals'] = impact_data['home_team_goal'] + impact_data['away_team_goal']
-
-    #impact_data['shoton_count'] = [len(xmltodict.parse(item)) if item != None else item for item in impact_data['shoton']]
-    #impact_data['shotoff_count'] = [len(xmltodict.parse(item)) if item != None else item  for item in impact_data['shotoff']]
-    #impact_data['Total Shots'] = impact_data['shoton_count'] + impact_data['shotoff_count']
+    impact_data['Shoton Count'] = [len(ET.fromstring(item)) for item in impact_data['shoton']]
+    impact_data['Shotoff Count'] = [len(ET.fromstring(item)) for item in impact_data['shotoff']]
+    impact_data['Cross Count'] = [len(ET.fromstring(item)) for item in impact_data['cross']]
+    impact_data['Corner Count'] = [len(ET.fromstring(item)) for item in impact_data['corner']]
+    impact_data['Total Shots'] = impact_data['Shoton Count'] + impact_data['Shotoff Count']
 
     comp_sample = dq.retrieve_data_outside_impact(
         league, 'home_team_goal, away_team_goal, shoton, shotoff, cross, corner')
-    comp_sample['Total Goals'] = comp_sample['home_team_goal'] + comp_sample['away_team_goal']
+    comp_sample = comp_sample.dropna(axis=0, how='any')
 
-    #comp_sample['shoton_count'] = [len(xmltodict.parse(item)) if item != None else item for item in comp_sample['shoton']]
-    #comp_sample['shotoff_count'] = [len(xmltodict.parse(item)) if item != None else item  for item in comp_sample['shotoff']]
-    #comp_sample['Total Shots'] = comp_sample['shoton_count'] + comp_sample['shotoff_count']
+    comp_sample['Total Goals'] = comp_sample['home_team_goal'] + comp_sample['away_team_goal']
+    comp_sample['Shoton Count'] = [len(ET.fromstring(item)) for item in comp_sample['shoton']]
+    comp_sample['Shotoff Count'] = [len(ET.fromstring(item)) for item in comp_sample['shotoff']]
+    comp_sample['Cross Count'] = [len(ET.fromstring(item)) for item in comp_sample['cross']]
+    comp_sample['Corner Count'] = [len(ET.fromstring(item)) for item in comp_sample['corner']]
+    comp_sample['Total Shots'] = comp_sample['Shoton Count'] + comp_sample['Shotoff Count']
+    
+    
     #print(comp_sample)
 
     goal_comps = stats.ttest_ind(comp_sample['Total Goals'], impact_data['Total Goals'],
                                 equal_var = False, nan_policy = 'omit')
+    goal_comps = ('t-stat ' + str(round(goal_comps[0],4)),'p-val ' + str(round(goal_comps[1],4)))
+    shot_comps = stats.ttest_ind(comp_sample['Total Shots'], impact_data['Total Shots'], 
+                                equal_var = False, nan_policy = 'omit')
+    shot_comps = ('t-stat ' + str(round(shot_comps[0],4)),'p-val ' + str(round(shot_comps[1],4)))
+    cross_comps = stats.ttest_ind(comp_sample['Cross Count'], impact_data['Cross Count'], 
+                                equal_var = False, nan_policy = 'omit')
+    cross_comps = ('t-stat ' + str(round(cross_comps[0],4)),'p-val ' + str(round(cross_comps[1],4)))
+    corner_comps = stats.ttest_ind(comp_sample['Corner Count'], impact_data['Corner Count'], 
+                                equal_var = False, nan_policy = 'omit')
+    corner_comps = ('t-stat ' + str(round(corner_comps[0],4)),'p-val ' + str(round(corner_comps[1],4)))
+
     
-    #shot_comps = stats.ttest_ind(comp_sample['Total Shots'], impact_data['Total Shots'], equal_var = False, nan_policy = 'omit')
-    
-    return(goal_comps)#,shot_comps)
+    return(goal_comps,shot_comps,cross_comps,corner_comps)
 
 def T_test_leagues():
-    league_list = ['England Premier League','France Ligue 1','Germany 1. Bundesliga','Italy Serie A',
-                    'Portugal Liga ZON Sagres','Scotland Premier League','Spain LIGA BBVA']
+    league_list = ['England Premier League',
+                    'France Ligue 1',
+                    'Germany 1. Bundesliga',
+                    'Italy Serie A',
+                    'Scotland Premier League',
+                    'Spain LIGA BBVA']
+    test_set = ['Goals: ', 'Shots: ', 'Crosses: ','Corners: ']
     impact_results = [wb_impact_analysis(league) for league in league_list]
-    res_pairs = list(zip(league_list,impact_results))
+    labeled_results = [list(zip(test_set,league_result)) for league_result in impact_results]
+    res_pairs = list(zip(league_list,labeled_results))
     for pair in res_pairs:
-        print(pair)
+        print(pair[0])
+        for item in pair[1]:
+            print(item[0]+item[1][0]+' '+item[1][1])
 
 def build_seasonal_set(league):
     league_data_set = dq.retrieve_all_match_data(league,'home_team_goal, away_team_goal, shoton, shotoff, cross, corner')
@@ -53,6 +79,9 @@ def build_seasonal_set(league):
     return data_monthly
 
 if __name__ == "__main__":
+    #print(wb_impact_analysis('England Premier League'))
     #League sets for testing
-    #T_test_leagues()
-    print(build_seasonal_set('Germany 1. Bundesliga'))
+    T_test_leagues()
+    #print(build_seasonal_set('Germany 1. Bundesliga'))
+
+

@@ -41,9 +41,13 @@ def retrieve_data_impact_sample(league, fields_to_return):
     return df
 
 def retrieve_data_outside_impact(league, fields_to_return):
-    league_dict = {'England Premier League':1729,'France Ligue 1':4769,'Germany 1. Bundesliga':7809,
-                'Italy Serie A':10257,'Portugal Liga ZON Sagres':17647,'Scotland Premier League':19694,
-                    'Spain LIGA BBVA':21518}
+    league_dict = {'England Premier League':1729,
+                'France Ligue 1':4769,
+                'Germany 1. Bundesliga':7809,
+                'Italy Serie A':10257,
+                'Portugal Liga ZON Sagres':17647,
+                'Scotland Premier League':19694,
+                'Spain LIGA BBVA':21518}
     #first date in league_wb is the WB start date for Dec,
     #second date is the wb end date For Jan
     #Since the actual dates vary year to year and are league specific,
@@ -65,8 +69,8 @@ def retrieve_data_outside_impact(league, fields_to_return):
 
     df = pd.read_sql_query("""SELECT date, {fields_to_return} FROM Match 
                     WHERE league_id = {league_id_qy} 
-                    AND NOT (strftime('%m', date) = '01' AND strftime('%d', date) > {jan_date})
-                    OR NOT (strftime('%m', date) = '02' AND strftime('%d', date) < {feb_date} );""".format(
+                    AND strftime('%s', date) NOT BETWEEN (strftime('%m', date) = '01' AND strftime('%d', date) > {jan_date})
+                    AND (strftime('%m', date) = '02' AND strftime('%d', date) < {feb_date} );""".format(
                         fields_to_return = fields_to_return, league_id_qy = league_id,
                         jan_date = str(jan_date), feb_date = str(jan_date))
                     ,conn)
@@ -90,6 +94,6 @@ def retrieve_all_match_data(league, fields_to_return):
     return df
 
 if __name__ == "__main__":
-    print(retrieve_data_outside_impact('England Premier League','home_team_goal, away_team_goal'))
-    print(retrieve_data_impact_sample('England Premier League','home_team_goal, away_team_goal'))
-    print(retrieve_all_match_data('England Premier League','home_team_goal, away_team_goal'))
+    print(retrieve_data_outside_impact('England Premier League','home_team_goal, away_team_goal, shoton, shotoff, cross, corner'))
+    print(retrieve_data_impact_sample('England Premier League','home_team_goal, away_team_goal, shoton, shotoff, cross, corner'))
+    #print(retrieve_all_match_data('England Premier League','home_team_goal, away_team_goal'))
